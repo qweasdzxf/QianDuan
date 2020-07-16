@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-
 Vue.use(Router)
 
 /* Layout */
@@ -95,91 +94,90 @@ export const constantRoutes = [
     ]
   },
 
-  {path:'/all',
-    component:Layout,
-    name:'all',
-    redirect:'/all/index',
-    meta:{title:'总览',icon:'example'}
-  },
-
-  {path:'/algorithm',
-    component:Layout,
-    name:"algorithm",
-    redirect: '/algorithm/list',
-    meta:{title:'算法管理',icon:'documentation'},
-    children: [
-      {
-        name:'algorithmlist',
-        path: '/algorithm/list',
-        component:()=>import('@/views/algorithm/list'),
-        meta: {title:'我的算法',icon:'documentation'}
-      },
-      {
-        name:'algorithmcreate',
-      path: '/algorithm/create',
-      component:()=>import('@/views/algorithm/create'),
-      meta: {title:'上传算法',icon:'edit'}
-    },
-      {
-        name:"algorithmmareket",
-        path: '/algorithm/market',
-        component:()=>import('@/views/algorithm/market'),
-        meta: {title:'管理市场订阅',icon:'shopping'}
-      },
-
-
-    ]
-  },
-
-
-  {path:'/train',
-    component:Layout,
-    name:'train',
-    redirect:"/train/list",
-    meta:{title:'训练管理',icon:'documentation'},
-    children: [
-      {
-        name:'trainmy',
-        path:'/train/list',
-        component:()=>import('@/views/train/list'),
-        meta:{title: "我的训练",icon:'example'}
-      },
-      {
-        name:'traincreate',
-      path: '/train/create',
-      component:()=>import('@/views/train/create'),
-      meta:{title:"创建训练",icon: 'edit'}
-    },
-
-    ]
-  },
-
-
-  {path:'/model',
-    name:'model',
-    component:Layout,
-    meta:{title:'模型管理',icon:'documentation'},
-    children: [{
-      name:'modelmy',
-    path:'/model/list',
-    component:()=>import('@/views/model/list'),
-    meta:{title: "我的模型",icon:'example'}
-  },
   {
-    name:'modelcreate',
-    path: '/model/create',
-    component:()=>import('@/views/model/create'),
-    meta:{title:"创建模型",icon: 'edit'}
-  }
+    path: '/all',
+    component: Layout,
+    name: 'all',
+    redirect: '/all/index',
+    meta: { title: '总览', icon: 'example' }
+  },
+
+  {
+    path: '/algorithm',
+    component: Layout,
+    name: 'algorithm',
+    redirect: '/algorithm/list',
+    meta: { title: '算法管理', icon: 'documentation' },
+    children: [
+      {
+        name: 'algorithmlist',
+        path: '/algorithm/list',
+        component: () => import('@/views/algorithm/list'),
+        meta: { title: '我的算法', icon: 'documentation' }
+      },
+      {
+        name: 'algorithmcreate',
+        path: '/algorithm/create',
+        component: () => import('@/views/algorithm/create'),
+        meta: { title: '上传算法', icon: 'edit' }
+      },
+      {
+        name: 'algorithmmareket',
+        path: '/algorithm/market',
+        component: () => import('@/views/algorithm/market'),
+        meta: { title: '管理市场订阅', icon: 'shopping' }
+      }
+
     ]
   },
 
+  {
+    path: '/train',
+    component: Layout,
+    name: 'train',
+    redirect: '/train/list',
+    meta: { title: '训练管理', icon: 'documentation' },
+    children: [
+      {
+        name: 'trainmy',
+        path: '/train/list',
+        component: () => import('@/views/train/list'),
+        meta: { title: '我的训练', icon: 'example' }
+      },
+      {
+        name: 'traincreate',
+        path: '/train/create',
+        component: () => import('@/views/train/create'),
+        meta: { title: '创建训练', icon: 'edit' }
+      }
 
-
-  {path:'/purchase',
-    component:Layout,
-    meta:{title:'订单管理',icon:'documentation'}
+    ]
   },
+
+  {
+    path: '/model',
+    name: 'model',
+    component: Layout,
+    meta: { title: '模型管理', icon: 'documentation' },
+    children: [{
+      name: 'modelmy',
+      path: '/model/list',
+      component: () => import('@/views/model/list'),
+      meta: { title: '我的模型', icon: 'example' }
+    },
+    {
+      name: 'modelcreate',
+      path: '/model/create',
+      component: () => import('@/views/model/create'),
+      meta: { title: '创建模型', icon: 'edit' }
+    }
+    ]
+  },
+
+  { path: '/purchase',
+    component: Layout,
+    meta: { title: '订单管理', icon: 'documentation' }
+  }
 
 ]
 
@@ -188,7 +186,6 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

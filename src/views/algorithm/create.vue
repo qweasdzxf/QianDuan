@@ -1,15 +1,15 @@
 <template>
- <detail></detail>
+  <Detail />
 </template>
 
 <script>
-  import detail from '@/views/algorithm/component/detail'
-  export default {
-    components:{
-      detail
-    },
-    name: 'create'
+import Detail from '@/views/algorithm/components/detail'
+export default {
+  name: 'Create',
+  components: {
+    Detail
   }
+}
 </script>
 
 <style scoped>
