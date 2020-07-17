@@ -3,7 +3,11 @@
   <el-form ref="form" :model="form">
     <sticky :class-name="'sub-navbar'">
       <el-button @click="showGuide">显示帮助</el-button>
+<<<<<<< HEAD
+      <el-button v-loading="loading" type="success" style="margin-left:15px" @click="submitForm"> {{ '新增算法' }}</el-button>
+=======
       <el-button v-loading="loading" type="success" style="margin-left:15px" @click="submitForm"> {{ isEdit?'编辑算法':'新增算法' }}</el-button>
+>>>>>>> c57ea98d92e7119bcf0614b70955f8da2b891c67
     </sticky>
     <div class="detail-container">
       <warning />
@@ -45,7 +49,10 @@
       </div>
       <el-divider />
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> c57ea98d92e7119bcf0614b70955f8da2b891c67
       <el-form-item label="启动文件相对路径">
         <el-input v-model="form.algorithm_starter_URL" />
       </el-form-item>
@@ -77,9 +84,15 @@
       <el-form-item label="超参数列表">
 
         <el-input
+<<<<<<< HEAD
+          v-show="form.algorithm_customize_hyper_para"
+          v-model="form.hyperParameter"
+          type="textarea"
+=======
           v-model="form.hyperParameter"
           type="textarea"
           v-show="form.algorithm_customize_hyper_para"
+>>>>>>> c57ea98d92e7119bcf0614b70955f8da2b891c67
           aria-placeholder="hyper_para_name: &quot;hyper parameters&quot;,
           hyper_para_description: &quot;this is description&quot;,
           hyper_para_type: 0,
@@ -209,13 +222,21 @@ export default {
               // 先根据引擎名查找
               engineList.forEach(
                 (value) => {
+<<<<<<< HEAD
+                  if (engine.algorithmEngineName === value.value) {
+=======
                   if (engine.algorithmEngineName == value.value) {
+>>>>>>> c57ea98d92e7119bcf0614b70955f8da2b891c67
                     console.log('find!')
                     // 找到后查看children节点
                     var innerFlag = true
                     value.children.forEach(
                       (childValue) => {
+<<<<<<< HEAD
+                        if (childValue.value === engine.algorithmEngineVersion) {
+=======
                         if (childValue.value == engine.algorithmEngineVersion) {
+>>>>>>> c57ea98d92e7119bcf0614b70955f8da2b891c67
                           innerFlag = false
                           childValue.children.push(
                             {
