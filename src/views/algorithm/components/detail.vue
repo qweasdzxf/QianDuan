@@ -1,6 +1,6 @@
 
 <template>
-  <el-form ref="form" :model="form" >
+  <el-form ref="form" :model="form">
     <sticky :class-name="'sub-navbar'">
       <el-button @click="showGuide">显示帮助</el-button>
       <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ isEdit?'编辑算法':'新增算法' }}</el-button>
@@ -32,7 +32,6 @@
       <el-form-item label="算法描述">
         <el-input v-model="form.algorithm_description" type="textarea" />
       </el-form-item>
-      <el-divider />
       <div>
         <span class="demonstration">选择算法类别</span>
       </div>
@@ -43,8 +42,7 @@
           :key="item.algorithmTypeId"
           :label="item.algorithmTypeName"
           :value="item.algorithmTypeId"
-        >
-        </el-option>
+        />
       </el-select>
       <div class="block">
         <br>
@@ -63,21 +61,21 @@
         />
       </div>
       <br>
-      <div>
-        <span class="demonstration">选择推荐运行的规格</span>
-      </div>
-      <br>
-      <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
-        <el-option
-          v-for="item in instanceType"
-          :key="item.instanceTypeId"
-          :label="item.instanceTypeDescription"
-          :value="item.instanceTypeId"
-        >
-        </el-option>
-      </el-select>
-      <br>
-      <el-divider />
+      <el-form-item label="">
+        <div>
+          <span class="demonstration">选择推荐运行的规格</span>
+        </div>
+        <br>
+        <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
+          <el-option
+            v-for="item in instanceType"
+            :key="item.instanceTypeId"
+            :label="item.instanceTypeDescription"
+            :value="item.instanceTypeId"
+          />
+        </el-select>
+        <br>
+      </el-form-item>
 
       <el-form-item label="启动文件相对路径">
         <el-input v-model="form.algorithm_starter_URL" />
@@ -108,16 +106,71 @@
           hyper_para_default_value: 10,
           hyper_para_is_needed: false"
         />
-      </el-form-item>
-      <el-form-item>
+        <el-table :data="hyperParameter" class="tb-edit" style="width: 100%" highlight-current-row @row-click="handleCurrentChange">
+          <el-table-column label="超参名称" width="180">
+            <template scope="scope">
+              <el-input v-model="scope.row.hyper_para_name" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+            </template>
+          </el-table-column>
+          <el-table-column label="超参描述" width="180">
+            <template scope="scope">
+              <el-input v-model="scope.row.hyper_para_description" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="超参类型">
+            <template scope="scope">
+              <el-select v-model="scope.row.hyper_para_type" placeholder="请选择">
+                <el-option
+                  v-for="item in dataTypes"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                  <!--                @change="handleEdit(scope.$index, scope.row)"-->
+                </el-option>
+              </el-select>
+
+              <!--            <el-select v-model="scope.row.hyper_para_type" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />-->
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="address" label="超参范围">
+            <template scope="scope">
+              <el-input v-model="scope.row.hyper_para_range" size="mini" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="超参默认值">
+            <template scope="scope">
+              <el-input v-model="scope.row.hyper_para_default_value" size="mini" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="是否必需">
+            <template scope="scope">
+              <el-switch
+                v-model="scope.row.hyper_para_allow_adjust"
+                active-text="是"
+                inactive-text="否">
+              </el-switch>
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="是否可调整">
+            <template scope="scope">
+              <el-switch
+                v-model="scope.row.hyper_para_is_needed"
+                active-text="是"
+                inactive-text="否">
+              </el-switch>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template scope="scope">
+              <!--<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table><br>
         <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
         <el-button>取消</el-button>
-        <el-button
-          type="primary"
-          @click="openFullScreen1"
-          v-loading.fullscreen.lock="fullscreenLoading">
-          指令方式
-        </el-button>
       </el-form-item>
     </div>
   </el-form>
@@ -166,7 +219,45 @@ export default {
             hyper_para_is_needed: false
           }
         ]
-      }
+      },
+      hyperParameter: [
+        {
+          hyper_para_name: '',
+          hyper_para_description: '',
+          hyper_para_type: null,
+          hyper_para_allow_adjust: true,
+          hyper_para_range: '',
+          hyper_para_default_value: null,
+          hyper_para_is_needed: false
+        },
+        {
+          hyper_para_name: 'hyper parameters',
+          hyper_para_description: 'this is description',
+          hyper_para_type: 0,
+          hyper_para_allow_adjust: true,
+          hyper_para_range: '0-100',
+          hyper_para_default_value: 10,
+          hyper_para_is_needed: false
+        }
+      ],
+      dataTypes: [
+        {
+          value: 0,
+          label: 'int'
+        },
+        {
+          value: 1,
+          label: 'double'
+        },
+        {
+          value: 2,
+          label: 'boolean'
+        },
+        {
+          value: 3,
+          label: 'string'
+        }
+      ]
     }
   },
   methods: {
@@ -207,7 +298,7 @@ export default {
           }
         )
       setTimeout(() => {
-        this.fullscreenLoading = false;
+        this.fullscreenLoading = false
       }, 2000)
     },
     isCustomize() {
@@ -326,6 +417,15 @@ export default {
         }
       )
       console.log(this.form.algorithm_engine_id)
+    },
+    handleCurrentChange(row, event, column) {
+      console.log(row, event, column, event.currentTarget)
+    },
+    handleEdit(index, row) {
+      console.log(index, row)
+    },
+    handleDelete(index, row) {
+      this.hyperParameter.splice(row, 1)
     }
   }
 }
