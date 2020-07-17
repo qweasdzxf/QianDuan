@@ -37,7 +37,7 @@
         <span class="demonstration">选择算法类别</span>
       </div>
       <br>
-      <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getAlgorithmType">
+      <el-select v-model="form.algorithm_type_id" placeholder="请选择" @focus="getAlgorithmType">
         <el-option
           v-for="item in algorithmType"
           :key="item.algorithmTypeId"
@@ -110,7 +110,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" v-loading.fullscreen.lock="fullscreenLoading">立即创建</el-button>
+        <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
         <el-button>取消</el-button>
       </el-form-item>
     </div>
@@ -142,7 +142,7 @@ export default {
       form: {
         algorithm_name: '',
         algorithm_version: '',
-        algorithm_type_id: 0,
+        algorithm_type_id: null,
         algorithm_engine_id: null,
         algorithm_description: '',
         algorithm_instance_type_id: null,
@@ -314,7 +314,7 @@ export default {
         )
     },
     setEngineId() {
-      if (value.length != 3) {
+      if (this.engineValue.length != 3) {
         return
       }
       this.engines.forEach(
