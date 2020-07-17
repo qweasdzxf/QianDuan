@@ -10,12 +10,10 @@
       <el-row>
         <el-row :gutter="20">
           <el-col :span="16"><div class="grid-content bg-purple">
-            <input id="filesInput" type="file" name="myfile" onchange="fileonchange()" multiple webkitdirectory mozdirectory>
+            <input id="filesInput" class="file" type="file" name="myfile" onchange="fileonchange()" multiple webkitdirectory mozdirectory>
           </div></el-col>
         </el-row>
-
         <el-col :span="24">
-          ß
           <el-row>
             <el-col :span="12" />
             <el-col :span="12" />
@@ -34,9 +32,18 @@
       <el-form-item labe="算法描述">
         <el-input v-model="form.algorithm_description" type="textarea" />
       </el-form-item>
-
       <el-divider />
-
+      <div class="block">
+        <span class="demonstration">选择AI引擎</span>
+        <el-cascader
+          v-model="value"
+          :options="engineList"
+          :props="{ expandTrigger: 'hover' }"
+          @focus="getEngines"
+          @change="handleChange"
+        />
+      </div>
+      <el-divider />
       <el-autocomplete
         v-model="form.algorithm_engine_id"
         :fetch-suggestions="querySearchAsync"
@@ -111,16 +118,19 @@ export default {
   data() {
     return {
       loading: false,
+      value: [],
+      engines: [],
+      engineList: [],
       form: {
-        algorithm_name: 'front-end test',
-        algorithm_version: '1.0.1',
+        algorithm_name: '',
+        algorithm_version: '',
         algorithm_type_id: 0,
         algorithm_engine_id: 0,
-        algorithm_description: 'this is description',
+        algorithm_description: '',
         algorithm_instance_type_id: 0,
-        algorithm_input_reflect: '/example',
-        algorithm_output_reflect: '/example',
-        algorithm_starter_URL: '/example/bootfile',
+        algorithm_input_reflect: '',
+        algorithm_output_reflect: '',
+        algorithm_starter_URL: '',
         algorithm_customize_hyper_para: true,
         algorithm_python_version_id: 0,
         hyperParameter: [
@@ -185,7 +195,84 @@ export default {
       // algorithm_customize_hyper_para=!algorithm_customize_hyper_para;
     },
     fileonchange() {
-
+      console.log('on change!')
+    },
+    getEngines() {
+      console.log('trying get engines!')
+      axios.get('http://localhost:10001/algorithm/engines')
+        .then(
+          response => {
+            console.log(response.data['extend'])
+            var engines = (response.data['extend']).engines
+            console.log(engines)
+            var engineList = []
+            for (var i = 0; i < engines.length; i++) {
+              var engine = engines[i]
+              var flag = true
+              // 先根据引擎名查找
+              engineList.forEach(
+                (value) => {
+                  if (engine.algorithmEngineName == value.value) {
+                    console.log('find!')
+                    // 找到后查看children节点
+                    var innerFlag = true
+                    value.children.forEach(
+                      (childValue) => {
+                        if (childValue.value == engine.algorithmEngineVersion) {
+                          innerFlag = false
+                          childValue.children.push(
+                            {
+                              value: engine.pythonVersionName,
+                              label: engine.pythonVersionName
+                            }
+                          )
+                        }
+                      }
+                    )
+                    if (innerFlag) {
+                      value.children.push(
+                        {
+                          value: engine.algorithmEngineVersion,
+                          label: engine.algorithmEngineName + engine.algorithmEngineVersion,
+                          children: [
+                            {
+                              value: engine.pythonVersionName,
+                              label: engine.pythonVersionName
+                            }
+                          ]
+                        }
+                      )
+                    }
+                    flag = false
+                  }
+                }
+              )
+              if (flag) {
+                engineList.push(
+                  {
+                    value: engine.algorithmEngineName,
+                    label: engine.algorithmEngineName,
+                    children: [
+                      {
+                        value: engine.algorithmEngineVersion,
+                        label: engine.algorithmEngineName + engine.algorithmEngineVersion,
+                        children: [
+                          {
+                            value: engine.pythonVersionName,
+                            label: engine.pythonVersionName
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                )
+              }
+            }
+            console.log(engineList)
+            this.engineList = engineList
+            this.engines = engines
+          }
+        )
     }
   }
 }
@@ -193,5 +280,31 @@ export default {
 <style lang="scss" scoped>
  .detail-container{
    padding: 40px 50px 20px;
+ }
+ .file {
+   position: relative;
+   display: inline-block;
+   background: #D0EEFF;
+   border: 1px solid #99D3F5;
+   border-radius: 4px;
+   padding: 4px 12px;
+   overflow: hidden;
+   color: #1E88C7;
+   text-decoration: none;
+   text-indent: 0;
+   line-height: 20px;
+ }
+ .file input {
+   position: absolute;
+   font-size: 100px;
+   right: 0;
+   top: 0;
+   opacity: 0;
+ }
+ .file:hover {
+   background: #AADFFD;
+   border-color: #78C3F3;
+   color: #004974;
+   text-decoration: none;
  }
 </style>
