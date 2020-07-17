@@ -1,9 +1,9 @@
 
 <template>
-  <el-form ref="form" :model="form">
+  <el-form ref="form" :model="form" >
     <sticky :class-name="'sub-navbar'">
       <el-button @click="showGuide">显示帮助</el-button>
-      <el-button v-loading="loading" type="success" style="margin-left:15px" @click="submitForm"> {{ isEdit?'编辑算法':'新增算法' }}</el-button>
+      <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ isEdit?'编辑算法':'新增算法' }}</el-button>
     </sticky>
     <div class="detail-container">
       <warning />
@@ -37,12 +37,12 @@
         <span class="demonstration">选择算法类别</span>
       </div>
       <br>
-      <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
+      <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getAlgorithmType">
         <el-option
-          v-for="item in instanceType"
-          :key="item.instanceTypeId"
-          :label="item.instanceTypeDescription"
-          :value="item.instanceTypeId"
+          v-for="item in algorithmType"
+          :key="item.algorithmTypeId"
+          :label="item.algorithmTypeName"
+          :value="item.algorithmTypeId"
         >
         </el-option>
       </el-select>
@@ -59,7 +59,7 @@
           :options="engineList"
           :props="{ expandTrigger: 'hover' }"
           @focus="getEngines"
-          @change="handleChange"
+          @change="setEngineId"
         />
       </div>
       <br>
@@ -110,7 +110,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit" v-loading.fullscreen.lock="fullscreenLoading">立即创建</el-button>
         <el-button>取消</el-button>
       </el-form-item>
     </div>
@@ -133,9 +133,10 @@ export default {
 
   data() {
     return {
-      loading: false,
+      fullscreenLoading: false,
       engineValue: null,
       instanceType: [],
+      algorithmType: [],
       engines: [],
       engineList: [],
       form: {
@@ -175,6 +176,7 @@ export default {
       }, 1000)
     },
     onSubmit(event) {
+      this.loading = true
       var data = new FormData()
       var files = document.getElementById('filesInput').files
       for (var i = 0; i < files.length; i++) {
@@ -205,6 +207,7 @@ export default {
             console.log(response)
           }
         )
+      this.loading = false
     },
     isCustomize() {
       this.form.algorithm_customize_hyper_para = !this.form.algorithm_customize_hyper_para
@@ -299,11 +302,37 @@ export default {
             console.log(this.instanceType)
           }
         )
+    },
+    getAlgorithmType() {
+      axios.get('http://localhost:10001/algorithm/type')
+        .then(
+          response => {
+            this.algorithmType = response.data.extend.algorithmType
+            console.log(response)
+            console.log(this.algorithmType)
+          }
+        )
+    },
+    setEngineId() {
+      if (value.length != 3) {
+        return
+      }
+      this.engines.forEach(
+        engine => {
+          if (engine.algorithmEngineName == this.engineValue[0] && engine.algorithmEngineVersion == this.engineValue[1] && engine.pythonVersionName == this.engineValue[2]) {
+            this.form.algorithm_engine_id = engine.algorithmEngineId
+          }
+        }
+      )
+      console.log(this.form.algorithm_engine_id)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+body {
+  margin: 0;
+}
  .detail-container{
    padding: 40px 50px 20px;
  }
