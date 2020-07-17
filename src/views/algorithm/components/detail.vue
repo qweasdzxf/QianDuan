@@ -112,6 +112,12 @@
       <el-form-item>
         <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
         <el-button>取消</el-button>
+        <el-button
+          type="primary"
+          @click="openFullScreen1"
+          v-loading.fullscreen.lock="fullscreenLoading">
+          指令方式
+        </el-button>
       </el-form-item>
     </div>
   </el-form>
@@ -130,7 +136,6 @@ export default {
   props: {
     isEdit: Boolean
   },
-
   data() {
     return {
       fullscreenLoading: false,
@@ -168,15 +173,9 @@ export default {
     showGuide() {
 
     },
-
-    submitForm() {
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 1000)
-    },
-    onSubmit(event) {
-      this.loading = true
+    onSubmit() {
+      console.log('ready to submit!')
+      this.fullscreenLoading = true
       var data = new FormData()
       var files = document.getElementById('filesInput').files
       for (var i = 0; i < files.length; i++) {
@@ -207,7 +206,9 @@ export default {
             console.log(response)
           }
         )
-      this.loading = false
+      setTimeout(() => {
+        this.fullscreenLoading = false;
+      }, 2000)
     },
     isCustomize() {
       this.form.algorithm_customize_hyper_para = !this.form.algorithm_customize_hyper_para
@@ -330,9 +331,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-body {
-  margin: 0;
-}
  .detail-container{
    padding: 40px 50px 20px;
  }
