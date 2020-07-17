@@ -32,6 +32,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
 export const constantRoutes = [
 
   {
@@ -60,6 +61,7 @@ export const constantRoutes = [
       }
     ]
   },
+
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -88,22 +90,13 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        name: 'dashboard',
+        meta: { title: '总览', icon: 'dashboard', affix: true }
       }
     ]
   },
 
-  {
-    path: '/all',
-    component: Layout,
-    name: 'all',
-    redirect: '/all/index',
-    meta: { title: '总览', icon: 'example' }
-  },
-
-  {
-    path: '/algorithm',
+  { path: '/algorithm',
     component: Layout,
     name: 'algorithm',
     redirect: '/algorithm/list',
@@ -131,8 +124,7 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/train',
+  { path: '/train',
     component: Layout,
     name: 'train',
     redirect: '/train/list',
@@ -154,8 +146,7 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/model',
+  { path: '/model',
     name: 'model',
     component: Layout,
     meta: { title: '模型管理', icon: 'documentation' },
@@ -177,6 +168,17 @@ export const constantRoutes = [
   { path: '/purchase',
     component: Layout,
     meta: { title: '订单管理', icon: 'documentation' }
+  },
+
+  {
+    path: '/mainmenu',
+    component: () => import('@/views/mainmenu/main')
+  },
+
+  {
+    path: '/AlgorithmMarket',
+    component: Layout,
+    meta: { title: '算法商城', icon: 'tree' }
   }
 
 ]

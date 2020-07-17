@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container" >
+  <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
@@ -46,15 +46,11 @@
       </el-tooltip>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
-      <div style="position:relative">
-
-
-
-
-
-      </div>
+      <el-row>
+        <el-button :loading="loading" type="success" style="width:100%;margin-bottom:30px" @click="gotolink">点此跳转首页</el-button>
+      </el-row>
+      <div style="position:relative" />
     </el-form>
-
 
   </div>
 </template>
@@ -163,6 +159,9 @@ export default {
         }
         return acc
       }, {})
+    },
+    gotolink() {
+      this.$router.push('/mainmenu')
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
@@ -307,6 +306,5 @@ $light_gray:#eee;
     }
   }
 }
-
 
 </style>
