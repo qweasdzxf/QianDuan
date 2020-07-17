@@ -29,50 +29,66 @@
         <md-input v-model="form.algorithm_version" name="name">版本号</md-input>
       </el-form-item>
 
-      <el-form-item labe="算法描述">
+      <el-form-item label="算法描述">
         <el-input v-model="form.algorithm_description" type="textarea" />
       </el-form-item>
       <el-divider />
+      <div>
+        <span class="demonstration">选择算法类别</span>
+      </div>
+      <br>
+      <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
+        <el-option
+          v-for="item in instanceType"
+          :key="item.instanceTypeId"
+          :label="item.instanceTypeDescription"
+          :value="item.instanceTypeId"
+        >
+        </el-option>
+      </el-select>
       <div class="block">
-        <span class="demonstration">选择AI引擎</span>
+        <br>
+        <el-row>
+          <span class="demonstration">选择AI引擎</span>
+        </el-row>
+        <br>
         <el-cascader
-          v-model="value"
+          v-model="engineValue"
+          style="width: 350px"
+          placeholder="请选择"
           :options="engineList"
           :props="{ expandTrigger: 'hover' }"
           @focus="getEngines"
           @change="handleChange"
         />
       </div>
+      <br>
+      <div>
+        <span class="demonstration">选择推荐运行的规格</span>
+      </div>
+      <br>
+      <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
+        <el-option
+          v-for="item in instanceType"
+          :key="item.instanceTypeId"
+          :label="item.instanceTypeDescription"
+          :value="item.instanceTypeId"
+        >
+        </el-option>
+      </el-select>
+      <br>
       <el-divider />
-      <el-autocomplete
-        v-model="form.algorithm_engine_id"
-        :fetch-suggestions="querySearchAsync"
-        placeholder="请选择引擎"
-        @select="handleSelect"
-      />
 
       <el-form-item label="启动文件相对路径">
         <el-input v-model="form.algorithm_starter_URL" />
       </el-form-item>
 
-      <el-form-item label="实例类型">
-        <el-input v-model="form.algorithm_instance_type_id" />
-      </el-form-item>
-
-      <el-form-item label="输入映射">
+      <el-form-item label="输入路径映射">
         <el-input v-model="form.algorithm_input_reflect" />
       </el-form-item>
 
-      <el-form-item label="输出映射">
+      <el-form-item label="输出路径映射">
         <el-input v-model="form.algorithm_output_reflect" />
-      </el-form-item>
-
-      <el-form-item label="python版本">
-        <el-select v-model="form.algorithm_python_version_id" placeholder="请选择python版本">
-          <el-option label="3.8" value="1" />
-          <el-option label="3.7" value="2" />
-          <el-option label="3.6" value="3" />
-        </el-select>
       </el-form-item>
 
       <el-form-item label="是否支持自定义超参">
@@ -118,21 +134,21 @@ export default {
   data() {
     return {
       loading: false,
-      value: [],
+      engineValue: null,
+      instanceType: [],
       engines: [],
       engineList: [],
       form: {
         algorithm_name: '',
         algorithm_version: '',
         algorithm_type_id: 0,
-        algorithm_engine_id: 0,
+        algorithm_engine_id: null,
         algorithm_description: '',
-        algorithm_instance_type_id: 0,
+        algorithm_instance_type_id: null,
         algorithm_input_reflect: '',
         algorithm_output_reflect: '',
         algorithm_starter_URL: '',
         algorithm_customize_hyper_para: true,
-        algorithm_python_version_id: 0,
         hyperParameter: [
           {
             hyper_para_name: 'hyper parameters',
@@ -191,8 +207,7 @@ export default {
         )
     },
     isCustomize() {
-      // eslint-disable-next-line no-undef
-      // algorithm_customize_hyper_para=!algorithm_customize_hyper_para;
+      this.form.algorithm_customize_hyper_para = !this.form.algorithm_customize_hyper_para
     },
     fileonchange() {
       console.log('on change!')
@@ -271,6 +286,17 @@ export default {
             console.log(engineList)
             this.engineList = engineList
             this.engines = engines
+          }
+        )
+    },
+    getInstanceType() {
+      console.log('trying get instance type!')
+      axios.get('http://localhost:10001/instanceType')
+        .then(
+          response => {
+            this.instanceType = response.data.extend.instanceType
+            console.log(response)
+            console.log(this.instanceType)
           }
         )
     }
