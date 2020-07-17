@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div>
     <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -39,14 +38,6 @@ export default {
       formLabelWidth: '120px'
     }
   }
-=======
-  <div></div>
-</template>
-<script>
-
-export default {
-  name: 'Edit'
->>>>>>> c57ea98d92e7119bcf0614b70955f8da2b891c67
 }
 </script>
 

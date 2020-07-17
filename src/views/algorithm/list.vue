@@ -1,6 +1,5 @@
 
 <template>
-  <<<<<<< HEAD
   <div>
     <el-row :gutter="20">
       <el-col :span="6">
@@ -60,8 +59,7 @@
             <el-button
               type="text"
               size="small"
-              @click.native.prevent="deleteRow(scope.$index, tableData)"
-            >
+              @click.native.prevent="deleteRow(scope.$index, tableData)">
               移除
             </el-button>
 
@@ -70,75 +68,66 @@
         </el-table-column>
       </el-table>
       <el-dialog title="新增算法" :visible.sync="dialogFormVisible">
+        <el-form>
+        <el-form-item labe="算法描述">
+          <el-input v-model="form.algorithm_description" type="textarea" />
+        </el-form-item>
+        <el-divider />
+        <div class="block">
+          <span class="demonstration">选择AI引擎</span>
+          <el-cascader
+            v-model="value"
+            :options="engineList"
+            :props="{ expandTrigger: 'hover' }"
+            @focus="getEngines"
+            @change="handleChange"
+          />
+        </div>
+        <el-divider />
 
-        <el-form :model="form">
-          <el-form-item>
-            <md-input v-model="form.algorithm_name" name="name">算法名称</md-input>
-          </el-form-item>
+        <el-form-item label="启动文件相对路径">
+          <el-input v-model="form.algorithm_starter_URL" />
+        </el-form-item>
 
-          <el-form-item>
-            <md-input v-model="form.algorithm_version" name="name">版本号</md-input>
-          </el-form-item>
+        <el-form-item label="实例类型">
+          <el-input v-model="form.algorithm_instance_type_id" />
+        </el-form-item>
 
-          <el-form-item labe="算法描述">
-            <el-input v-model="form.algorithm_description" type="textarea" />
-          </el-form-item>
-          <el-divider />
-          <div class="block">
-            <span class="demonstration">选择AI引擎</span>
-            <el-cascader
-              v-model="value"
-              :options="engineList"
-              :props="{ expandTrigger: 'hover' }"
-              @focus="getEngines"
-              @change="handleChange"
-            />
-          </div>
-          <el-divider />
+        <el-form-item label="输入映射">
+          <el-input v-model="form.algorithm_input_reflect" />
+        </el-form-item>
 
-          <el-form-item label="启动文件相对路径">
-            <el-input v-model="form.algorithm_starter_URL" />
-          </el-form-item>
+        <el-form-item label="输出映射">
+          <el-input v-model="form.algorithm_output_reflect" />
+        </el-form-item>
 
-          <el-form-item label="实例类型">
-            <el-input v-model="form.algorithm_instance_type_id" />
-          </el-form-item>
+        <el-form-item label="python版本">
+          <el-select v-model="form.algorithm_python_version_id" placeholder="请选择python版本">
+            <el-option label="3.8" value="1" />
+            <el-option label="3.7" value="2" />
+            <el-option label="3.6" value="3" />
+          </el-select>
+        </el-form-item>
 
-          <el-form-item label="输入映射">
-            <el-input v-model="form.algorithm_input_reflect" />
-          </el-form-item>
+        <el-form-item label="是否支持自定义超参">
+          <el-switch v-model="form.algorithm_customize_hyper_para" @click="isCustomize" />
+        </el-form-item>
 
-          <el-form-item label="输出映射">
-            <el-input v-model="form.algorithm_output_reflect" />
-          </el-form-item>
+        <el-form-item label="超参数列表">
 
-          <el-form-item label="python版本">
-            <el-select v-model="form.algorithm_python_version_id" placeholder="请选择python版本">
-              <el-option label="3.8" value="1" />
-              <el-option label="3.7" value="2" />
-              <el-option label="3.6" value="3" />
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="是否支持自定义超参">
-            <el-switch v-model="form.algorithm_customize_hyper_para" @click="isCustomize" />
-          </el-form-item>
-
-          <el-form-item label="超参数列表">
-
-            <el-input
-              v-show="form.algorithm_customize_hyper_para"
-              v-model="form.hyperParameter"
-              type="textarea"
-              aria-placeholder="hyper_para_name: &quot;hyper parameters&quot;,
+          <el-input
+            v-show="form.algorithm_customize_hyper_para"
+            v-model="form.hyperParameter"
+            type="textarea"
+            aria-placeholder="hyper_para_name: &quot;hyper parameters&quot;,
           hyper_para_description: &quot;this is description&quot;,
           hyper_para_type: 0,
           hyper_para_allow_adjust: true,
           hyper_para_range: &quot;0-100&quot;,
           hyper_para_default_value: 10,
           hyper_para_is_needed: false"
-            />
-          </el-form-item>
+          />
+        </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -159,11 +148,12 @@
 <script>
 import Sticky from '@/components/Sticky/index'
 import Warning from '@/views/algorithm/components/warning'
+import axios from "axios";
 export default {
   components: { Warning },
   data() {
     return {
-      dialogFormVisible: false,
+      dialogFormVisible:false,
       input: '',
 
       tableData: [{
@@ -176,28 +166,14 @@ export default {
       }
       ],
       form: {
-        algorithm_name: '',
-        algorithm_version: '',
-        algorithm_type_id: 0,
-        algorithm_engine_id: 0,
-        algorithm_description: '',
-        algorithm_instance_type_id: 0,
-        algorithm_input_reflect: '',
-        algorithm_output_reflect: '',
-        algorithm_starter_URL: '',
-        algorithm_customize_hyper_para: true,
-        algorithm_python_version_id: 0,
-        hyperParameter: [
-          {
-            hyper_para_name: 'hyper parameters',
-            hyper_para_description: 'this is description',
-            hyper_para_type: 0,
-            hyper_para_allow_adjust: true,
-            hyper_para_range: '0-100',
-            hyper_para_default_value: 10,
-            hyper_para_is_needed: false
-          }
-        ]
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
       },
       formLabelWidth: '120px'
     }
@@ -211,7 +187,8 @@ export default {
     },
     editForm() {
 
-    }
+    },
+
   }
 }
 
@@ -232,100 +209,5 @@ export default {
   .el-table{
     align-content: center;
   }
-=======
-  <el-table
-    :data="tableData"
-    border
-    style="width: 100%"
-  >
-    <el-table-column
-      fixed
-      prop="date"
-      label="日期"
-      width="150"
-    />
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="120"
-    />
-    <el-table-column
-      prop="province"
-      label="省份"
-      width="120"
-    />
-    <el-table-column
-      prop="city"
-      label="市区"
-      width="120"
-    />
-    <el-table-column
-      prop="address"
-      label="地址"
-      width="300"
-    />
-    <el-table-column
-      prop="zip"
-      label="邮编"
-      width="120"
-    />
-    <el-table-column
-      fixed="right"
-      label="操作"
-      width="100"
-    >
-      <template slot-scope="scope">
-        <el-button type="text" size="small" @click="handleClick(scope.row)">查看</el-button>
-        <el-button type="text" size="small">编辑</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-export default {
-
-  data() {
-    return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1517 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1519 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }]
-    }
-  },
-  methods: {
-    handleClick(row) {
-      console.log(row)
-    }
-  }
-}
-</script>
-<style scoped>
->>>>>>> c57ea98d92e7119bcf0614b70955f8da2b891c67
 
 </style>
