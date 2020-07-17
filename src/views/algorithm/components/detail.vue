@@ -44,12 +44,7 @@
         />
       </div>
       <el-divider />
-      <el-autocomplete
-        v-model="form.algorithm_engine_id"
-        :fetch-suggestions="querySearchAsync"
-        placeholder="请选择引擎"
-        @select="handleSelect"
-      />
+
 
       <el-form-item label="启动文件相对路径">
         <el-input v-model="form.algorithm_starter_URL" />
@@ -84,6 +79,7 @@
         <el-input
           v-model="form.hyperParameter"
           type="textarea"
+          v-show="form.algorithm_customize_hyper_para"
           aria-placeholder="hyper_para_name: &quot;hyper parameters&quot;,
           hyper_para_description: &quot;this is description&quot;,
           hyper_para_type: 0,
@@ -121,6 +117,7 @@ export default {
       value: [],
       engines: [],
       engineList: [],
+
       form: {
         algorithm_name: '',
         algorithm_version: '',

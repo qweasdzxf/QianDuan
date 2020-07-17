@@ -46,6 +46,9 @@
       </el-tooltip>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-row>
+      <el-button :loading="loading" @click="gotolink" type="success" style="width:100%;margin-bottom:30px" >点此跳转首页</el-button>
+      </el-row>
       <div style="position:relative">
 
 
@@ -163,6 +166,9 @@ export default {
         }
         return acc
       }, {})
+    },
+    gotolink(){
+      this.$router.push('/mainmenu')
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
