@@ -227,7 +227,7 @@ export default {
       console.log('ready to submit!')
       this.fullscreenLoading = true
       this.form.hyperParameters = this.hyperParameter
-      var data = new FormData()
+      var data = new ForvmData()
       var files = document.getElementById('filesInput').files
       for (var i = 0; i < files.length; i++) {
         data.append('myfile', files[i])
