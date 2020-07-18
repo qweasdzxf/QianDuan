@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 <template>
   <el-form ref="form" :model="form">
     <sticky :class-name="'sub-navbar'">

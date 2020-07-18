@@ -1,17 +1,17 @@
 
 <template>
-   <div>
-  <el-row :gutter="20">
-    <el-col :span="6">
-      <el-button @click="showGuide">显示帮助</el-button>
-      <el-button type="success" style="margin-left:15px" @click="editForm"> {{ '编辑算法' }}</el-button>
-    </el-col>
-    <el-col :span="8"> <el-input v-model="input" placeholder="请输入内容" />
-    </el-col>
-    <el-col :span="5"><el-button type="primary" @click="onSubmit">搜索</el-button>
-    </el-col>
-  </el-row>
-  <warning />
+  <div>
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-button @click="showGuide">显示帮助</el-button>
+        <el-button type="success" style="margin-left:15px" @click="editForm"> {{ '编辑算法' }}</el-button>
+      </el-col>
+      <el-col :span="8"> <el-input v-model="input" placeholder="请输入内容" />
+      </el-col>
+      <el-col :span="5"><el-button type="primary" @click="onSubmit">搜索</el-button>
+      </el-col>
+    </el-row>
+    <warning />
 
     <template>
       <el-table

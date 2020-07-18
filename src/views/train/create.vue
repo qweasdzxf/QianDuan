@@ -1,3 +1,6 @@
+
+/* eslint-disable */
+
 <template>
 
   <div class="modelarea">
@@ -36,16 +39,16 @@
       <br>
       <br>
       <el-form-item>
-      <el-label>训练作业描述</el-label>
-      <br>
-      <br>
-      <el-input
-        v-model="form.train_task_description"
-        type="textarea"
-        :rows="2"
-        placeholder="训练作业描述"
-      />
-        </el-form-item>
+        <el-label>训练作业描述</el-label>
+        <br>
+        <br>
+        <el-input
+          v-model="form.train_task_description"
+          type="textarea"
+          :rows="2"
+          placeholder="训练作业描述"
+        />
+      </el-form-item>
       <br>
       <br>
       <br>
@@ -54,73 +57,72 @@
       <br>
 
       <el-form-item>
-      <el-time-select
-        v-model="form.train_task_start_time"
-        placeholder="训练作业起始时间"
-        :picker-options="{
-          start: '00:00',
-          step: '00:30',
-          end: '24:00'
-        }"
-      />
-      <el-time-select
-        v-model="form.train_task_finish_time"
-        placeholder="训练作业结束时间"
-        :picker-options="{
-          start: '00:00',
-          step: '00:30',
-          end: '24:00',
-          minTime:form.train_task_start_time,
-        }"
-      />
-        </el-form-item>
+        <el-time-select
+          v-model="form.train_task_start_time"
+          placeholder="训练作业起始时间"
+          :picker-options="{
+            start: '00:00',
+            step: '00:30',
+            end: '24:00'
+          }"
+        />
+        <el-time-select
+          v-model="form.train_task_finish_time"
+          placeholder="训练作业结束时间"
+          :picker-options="{
+            start: '00:00',
+            step: '00:30',
+            end: '24:00',
+            minTime:form.train_task_start_time,
+          }"
+        />
+      </el-form-item>
       <br>
       <br>
       <br>
       <el-form-item>
-      <div>
-        <span class="demonstration">选择作业硬件规格</span>
-      </div>
-      <el-select v-model="form.train_task_specification" placeholder="请选择" @focus="getInstanceType">
-        <el-option
-          v-for="item in instanceType"
-          :key="item.instanceTypeId"
-          :label="item.instanceTypeDescription"
-          :value="item.instanceTypeId"
-        />
-      </el-select>
-        </el-form-item>
+        <div>
+          <span class="demonstration">选择作业硬件规格</span>
+        </div>
+        <el-select v-model="form.train_task_specification" placeholder="请选择" @focus="getInstanceType">
+          <el-option
+            v-for="item in instanceType"
+            :key="item.instanceTypeId"
+            :label="item.instanceTypeDescription"
+            :value="item.instanceTypeId"
+          />
+        </el-select>
+      </el-form-item>
       <br>
       <br>
       <br>
       <el-form-item>
         <el-row :gutter="20">
           <el-col :span="12">
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span>参数列表</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="getParams">获取算法参数</el-button>
-            </div>
-            <div v-for="(item,index) in Params" :key="index" >
-              {{item}}
-            </div>
-          </el-card>
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span>参数列表</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="getParams">获取算法参数</el-button>
+              </div>
+              <div v-for="(item,index) in Params" :key="index">
+                {{ item }}
+              </div>
+            </el-card>
           </el-col>
           <el-col :span="12">
 
-    <el-label>选择作业算法超参列表</el-label>
-      <el-input
-        v-model="form.train_task_params"
-        placeholder="请输入参数"
-        :rows="6"
-        > </el-input>
+            <el-label>选择作业算法超参列表</el-label>
+            <el-input
+              v-model="form.train_task_params"
+              placeholder="请输入参数"
+              :rows="6"
+            />
           </el-col>
 
         </el-row> </el-form-item>
 
-
-<br>
-<br>
+      <br>
+      <br>
       <el-form-item>
         <div class="block">
           <el-row>
@@ -140,12 +142,12 @@
       <br>
       <br>
       <el-form-item label="日志输出路径">
-      <el-input v-model="form.train_task_log_out_path" > </el-input>
+        <el-input v-model="form.train_task_log_out_path" />
       </el-form-item>
       <br>
       <br>
       <el-form-item label="模型输出路径">
-        <el-input v-model="form.train_task_model_out_path" > </el-input>
+        <el-input v-model="form.train_task_model_out_path" />
       </el-form-item>
       <br>
       <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
@@ -159,14 +161,14 @@
 
 import Sticky from '@/components/Sticky/index'
 import MdInput from '@/components/MDinput/index'
-import axios from "axios";
+import axios from 'axios'
 
 export default {
   name: 'Create',
   components: { MdInput, Sticky },
   data() {
     return {
-      fullscreenLoading:false,
+      fullscreenLoading: false,
       algorithmCustomizeHyperPara: {
 
       },
@@ -245,20 +247,19 @@ export default {
       // }, 2000)
     },
 
-
     getParams() {
-        console.log('trying get params')
-        axios.get('http://localhost:10001/algorithm/'+this.data.form.train_task_algorithm_id)
-      .then(
-        response =>{
-          this.algorithmCustomizeHyperPara =response.data.extend.algorithm.algorithmCustomizeHyperPara
-          console.log(response)
-          console.log(this.algorithmCustomizeHyperPara)
-        }
-      )
-          .catch(function (error) {
-            console.log(error);
-          })
+      console.log('trying get params')
+      axios.get('http://localhost:10001/algorithm/' + this.data.form.train_task_algorithm_id)
+        .then(
+          response => {
+            this.algorithmCustomizeHyperPara = response.data.extend.algorithm.algorithmCustomizeHyperPara
+            console.log(response)
+            console.log(this.algorithmCustomizeHyperPara)
+          }
+        )
+        .catch(function(error) {
+          console.log(error)
+        })
     },
 
     getEngines() {
@@ -362,7 +363,7 @@ export default {
             console.log(this.instanceType)
           }
         )
-    },
+    }
 
   }
 
