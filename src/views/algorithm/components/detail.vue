@@ -32,40 +32,39 @@
       <el-form-item label="算法描述">
         <el-input v-model="form.algorithm_description" type="textarea" />
       </el-form-item>
-      <div>
-        <span class="demonstration">选择算法类别</span>
-      </div>
-      <br>
-      <el-select v-model="form.algorithm_type_id" placeholder="请选择" @focus="getAlgorithmType">
-        <el-option
-          v-for="item in algorithmType"
-          :key="item.algorithmTypeId"
-          :label="item.algorithmTypeName"
-          :value="item.algorithmTypeId"
-        />
-      </el-select>
-      <div class="block">
-        <br>
-        <el-row>
-          <span class="demonstration">选择AI引擎</span>
-        </el-row>
-        <br>
-        <el-cascader
-          v-model="engineValue"
-          style="width: 350px"
-          placeholder="请选择"
-          :options="engineList"
-          :props="{ expandTrigger: 'hover' }"
-          @focus="getEngines"
-          @change="setEngineId"
-        />
-      </div>
-      <br>
+      <el-form-item>
+        <div>
+          <span class="demonstration">选择算法类别</span>
+        </div>
+        <el-select v-model="form.algorithm_type_id" placeholder="请选择" @focus="getAlgorithmType">
+          <el-option
+            v-for="item in algorithmType"
+            :key="item.algorithmTypeId"
+            :label="item.algorithmTypeName"
+            :value="item.algorithmTypeId"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <div class="block">
+          <el-row>
+            <span class="demonstration">选择AI引擎</span>
+          </el-row>
+          <el-cascader
+            v-model="engineValue"
+            style="width: 350px"
+            placeholder="请选择"
+            :options="engineList"
+            :props="{ expandTrigger: 'hover' }"
+            @focus="getEngines"
+            @change="setEngineId"
+          />
+        </div>
+      </el-form-item>
       <el-form-item label="">
         <div>
           <span class="demonstration">选择推荐运行的规格</span>
         </div>
-        <br>
         <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
           <el-option
             v-for="item in instanceType"
@@ -94,18 +93,9 @@
       </el-form-item>
 
       <el-form-item label="超参数列表">
-
-        <el-input
-          v-model="form.hyperParameter"
-          type="textarea"
-          aria-placeholder="hyper_para_name: &quot;hyper parameters&quot;,
-          hyper_para_description: &quot;this is description&quot;,
-          hyper_para_type: 0,
-          hyper_para_allow_adjust: true,
-          hyper_para_range: &quot;0-100&quot;,
-          hyper_para_default_value: 10,
-          hyper_para_is_needed: false"
-        />
+        <el-row>
+          <el-button type="primary" icon="el-icon-edit" circle @click="addHyperPara" />
+        </el-row>
         <el-table :data="hyperParameter" class="tb-edit" style="width: 100%" highlight-current-row @row-click="handleCurrentChange">
           <el-table-column label="超参名称" width="180">
             <template scope="scope">
@@ -136,35 +126,34 @@
 
           <el-table-column prop="address" label="超参范围">
             <template scope="scope">
-              <el-input v-model="scope.row.hyper_para_range" size="mini" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+              <el-input v-model="scope.row.hyper_para_range" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
             </template>
           </el-table-column>
           <el-table-column prop="address" label="超参默认值">
             <template scope="scope">
-              <el-input v-model="scope.row.hyper_para_default_value" size="mini" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+              <el-input v-model="scope.row.hyper_para_default_value" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
             </template>
           </el-table-column>
           <el-table-column prop="address" label="是否必需">
             <template scope="scope">
               <el-switch
-                v-model="scope.row.hyper_para_allow_adjust"
+                v-model="scope.row.hyper_para_is_needed"
                 active-text="是"
-                inactive-text="否">
-              </el-switch>
+                inactive-text="否"
+              />
             </template>
           </el-table-column>
           <el-table-column prop="address" label="是否可调整">
             <template scope="scope">
               <el-switch
-                v-model="scope.row.hyper_para_is_needed"
+                v-model="scope.row.hyper_para_allow_adjust"
                 active-text="是"
-                inactive-text="否">
-              </el-switch>
+                inactive-text="否"
+              />
             </template>
           </el-table-column>
           <el-table-column label="操作">
             <template scope="scope">
-              <!--<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
               <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -207,39 +196,9 @@ export default {
         algorithm_input_reflect: '',
         algorithm_output_reflect: '',
         algorithm_starter_URL: '',
-        algorithm_customize_hyper_para: true,
-        hyperParameter: [
-          {
-            hyper_para_name: 'hyper parameters',
-            hyper_para_description: 'this is description',
-            hyper_para_type: 0,
-            hyper_para_allow_adjust: true,
-            hyper_para_range: '0-100',
-            hyper_para_default_value: 10,
-            hyper_para_is_needed: false
-          }
-        ]
+        algorithm_customize_hyper_para: true
       },
-      hyperParameter: [
-        {
-          hyper_para_name: '',
-          hyper_para_description: '',
-          hyper_para_type: null,
-          hyper_para_allow_adjust: true,
-          hyper_para_range: '',
-          hyper_para_default_value: null,
-          hyper_para_is_needed: false
-        },
-        {
-          hyper_para_name: 'hyper parameters',
-          hyper_para_description: 'this is description',
-          hyper_para_type: 0,
-          hyper_para_allow_adjust: true,
-          hyper_para_range: '0-100',
-          hyper_para_default_value: 10,
-          hyper_para_is_needed: false
-        }
-      ],
+      hyperParameter: [],
       dataTypes: [
         {
           value: 0,
@@ -267,6 +226,7 @@ export default {
     onSubmit() {
       console.log('ready to submit!')
       this.fullscreenLoading = true
+      this.form.hyperParameters = this.hyperParameter
       var data = new FormData()
       var files = document.getElementById('filesInput').files
       for (var i = 0; i < files.length; i++) {
@@ -295,11 +255,18 @@ export default {
         .then(
           response => {
             console.log(response)
+            this.fullscreenLoading = false
+            if (response.data.code == '00000') {
+              alert('算法上传成功！')
+            } else {
+              alert('上传失败，请重试！')
+            }
+            location.reload()
           }
         )
-      setTimeout(() => {
-        this.fullscreenLoading = false
-      }, 2000)
+      // setTimeout(() => {
+      //   this.fullscreenLoading = false
+      // }, 2000)
     },
     isCustomize() {
       this.form.algorithm_customize_hyper_para = !this.form.algorithm_customize_hyper_para
@@ -422,10 +389,23 @@ export default {
       console.log(row, event, column, event.currentTarget)
     },
     handleEdit(index, row) {
-      console.log(index, row)
+      console.log(this.hyperParameter[index])
     },
     handleDelete(index, row) {
-      this.hyperParameter.splice(row, 1)
+      this.hyperParameter.splice(index, 1)
+    },
+    addHyperPara() {
+      this.hyperParameter.push(
+        {
+          hyper_para_name: '',
+          hyper_para_description: '',
+          hyper_para_type: null,
+          hyper_para_allow_adjust: false,
+          hyper_para_range: '',
+          hyper_para_default_value: null,
+          hyper_para_is_needed: false
+        }
+      )
     }
   }
 }
