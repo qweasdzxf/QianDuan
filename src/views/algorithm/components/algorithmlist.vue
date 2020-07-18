@@ -5,11 +5,11 @@
         <el-header>
           <el-row>
             <el-col :span="6">
-              <el-button type="info" @click="getAlgorithmList">显示帮助</el-button>
+              <el-button type="info" @click="">显示帮助</el-button>
             </el-col>
             <el-col :span="5" offset="12">
-              <el-input v-model="input" placeholder="请输入内容">
-                <el-button slot="append" icon="el-icon-search" type="primary" />
+              <el-input v-model=keyWord placeholder="请输入内容">
+                <el-button slot="append" icon="el-icon-search" type="primary" @click='searchWithKeyWord'/>
               </el-input>
             </el-col>
           </el-row>
@@ -26,8 +26,8 @@
                 <el-table-column prop="algorithmVersion" label="算法版本" />
                 <el-table-column prop="algorithmCreateTime" label="创建时间" />
                 <el-table-column label="操作">
-                  <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="showAlgorithmDetail = true">
+                  <template scope="scope">
+                    <el-button type="text" size="small" @click="showAlgorithmDetail(scope.$index)">
                       查看
                     </el-button>
                     <el-button type="text" size="small" @click="dialogFormVisible = true">编辑</el-button>
@@ -39,30 +39,82 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-dialog title="查看算法" :visible.sync="showAlgorithmDetail">
+              <el-dialog title="查看算法" :visible.sync="showAlgorithmDialog">
                 <el-container>
                   <el-header>
                     <div>
                       <el-row>
-                        <el-col span="8">算法名称：test</el-col>
-                        <el-col span="8">算法状态：就绪</el-col>
+                        <el-col span="8">算法名称：{{ algorithmDetail.algorithmName }}</el-col>
+                        <el-col span="16">算法状态：{{ algorithmDetail.algorithmStatus }}</el-col>
                       </el-row><br>
                       <el-row>
-                        <el-col span="8">算法版本：test</el-col>
-                        <el-col span="8">创建时间：就绪</el-col>
+                        <el-col span="8">算法版本：{{ algorithmDetail.algorithmVersion }}</el-col>
+                        <el-col span="16">创建时间：{{ algorithmDetail.algorithmCreateTime }}</el-col>
                       </el-row><br>
                       <el-row>
-                        <el-col span="8">算法描述：test</el-col>
+                        <el-col span="8">算法描述：{{ algorithmDetail.algorithmDescription }}</el-col>
                       </el-row><br>
                     </div>
                   </el-header>
                   <el-main>
                     <br>
                     <el-tabs v-model="activeName" @tab-click="handleClick">
-                      <el-tab-pane label="训练规范" name="train">训练规范</el-tab-pane>
-                      <el-tab-pane label="超参规范" name="hyperParameters">超参规范</el-tab-pane>
+                      <el-tab-pane label="训练规范" name="train">
+                        <h4>配置信息</h4>
+                        <el-row>
+                          训练框架：{{ algorithmDetail.aiEngine.algorithmEngineName + algorithmDetail.aiEngine.algorithmEngineVersion + '-' + algorithmDetail.aiEngine.pythonVersionName }}
+                        </el-row><br>
+                        <el-row>
+                          代码路径：{{ algorithmDetail.algorithmSaveUrl }}
+                        </el-row><br>
+                        <el-row>
+                          启动文件：{{ algorithmDetail.algorithmStarterUrl }}
+                        </el-row>
+                        <h4>推荐规格</h4>
+                        <el-row>
+                          规格类型：{{ algorithmDetail.instanceType.instanceTypeDescription }}
+                        </el-row>
+                      </el-tab-pane>
+                      <el-tab-pane label="超参规范" name="hyperParameters">
+                        <h4>超参列表</h4>
+                        <el-table
+                          :data="hyperParameters"
+                          style="width: 100%">
+                          <el-table-column
+                            prop="hyperParaName"
+                            label="名称">
+                          </el-table-column>
+                          <el-table-column
+                            prop="hyperParaType"
+                            label="类型">
+                          </el-table-column>
+                          <el-table-column
+                            prop="hyperParaDescription"
+                            label="描述">
+                          </el-table-column>
+                          <el-table-column
+                            prop="hyperParaRange"
+                            label="范围">
+                          </el-table-column>
+                          <el-table-column
+                            prop="hyperParaDefaultValue"
+                            label="默认值">
+                          </el-table-column>
+                          <el-table-column
+                            prop="hyperParaIsNeeded"
+                            label="是否必需" >
+                          </el-table-column>
+                          <el-table-column
+                            prop="hyperParaAllowAdjust"
+                            label="是否可调整">
+                          </el-table-column>
+                        </el-table>
+                      </el-tab-pane>
                     </el-tabs>
                   </el-main>
+                  <el-footer>
+                    <el-col span=4 offset="10" @click=><el-button plain>确定</el-button></el-col>
+                  </el-footer>
                 </el-container>
               </el-dialog>
               <el-dialog title="编辑算法" :visible.sync="dialogFormVisible">
@@ -161,14 +213,70 @@ export default {
   data() {
     return {
       dialogFormVisible: false,
-      showAlgorithmDetail: false,
-      input: '',
+      showAlgorithmDialog: false,
       activeName: 'train',
-      pageNum: 1,
+      pageNum: null,
       pageSize: 10,
-      userId: 1,
+      userId: null,
       keyWord: '',
       pageInfo: null,
+      algorithmDetail: {
+        algorithmId: 60,
+        algorithmName: "a s d",
+        algorithmVersion: "阿法",
+        algorithmTypeId: 1,
+        algorithmType: {
+          algorithmTypeId: 1,
+          algorithmTypeName: "图像分类",
+          algorithmTypeDescription: "暂时没有描述"
+        },
+        algorithmEngineId: 3,
+        aiEngine: {
+          algorithmEngineId: 3,
+          algorithmEngineName: "PyTorch",
+          algorithmEngineVersion: "1.0.0",
+          pythonVersionName: "python2.7"
+        },
+        algorithmDescriptionId: 62,
+        algorithmDescription: null,
+        algorithmInstanceTypeId: 1,
+        instanceType: {
+          instanceTypeId: 1,
+          instanceTypeDescription: "1核2G"
+        },
+        algorithmInputReflect: "",
+        algorithmOutputReflect: "",
+        algorithmStarterUrl: "/Users/thomas/Desktop/Data",
+        algorithmSaveUrl: "/Users/thomas/Desktop/Data",
+        algorithmCustomizeHyperPara: 1,
+        algorithmStatus: 0,
+        algorithmCreateTime: "2020-07-17T09:49:21",
+        algorithmImageId: null
+      },
+      hyperParameters: [
+        {
+          hyperParaId: 11,
+          hyperParaName: "hyper parameters",
+          hyperParaDescription: "this is description",
+          hyperParaType: 0,
+          hyperParaAllowAdjust: true,
+          hyperParaRange: "0-100",
+          hyperParaDefaultValue: "10",
+          hyperParaIsNeeded: false,
+          algorithmId: 34
+        },
+        {
+          hyperParaId: 12,
+          hyperParaName: "hyper parameters",
+          hyperParaDescription: "this is description",
+          hyperParaType: 0,
+          hyperParaAllowAdjust: true,
+          hyperParaRange: "0-100",
+          hyperParaDefaultValue: "10",
+          hyperParaIsNeeded: true,
+          algorithmId: 34
+        }
+      ],
       form: {
         name: '',
         region: '',
@@ -192,6 +300,10 @@ export default {
     handleClick(row) {
       console.log(row)
     },
+    searchWithKeyWord() {
+      this.pageNum = 1
+      this.getAlgorithmList()
+    },
     handleCurrentChange() {
       this.getAlgorithmList()
     },
@@ -213,6 +325,55 @@ export default {
             console.log(responese)
           }
         )
+    },
+    showAlgorithmDetail(index) {
+      console.log(index)
+      console.log(this.pageInfo.list)
+      axios.get(
+        'http://localhost:10003/frontstage/algorithm/' + this.pageInfo.list[index].algorithmId.toString()
+      ).then(
+        res => {
+          this.algorithmDetail = res.data.extend.algorithm
+          switch (this.algorithmDetail.algorithmStatus) {
+            case 0:
+              this.algorithmDetail.algorithmStatus = '就绪'
+              break
+            case 1:
+              this.algorithmDetail.algorithmStatus = '异常'
+              break
+          }
+        }
+      )
+      axios.get(
+        'http://localhost:10003/frontstage//algorithm/hyperPara/' + this.pageInfo.list[index].algorithmId.toString()
+      ).then(
+        res => {
+          this.hyperParameters = res.data.extend.hyperParameters
+          console.log(this.hyperParameters)
+          this.hyperParameters.forEach(
+            value => {
+              console.log(value)
+              switch (value.hyperParaType) {
+                case 0:
+                  value.hyperParaType = 'Integer'
+                  break
+                case 1:
+                  value.hyperParaType = 'Double'
+                  break
+                case 2:
+                  value.hyperParaType = 'Boolean'
+                  break
+                case 3:
+                  value.hyperParaType = 'String'
+                  break
+              }
+              value.hyperParaAllowAdjust = value.hyperParaAllowAdjust ? '是' : '否'
+              value.hyperParaIsNeeded = value.hyperParaIsNeeded ? '是' : '否'
+            }
+          )
+        }
+      )
+      this.showAlgorithmDialog = true
     }
 
   }
