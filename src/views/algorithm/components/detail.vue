@@ -5,7 +5,7 @@
       <el-button @click="showGuide">显示帮助</el-button>
       <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ isEdit?'编辑算法':'新增算法' }}</el-button>
     </sticky>
-    <div class="detail-container">
+    <div class="detail-container" >
       <warning />
       <el-row>
         <el-row :gutter="20">

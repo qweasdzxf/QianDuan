@@ -2,16 +2,18 @@
 /* eslint-disable */
 
 <template>
+  <el-form :model="form" ref="form">
+  <sticky :class-name="'sub-navbar'" >
+    <el-button @click="showGuide">显示帮助</el-button>
+    <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ '创建训练' }}</el-button>
+  </sticky>
 
-  <div class="modelarea">
-    <sticky :class-name="'sub-navbar'">
-      <el-button @click="showGuide">显示帮助</el-button>
-      <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ '创建训练' }}</el-button>
-    </sticky>
+  <div class="detail-container1">
+
     <br>
     <h2>创建训练</h2>
     <br>
-    <el-form>
+
       <el-form-item>
         <md-input v-model="form.train_task_user_id" name="name">用户ID</md-input>
       </el-form-item>
@@ -152,9 +154,8 @@
       <br>
       <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
       <el-button>取消</el-button>
-
-    </el-form>
   </div>
+    </el-form>
 </template>
 
 <script>
@@ -235,9 +236,9 @@ export default {
             console.log(response)
             this.fullscreenLoading = false
             if (response.data.code == '00000') {
-              alert('算法上传成功！')
+              alert('训练创建成功！')
             } else {
-              alert('上传失败，请重试！')
+              alert('创建失败，请重试！')
             }
             location.reload()
           }
@@ -371,8 +372,8 @@ export default {
 </script>
 
 <style scoped>
-   .modelarea {
-
+   .detail-container1 {
+     padding: 40px 50px 20px;
    }
        .text {
          font-size: 14px;

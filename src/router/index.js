@@ -160,7 +160,7 @@ export const constantRoutes = [
       name: 'modelcreate',
       path: '/model/create',
       component: () => import('@/views/model/create'),
-      meta: { title: '创建模型', icon: 'edit' }
+      meta: { title: '导入模型', icon: 'edit' }
     }
     ]
   },
