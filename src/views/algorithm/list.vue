@@ -59,7 +59,8 @@
             <el-button
               type="text"
               size="small"
-              @click.native.prevent="deleteRow(scope.$index, tableData)">
+              @click.native.prevent="deleteRow(scope.$index, tableData)"
+            >
               移除
             </el-button>
 
@@ -67,67 +68,67 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog title="新增算法" :visible.sync="dialogFormVisible">
+      <el-dialog title="编辑算法" :visible.sync="dialogFormVisible">
         <el-form>
-        <el-form-item labe="算法描述">
-          <el-input v-model="form.algorithm_description" type="textarea" />
-        </el-form-item>
-        <el-divider />
-        <div class="block">
-          <span class="demonstration">选择AI引擎</span>
-          <el-cascader
-            v-model="value"
-            :options="engineList"
-            :props="{ expandTrigger: 'hover' }"
-            @focus="getEngines"
-            @change="handleChange"
-          />
-        </div>
-        <el-divider />
+          <el-form-item labe="算法描述">
+            <el-input v-model="form.algorithm_description" type="textarea" />
+          </el-form-item>
+          <el-divider />
+          <div class="block">
+            <span class="demonstration">选择AI引擎</span>
+            <el-cascader
+              v-model="value"
+              :options="engineList"
+              :props="{ expandTrigger: 'hover' }"
+              @focus="getEngines"
+              @change="handleChange"
+            />
+          </div>
+          <el-divider />
 
-        <el-form-item label="启动文件相对路径">
-          <el-input v-model="form.algorithm_starter_URL" />
-        </el-form-item>
+          <el-form-item label="启动文件相对路径">
+            <el-input v-model="form.algorithm_starter_URL" />
+          </el-form-item>
 
-        <el-form-item label="实例类型">
-          <el-input v-model="form.algorithm_instance_type_id" />
-        </el-form-item>
+          <el-form-item label="实例类型">
+            <el-input v-model="form.algorithm_instance_type_id" />
+          </el-form-item>
 
-        <el-form-item label="输入映射">
-          <el-input v-model="form.algorithm_input_reflect" />
-        </el-form-item>
+          <el-form-item label="输入映射">
+            <el-input v-model="form.algorithm_input_reflect" />
+          </el-form-item>
 
-        <el-form-item label="输出映射">
-          <el-input v-model="form.algorithm_output_reflect" />
-        </el-form-item>
+          <el-form-item label="输出映射">
+            <el-input v-model="form.algorithm_output_reflect" />
+          </el-form-item>
 
-        <el-form-item label="python版本">
-          <el-select v-model="form.algorithm_python_version_id" placeholder="请选择python版本">
-            <el-option label="3.8" value="1" />
-            <el-option label="3.7" value="2" />
-            <el-option label="3.6" value="3" />
-          </el-select>
-        </el-form-item>
+          <el-form-item label="python版本">
+            <el-select v-model="form.algorithm_python_version_id" placeholder="请选择python版本">
+              <el-option label="3.8" value="1" />
+              <el-option label="3.7" value="2" />
+              <el-option label="3.6" value="3" />
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="是否支持自定义超参">
-          <el-switch v-model="form.algorithm_customize_hyper_para" @click="isCustomize" />
-        </el-form-item>
+          <el-form-item label="是否支持自定义超参">
+            <el-switch v-model="form.algorithm_customize_hyper_para" @click="isCustomize" />
+          </el-form-item>
 
-        <el-form-item label="超参数列表">
+          <el-form-item label="超参数列表">
 
-          <el-input
-            v-show="form.algorithm_customize_hyper_para"
-            v-model="form.hyperParameter"
-            type="textarea"
-            aria-placeholder="hyper_para_name: &quot;hyper parameters&quot;,
+            <el-input
+              v-show="form.algorithm_customize_hyper_para"
+              v-model="form.hyperParameter"
+              type="textarea"
+              aria-placeholder="hyper_para_name: &quot;hyper parameters&quot;,
           hyper_para_description: &quot;this is description&quot;,
           hyper_para_type: 0,
           hyper_para_allow_adjust: true,
           hyper_para_range: &quot;0-100&quot;,
           hyper_para_default_value: 10,
           hyper_para_is_needed: false"
-          />
-        </el-form-item>
+            />
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -146,14 +147,14 @@
 </template>
 
 <script>
-import Sticky from '@/components/Sticky/index'
+
 import Warning from '@/views/algorithm/components/warning'
-import axios from "axios";
+
 export default {
   components: { Warning },
   data() {
     return {
-      dialogFormVisible:false,
+      dialogFormVisible: false,
       input: '',
 
       tableData: [{
@@ -187,7 +188,7 @@ export default {
     },
     editForm() {
 
-    },
+    }
 
   }
 }
