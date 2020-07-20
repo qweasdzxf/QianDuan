@@ -2,160 +2,124 @@
 /* eslint-disable */
 
 <template>
-  <el-form :model="form" ref="form">
-  <sticky :class-name="'sub-navbar'" >
-    <el-button @click="showGuide">显示帮助</el-button>
-    <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ '创建训练' }}</el-button>
-  </sticky>
+  
 
   <div class="detail-container1">
-
-    <br>
-    <h2>创建训练</h2>
-    <br>
-
-      <el-form-item>
-        <md-input v-model="form.train_task_user_id" name="name">用户ID</md-input>
-      </el-form-item>
-
-      <el-form-item>
-        <md-input v-model="form.train_task_name" name="name">训练作业名称</md-input>
-      </el-form-item>
-
-      <el-form-item>
-        <md-input v-model="form.train_task_name" name="name">训练作业名称</md-input>
-      </el-form-item>
-
-      <el-form-item>
-        <md-input v-model="form.train_task_version" name="name">训练版本号</md-input>
-      </el-form-item>
-      <br>
-      <el-form-item>
-        <md-input v-model="form.train_task_algorithm_id" name="name">作业对应的算法ID</md-input>
-      </el-form-item>
-      <br>
-      <el-form-item>
-        <md-input v-model="form.train_task_dataset_id" name="name">作业对应的数据集ID</md-input>
-      </el-form-item>
-
-      <br>
-      <br>
-      <el-form-item>
-        <el-label>训练作业描述</el-label>
-        <br>
-        <br>
-        <el-input
-          v-model="form.train_task_description"
-          type="textarea"
-          :rows="2"
-          placeholder="训练作业描述"
-        />
-      </el-form-item>
-      <br>
-      <br>
-      <br>
-      <el-label>训练作业时间</el-label>
-      <br>
-      <br>
-
-      <el-form-item>
-        <el-time-select
-          v-model="form.train_task_start_time"
-          placeholder="训练作业起始时间"
-          :picker-options="{
-            start: '00:00',
-            step: '00:30',
-            end: '24:00'
-          }"
-        />
-        <el-time-select
-          v-model="form.train_task_finish_time"
-          placeholder="训练作业结束时间"
-          :picker-options="{
-            start: '00:00',
-            step: '00:30',
-            end: '24:00',
-            minTime:form.train_task_start_time,
-          }"
-        />
-      </el-form-item>
-      <br>
-      <br>
-      <br>
-      <el-form-item>
-        <div>
-          <span class="demonstration">选择作业硬件规格</span>
-        </div>
-        <el-select v-model="form.train_task_specification" placeholder="请选择" @focus="getInstanceType">
-          <el-option
-            v-for="item in instanceType"
-            :key="item.instanceTypeId"
-            :label="item.instanceTypeDescription"
-            :value="item.instanceTypeId"
-          />
-        </el-select>
-      </el-form-item>
-      <br>
-      <br>
-      <br>
-      <el-form-item>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-card class="box-card">
-              <div slot="header" class="clearfix">
-                <span>参数列表</span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="getParams">获取算法参数</el-button>
-              </div>
-              <div v-for="(item,index) in Params" :key="index">
-                {{ item }}
-              </div>
-            </el-card>
-          </el-col>
-          <el-col :span="12">
-
-            <el-label>选择作业算法超参列表</el-label>
+    <el-row :gutter="20">
+      <el-col :span="12" :offset="2">
+        <el-steps :space="200" :active="1" finish-status="success">
+          <el-step title="训练选型"></el-step>
+          <el-step title="配置规格"></el-step>
+          <el-step title="完成"></el-step>
+        </el-steps>
+      </el-col>
+    </el-row>
+    <el-divider></el-divider>
+    <el-col :span="24" :offset="1">
+      <el-card shadow="hover">
+        <el-form :model="form" ref="form" label-width="100px">
+          <el-form-item label="训练作业名称">
+            <el-col :span="10">
+            <el-input v-model="form.train_task_name"  placeholder="请输入训练作业名称"></el-input>
+            </el-col>
+            <el-col :span="2" :offset="1">版本号</el-col>
+            <el-col :span="10">
+              <el-autocomplete
+                v-model="train_task_version"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入版本号"
+                @select="handleSelect"
+              ></el-autocomplete>
+            </el-col>
+          </el-form-item>
+          <!-- 要改成下拉列表，显示算法列表 -->
+          <el-form-item label="算法">
+            <el-col :span="10">
+            <el-input v-model="form.train_task_algorithm_id"  placeholder="请输入算法ID"></el-input>
+            </el-col>
+          </el-form-item>
+          <!-- 改成下拉列表，显示数据集列表 -->
+          <el-form-item label="数据集">
+            <el-col :span="10">
+            <el-input v-model="form.train_task_dataset_id"  placeholder="请输入数据集ID"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="训练作业描述">
             <el-input
-              v-model="form.train_task_params"
-              placeholder="请输入参数"
-              :rows="6"
+              type="textarea"
+              :rows="3"
+              placeholder="请输入内容"
+              v-model="textarea">
+            </el-input>
+          </el-form-item>
+
+        <el-form-item>
+          <div>
+            <span class="demonstration">选择作业硬件规格</span>
+          </div>
+          <el-select v-model="form.train_task_specification" placeholder="请选择" @focus="getInstanceType">
+            <el-option
+              v-for="item in instanceType"
+              :key="item.instanceTypeId"
+              :label="item.instanceTypeDescription"
+              :value="item.instanceTypeId"
             />
-          </el-col>
+          </el-select>
+        </el-form-item>
 
-        </el-row> </el-form-item>
+        <el-form-item>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                  <span>参数列表</span>
+                  <el-button style="float: right; padding: 3px 0" type="text" @click="getParams">获取算法参数</el-button>
+                </div>
+                <div v-for="(item,index) in Params" :key="index">
+                  {{ item }}
+                </div>
+              </el-card>
+            </el-col>
+            <el-col :span="12">
 
-      <br>
-      <br>
-      <el-form-item>
-        <div class="block">
-          <el-row>
-            <span class="demonstration">选择AI引擎</span>
-          </el-row>
-          <el-cascader
-            v-model="engineValue"
-            style="width: 350px"
-            placeholder="请选择"
-            :options="engineList"
-            :props="{ expandTrigger: 'hover' }"
-            @focus="getEngines"
-            @change="setEngineId"
-          />
-        </div>
-      </el-form-item>
-      <br>
-      <br>
-      <el-form-item label="日志输出路径">
-        <el-input v-model="form.train_task_log_out_path" />
-      </el-form-item>
-      <br>
-      <br>
-      <el-form-item label="模型输出路径">
-        <el-input v-model="form.train_task_model_out_path" />
-      </el-form-item>
-      <br>
-      <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
-      <el-button>取消</el-button>
+              <el-label>选择作业算法超参列表</el-label>
+              <el-input
+                v-model="form.train_task_params"
+                placeholder="请输入参数"
+                :rows="6"
+              />
+            </el-col>
+
+          </el-row> </el-form-item>
+
+        <el-form-item>
+          <div class="block">
+            <el-row>
+              <span class="demonstration">选择AI引擎</span>
+            </el-row>
+            <el-cascader
+              v-model="engineValue"
+              style="width: 350px"
+              placeholder="请选择"
+              :options="engineList"
+              :props="{ expandTrigger: 'hover' }"
+              @focus="getEngines"
+              @change="setEngineId"
+            />
+          </div>
+        </el-form-item>
+        <el-form-item label="日志输出路径">
+          <el-input v-model="form.train_task_log_out_path" />
+        </el-form-item>
+        <el-form-item label="模型输出路径">
+          <el-input v-model="form.train_task_model_out_path" />
+        </el-form-item>
+        <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button>取消</el-button>
+        </el-form>
+      </el-card>
+    </el-col>
   </div>
-    </el-form>
 </template>
 
 <script>
@@ -169,10 +133,9 @@ export default {
   components: { MdInput, Sticky },
   data() {
     return {
+     
       fullscreenLoading: false,
-      algorithmCustomizeHyperPara: {
-
-      },
+      algorithmCustomizeHyperPara: {},
       algorithm: [],
       algorithmList: [],
       hyperParameter: [],
@@ -199,10 +162,29 @@ export default {
         train_task_specification: '',
         train_task_Ai_engine: '',
         train_task_log_out_path: '',
-        train_task_model_out_path: ''
-      }}
+        train_task_model_out_path: '',
+      },
+      //推荐版本号
+      autoVersions:[
+        { "value": "v1.0.0"},
+        { "value": "v1.1.0"},
+        { "value": "v2.0.0"},
+        { "value": "v2.1.0"},
+        ]
+    }   
   },
   methods: {
+    querySearch(queryString, cb) {
+        var autoVersions = this.autoVersions;
+        var results = queryString ? autoVersions.filter(this.createFilter(queryString)) : autoVersions;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+    createFilter(queryString) {
+      return (version) => {
+        return (version.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      }
+    },
     onSubmit() {
       console.log('ready to submit!')
       this.fullscreenLoading = true
