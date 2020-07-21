@@ -157,9 +157,9 @@ export const constantRoutes = [
       meta: { title: '我的模型', icon: 'example' }
     },
     {
-      name: 'modelcreate',
-      path: '/model/create',
-      component: () => import('@/views/model/create'),
+      name: 'importModel',
+      path: '/model/import',
+      component: () => import('@/views/model/importModel'),
       meta: { title: '导入模型', icon: 'edit' }
     }
     ]
@@ -179,7 +179,26 @@ export const constantRoutes = [
     path: '/AlgorithmMarket',
     component: Layout,
     meta: { title: '算法商城', icon: 'tree' }
-  }
+  },
+  { 
+    path: '/cluster',
+    name: 'cluster',
+    component: Layout,
+    meta: { title: '集群管理', icon: 'documentation' },
+    children: [{
+      name: 'monitor',
+      path: '/cluster/monitor',
+      component: () => import('@/views/cluster/clusterMonitor'),
+      meta: { title: '集群监控', icon: 'example' }
+    },
+    // {
+    //   name: 'monitor',
+    //   path: '/cluster/monitor',
+    //   component: () => import('@/views/cluster/clusterMonitor'),
+    //   meta: { title: '集群监控', icon: 'example' }
+    // },
+  ]
+  },
 
 ]
 
