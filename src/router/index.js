@@ -141,8 +141,13 @@ export const constantRoutes = [
         path: '/train/create',
         component: () => import('@/views/train/create'),
         meta: { title: '创建训练', icon: 'edit' }
+      },
+      {
+        name: 'trainboard',
+        path: '/train/trainboard',
+        component: () => import('@/views/train/trainboard'),
+        meta: { title: '训练看板', icon: 'edit' }
       }
-
     ]
   },
 
@@ -157,9 +162,9 @@ export const constantRoutes = [
       meta: { title: '我的模型', icon: 'example' }
     },
     {
-      name: 'modelcreate',
-      path: '/model/create',
-      component: () => import('@/views/model/create'),
+      name: 'importModel',
+      path: '/model/import',
+      component: () => import('@/views/model/importModel'),
       meta: { title: '导入模型', icon: 'edit' }
     }
     ]
@@ -179,6 +184,43 @@ export const constantRoutes = [
     path: '/AlgorithmMarket',
     component: Layout,
     meta: { title: '算法商城', icon: 'tree' }
+  },
+  {
+    path: '/cluster',
+    name: 'cluster',
+    component: Layout,
+    meta: { title: '集群管理', icon: 'documentation' },
+    children: [{
+      name: 'monitor',
+      path: '/cluster/monitor',
+      component: () => import('@/views/cluster/clusterMonitor'),
+      meta: { title: '集群监控', icon: 'example' }
+    },
+    {
+      name: 'test',
+      path: '/cluster/test',
+      component: () => import('@/views/cluster/pie'),
+      meta: { title: 'pie', icon: 'example' }
+    },
+    {
+      name: 'card',
+      path: '/cluster/card',
+      component: () => import('@/views/cluster/card'),
+      meta: { title: 'card', icon: 'example' }
+    },
+    {
+      name: 'cardPie',
+      path: '/cluster/cardPie',
+      component: () => import('@/views/cluster/cardPie'),
+      meta: { title: 'cardPie', icon: 'example' }
+    }
+    // {
+    //   name: 'monitor',
+    //   path: '/cluster/monitor',
+    //   component: () => import('@/views/cluster/clusterMonitor'),
+    //   meta: { title: '集群监控', icon: 'example' }
+    // },
+    ]
   }
 
 ]

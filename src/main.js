@@ -21,6 +21,8 @@ import './utils/error-log' // error log
 import * as filters from './filters' // global filters
 import axios from 'axios'
 
+import VCharts from 'v-charts'
+
 Vue.prototype.$ajax = axios
 
 /**
@@ -45,6 +47,8 @@ Vue.use(Element, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
+Vue.use(VCharts)
 
 Vue.config.productionTip = false
 
