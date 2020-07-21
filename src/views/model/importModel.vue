@@ -9,7 +9,7 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="名称" prop="modelName">
           <el-col :span="8">
             <el-input v-model="modelForm.modelName" placeholder="请输入名称" />
           </el-col>
@@ -57,6 +57,7 @@
             :limit="limitNum"
             :auto-upload="false"
             :on-exceed="handleExceed"
+            :on-success="handleSuccess"
             :before-upload="handleBeforeUpload"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
@@ -167,9 +168,10 @@ export default {
   methods: {
     // 模型
     handleRemove(file, fileList) {
-      console.log(this.imageList);
+      // console.log(this.imageList);
       console.log("picutre");
       console.log(file, fileList);
+      console.log(file.url)
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -178,10 +180,13 @@ export default {
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
+    // handleSuccess(file){
+    //   console.log("success");
+    // },
     // 图片
     handleBeforeUpload(file) {
-      console.log("before");
-      this.modelForm.modelPhotoUrl=file.url
+      console.log("befor upload");
+      // this.modelForm.modelPhotoUrl=file.url
       if (
         !(
           file.type === "image/png" ||
@@ -235,12 +240,7 @@ export default {
           });
         })
         .catch(e => self.$message.error(e.response.data));
-      if (valid) {
-        alert("submit!");
-      } else {
-        console.log("error submit!!");
-        return false;
-      }
+   
     },
     resetForm(modelForm) {
       this.$refs[modelForm].resetFields();

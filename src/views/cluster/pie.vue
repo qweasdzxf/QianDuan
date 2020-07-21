@@ -105,11 +105,8 @@ export default {
   },
 
   mounted: function() {
-    this.drawCharts("chartPie","test1",50);
+    this.drawCharts();
   }
-  // updated: function () {
-  //     this.drawCharts()
-  // }
 };
 </script>
  

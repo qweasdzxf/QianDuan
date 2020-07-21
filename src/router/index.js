@@ -190,6 +190,24 @@ export const constantRoutes = [
       path: '/cluster/monitor',
       component: () => import('@/views/cluster/clusterMonitor'),
       meta: { title: '集群监控', icon: 'example' }
+    },
+    {
+      name: 'test',
+      path: '/cluster/test',
+      component: () => import('@/views/cluster/pie'),
+      meta: { title: 'pie', icon: 'example' }
+    },
+    {
+      name: 'card',
+      path: '/cluster/card',
+      component: () => import('@/views/cluster/card'),
+      meta: { title: 'card', icon: 'example' }
+    },
+    {
+      name: 'cardPie',
+      path: '/cluster/cardPie',
+      component: () => import('@/views/cluster/cardPie'),
+      meta: { title: 'cardPie', icon: 'example' }
     }
     // {
     //   name: 'monitor',
