@@ -180,7 +180,7 @@ export const constantRoutes = [
     component: Layout,
     meta: { title: '算法商城', icon: 'tree' }
   },
-  { 
+  {
     path: '/cluster',
     name: 'cluster',
     component: Layout,
@@ -190,15 +190,15 @@ export const constantRoutes = [
       path: '/cluster/monitor',
       component: () => import('@/views/cluster/clusterMonitor'),
       meta: { title: '集群监控', icon: 'example' }
-    },
+    }
     // {
     //   name: 'monitor',
     //   path: '/cluster/monitor',
     //   component: () => import('@/views/cluster/clusterMonitor'),
     //   meta: { title: '集群监控', icon: 'example' }
     // },
-  ]
-  },
+    ]
+  }
 
 ]
 
