@@ -4,7 +4,7 @@
       <div slot="header">
         <el-row type="flex">
           <el-col :span="4" offset="2">
-            <i class="el-icon-info el-icon"></i>
+            <i class="el-icon-info el-icon" />
           </el-col>
           <el-col :span="12">
             <span class="title">
@@ -65,9 +65,9 @@
     </el-card>
   </div>
 </template>
- 
+
 <script>
-import echarts from "echarts";
+import echarts from 'echarts'
 export default {
   props:{
     values:{
@@ -105,11 +105,11 @@ export default {
   },
   methods: {
     drawPieChart(item) {
-      this.chartPie = echarts.init(document.getElementById(item.id));
+      this.chartPie = echarts.init(document.getElementById(item.id))
       //   var titleLeft="30%"
       //   var titleTop="60%"
-      var pieLeft = "60%";
-      var pieTop = "45%";
+      var pieLeft = '60%'
+      var pieTop = '45%'
       this.chartPie.setOption({
         // title: {
         //   text: item.title,
@@ -125,15 +125,15 @@ export default {
         // },
         series: [
           {
-            name: "访问来源",
-            type: "pie",
+            name: '访问来源',
+            type: 'pie',
             clockWise: false,
             radius: [20, 25],
             // center: ["50%", "60%"],
             itemStyle: {
               normal: {
-                color: "#389af4",
-                shadowColor: "#389af4",
+                color: '#389af4',
+                shadowColor: '#389af4',
                 shadowBlur: 0,
                 label: {
                   show: false
@@ -151,9 +151,9 @@ export default {
                 label: {
                   normal: {
                     formatter: function(params) {
-                      return params.value + "%";
+                      return params.value + '%'
                     },
-                    position: "center",
+                    position: 'center',
                     show: true,
                     textStyle: {
                       fontSize: "13",
@@ -165,20 +165,20 @@ export default {
               },
               {
                 value: 100 - item.value,
-                name: "invisible",
+                name: 'invisible',
                 itemStyle: {
                   normal: {
-                    color: "#dfeaff"
+                    color: '#dfeaff'
                   },
                   emphasis: {
-                    color: "#dfeaff"
+                    color: '#dfeaff'
                   }
                 }
               }
             ]
           }
         ]
-      });
+      })
     },
     drawCharts(item) {
       this.drawPieChart(item);
@@ -199,7 +199,7 @@ export default {
     };
     this.drawCharts(item2);
   }
-};
+}
 </script>
 
 <style scoped>
@@ -238,5 +238,4 @@ export default {
   font-size: 30px;
 }
 </style>
- 
- 
+

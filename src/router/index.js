@@ -141,8 +141,13 @@ export const constantRoutes = [
         path: '/train/create',
         component: () => import('@/views/train/create'),
         meta: { title: '创建训练', icon: 'edit' }
+      },
+      {
+        name: 'trainboard',
+        path: '/train/trainboard',
+        component: () => import('@/views/train/trainboard'),
+        meta: { title: '训练看板', icon: 'edit' }
       }
-
     ]
   },
 

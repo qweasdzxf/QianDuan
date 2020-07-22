@@ -6,11 +6,11 @@
           <el-header>
             <el-row>
               <el-col :span="6">
-                <el-button type="info" >显示帮助</el-button>
+                <el-button type="info">显示帮助</el-button>
               </el-col>
               <el-col :span="5" offset="12">
-                <el-input v-model=keyWord placeholder="请输入内容">
-                  <el-button slot="append" icon="el-icon-search" type="primary" @click='searchWithKeyWord'/>
+                <el-input v-model="keyWord" placeholder="请输入内容">
+                  <el-button slot="append" icon="el-icon-search" type="primary" @click="searchWithKeyWord" />
                 </el-input>
               </el-col>
             </el-row>
@@ -80,35 +80,36 @@
                           <h4>超参列表</h4>
                           <el-table
                             :data="hyperParameters"
-                            style="width: 100%">
+                            style="width: 100%"
+                          >
                             <el-table-column
                               prop="hyperParaName"
-                              label="名称">
-                            </el-table-column>
+                              label="名称"
+                            />
                             <el-table-column
                               prop="hyperParaType"
-                              label="类型">
-                            </el-table-column>
+                              label="类型"
+                            />
                             <el-table-column
                               prop="hyperParaDescription"
-                              label="描述">
-                            </el-table-column>
+                              label="描述"
+                            />
                             <el-table-column
                               prop="hyperParaRange"
-                              label="范围">
-                            </el-table-column>
+                              label="范围"
+                            />
                             <el-table-column
                               prop="hyperParaDefaultValue"
-                              label="默认值">
-                            </el-table-column>
+                              label="默认值"
+                            />
                             <el-table-column
                               prop="hyperParaIsNeeded"
-                              label="是否必需" >
-                            </el-table-column>
+                              label="是否必需"
+                            />
                             <el-table-column
                               prop="hyperParaAllowAdjust"
-                              label="是否可调整">
-                            </el-table-column>
+                              label="是否可调整"
+                            />
                           </el-table>
                         </el-tab-pane>
                       </el-tabs>
@@ -226,57 +227,57 @@ export default {
       pageInfo: null,
       algorithmDetail: {
         algorithmId: 60,
-        algorithmName: "a s d",
-        algorithmVersion: "阿法",
+        algorithmName: 'a s d',
+        algorithmVersion: '阿法',
         algorithmTypeId: 1,
         algorithmType: {
           algorithmTypeId: 1,
-          algorithmTypeName: "图像分类",
-          algorithmTypeDescription: "暂时没有描述"
+          algorithmTypeName: '图像分类',
+          algorithmTypeDescription: '暂时没有描述'
         },
         algorithmEngineId: 3,
         aiEngine: {
           algorithmEngineId: 3,
-          algorithmEngineName: "PyTorch",
-          algorithmEngineVersion: "1.0.0",
-          pythonVersionName: "python2.7"
+          algorithmEngineName: 'PyTorch',
+          algorithmEngineVersion: '1.0.0',
+          pythonVersionName: 'python2.7'
         },
         algorithmDescriptionId: 62,
         algorithmDescription: null,
         algorithmInstanceTypeId: 1,
         instanceType: {
           instanceTypeId: 1,
-          instanceTypeDescription: "1核2G"
+          instanceTypeDescription: '1核2G'
         },
-        algorithmInputReflect: "",
-        algorithmOutputReflect: "",
-        algorithmStarterUrl: "/Users/thomas/Desktop/Data",
-        algorithmSaveUrl: "/Users/thomas/Desktop/Data",
+        algorithmInputReflect: '',
+        algorithmOutputReflect: '',
+        algorithmStarterUrl: '/Users/thomas/Desktop/Data',
+        algorithmSaveUrl: '/Users/thomas/Desktop/Data',
         algorithmCustomizeHyperPara: 1,
         algorithmStatus: 0,
-        algorithmCreateTime: "2020-07-17T09:49:21",
+        algorithmCreateTime: '2020-07-17T09:49:21',
         algorithmImageId: null
       },
       hyperParameters: [
         {
           hyperParaId: 11,
-          hyperParaName: "hyper parameters",
-          hyperParaDescription: "this is description",
+          hyperParaName: 'hyper parameters',
+          hyperParaDescription: 'this is description',
           hyperParaType: 0,
           hyperParaAllowAdjust: true,
-          hyperParaRange: "0-100",
-          hyperParaDefaultValue: "10",
+          hyperParaRange: '0-100',
+          hyperParaDefaultValue: '10',
           hyperParaIsNeeded: false,
           algorithmId: 34
         },
         {
           hyperParaId: 12,
-          hyperParaName: "hyper parameters",
-          hyperParaDescription: "this is description",
+          hyperParaName: 'hyper parameters',
+          hyperParaDescription: 'this is description',
           hyperParaType: 0,
           hyperParaAllowAdjust: true,
-          hyperParaRange: "0-100",
-          hyperParaDefaultValue: "10",
+          hyperParaRange: '0-100',
+          hyperParaDefaultValue: '10',
           hyperParaIsNeeded: true,
           algorithmId: 34
         }

@@ -4,7 +4,7 @@
       <div slot="header">
         <el-row type="flex">
           <el-col :span="4" offset="2">
-            <i class="el-icon-info el-icon"></i>
+            <i class="el-icon-info el-icon" />
           </el-col>
           <el-col :span="12">
             <span class="title">
@@ -39,16 +39,16 @@
     </el-card>
   </div>
 </template>
- 
+
 <script>
 export default {
   data() {
     return {
       // 数据
       data1: []
-    };
+    }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -83,5 +83,4 @@ export default {
   width: 100px;
 } */
 </style>
- 
- 
+

@@ -74,7 +74,7 @@ export default {
   }
 };
 </script>
- 
+
 <style scoped>
 .chart-container{
   margin-top: 20px;
