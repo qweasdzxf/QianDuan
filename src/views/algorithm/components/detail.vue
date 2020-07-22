@@ -1,168 +1,186 @@
 /* eslint-disable */
 <template>
-  <el-form ref="form" :model="form">
-    <sticky :class-name="'sub-navbar'">
-      <el-button @click="showGuide">显示帮助</el-button>
-      <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ isEdit?'编辑算法':'新增算法' }}</el-button>
-    </sticky>
-    <div class="detail-container" >
-      <warning />
-      <el-row>
-        <el-row :gutter="20">
-          <el-col :span="16"><div class="grid-content bg-purple">
-            <input id="filesInput" class="file" type="file" name="myfile" onchange="fileonchange()" multiple webkitdirectory mozdirectory>
-          </div></el-col>
-        </el-row>
-        <el-col :span="24">
-          <el-row>
-            <el-col :span="12" />
-            <el-col :span="12" />
-          </el-row>
-        </el-col>
-      </el-row>
-      <br>
-      <el-form-item>
-        <md-input v-model="form.algorithm_name" name="name">算法名称</md-input>
-      </el-form-item>
-
-      <el-form-item>
-        <md-input v-model="form.algorithm_version" name="name">版本号</md-input>
-      </el-form-item>
-
-      <el-form-item label="算法描述">
-        <el-input v-model="form.algorithm_description" type="textarea" />
-      </el-form-item>
-      <el-form-item>
-        <div>
-          <span class="demonstration">选择算法类别</span>
-        </div>
-        <el-select v-model="form.algorithm_type_id" placeholder="请选择" @focus="getAlgorithmType">
-          <el-option
-            v-for="item in algorithmType"
-            :key="item.algorithmTypeId"
-            :label="item.algorithmTypeName"
-            :value="item.algorithmTypeId"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <div class="block">
-          <el-row>
-            <span class="demonstration">选择AI引擎</span>
-          </el-row>
-          <el-cascader
-            v-model="engineValue"
-            style="width: 350px"
-            placeholder="请选择"
-            :options="engineList"
-            :props="{ expandTrigger: 'hover' }"
-            @focus="getEngines"
-            @change="setEngineId"
-          />
-        </div>
-      </el-form-item>
-      <el-form-item label="">
-        <div>
-          <span class="demonstration">选择推荐运行的规格</span>
-        </div>
-        <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
-          <el-option
-            v-for="item in instanceType"
-            :key="item.instanceTypeId"
-            :label="item.instanceTypeDescription"
-            :value="item.instanceTypeId"
-          />
-        </el-select>
+  <div>
+    <el-container>
+      <el-header>
         <br>
-      </el-form-item>
+        <el-col span="22" offset="1">
+          <el-card shadow="hover">
+            <sticky>
+              <el-button @click="showGuide">显示帮助</el-button>
+              <el-button type="success" style="margin-left:15px" @click="submitForm"> {{ isEdit?'编辑算法':'新增算法' }}</el-button>
+            </sticky>
+          </el-card>
+        </el-col>
+      </el-header>
+      <el-main>
+        <br>
+        <el-col span="22" offset="1">
+          <el-card shadow="hover">
+            <el-form ref="form" :model="form">
+              <div class="detail-container" >
+                <warning />
+                <el-row>
+                  <el-row :gutter="20">
+                    <el-col :span="16"><div class="grid-content bg-purple">
+                      <input id="filesInput" class="file" type="file" name="myfile" onchange="fileonchange()" multiple webkitdirectory mozdirectory>
+                    </div></el-col>
+                  </el-row>
+                  <el-col :span="24">
+                    <el-row>
+                      <el-col :span="12" />
+                      <el-col :span="12" />
+                    </el-row>
+                  </el-col>
+                </el-row>
+                <br>
+                <el-form-item>
+                  <md-input v-model="form.algorithm_name" name="name">算法名称</md-input>
+                </el-form-item>
 
-      <el-form-item label="启动文件相对路径">
-        <el-input v-model="form.algorithm_starter_URL" />
-      </el-form-item>
+                <el-form-item>
+                  <md-input v-model="form.algorithm_version" name="name">版本号</md-input>
+                </el-form-item>
 
-      <el-form-item label="输入路径映射">
-        <el-input v-model="form.algorithm_input_reflect" />
-      </el-form-item>
+                <el-form-item label="算法描述">
+                  <el-input v-model="form.algorithm_description" type="textarea" />
+                </el-form-item>
+                <el-form-item>
+                  <div>
+                    <span class="demonstration">选择算法类别</span>
+                  </div>
+                  <el-select v-model="form.algorithm_type_id" placeholder="请选择" @focus="getAlgorithmType">
+                    <el-option
+                      v-for="item in algorithmType"
+                      :key="item.algorithmTypeId"
+                      :label="item.algorithmTypeName"
+                      :value="item.algorithmTypeId"
+                    />
+                  </el-select>
+                </el-form-item>
+                <el-form-item>
+                  <div class="block">
+                    <el-row>
+                      <span class="demonstration">选择AI引擎</span>
+                    </el-row>
+                    <el-cascader
+                      v-model="engineValue"
+                      style="width: 350px"
+                      placeholder="请选择"
+                      :options="engineList"
+                      :props="{ expandTrigger: 'hover' }"
+                      @focus="getEngines"
+                      @change="setEngineId"
+                    />
+                  </div>
+                </el-form-item>
+                <el-form-item label="">
+                  <div>
+                    <span class="demonstration">选择推荐运行的规格</span>
+                  </div>
+                  <el-select v-model="form.algorithm_instance_type_id" placeholder="请选择" @focus="getInstanceType">
+                    <el-option
+                      v-for="item in instanceType"
+                      :key="item.instanceTypeId"
+                      :label="item.instanceTypeDescription"
+                      :value="item.instanceTypeId"
+                    />
+                  </el-select>
+                  <br>
+                </el-form-item>
 
-      <el-form-item label="输出路径映射">
-        <el-input v-model="form.algorithm_output_reflect" />
-      </el-form-item>
+                <el-form-item label="启动文件相对路径">
+                  <el-input v-model="form.algorithm_starter_URL" />
+                </el-form-item>
 
-      <el-form-item label="是否支持自定义超参">
-        <el-switch v-model="form.algorithm_customize_hyper_para" @click="isCustomize" />
-      </el-form-item>
+                <el-form-item label="输入路径映射">
+                  <el-input v-model="form.algorithm_input_reflect" />
+                </el-form-item>
 
-      <el-form-item label="超参数列表">
-        <el-row>
-          <el-button type="primary" icon="el-icon-edit" circle @click="addHyperPara" />
-        </el-row>
-        <el-table :data="hyperParameter" class="tb-edit" style="width: 100%" highlight-current-row @row-click="handleCurrentChange">
-          <el-table-column label="超参名称" width="180">
-            <template scope="scope">
-              <el-input v-model="scope.row.hyper_para_name" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
-            </template>
-          </el-table-column>
-          <el-table-column label="超参描述" width="180">
-            <template scope="scope">
-              <el-input v-model="scope.row.hyper_para_description" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="address" label="超参类型">
-            <template scope="scope">
-              <el-select v-model="scope.row.hyper_para_type" placeholder="请选择">
-                <el-option
-                  v-for="item in dataTypes"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                  <!--                @change="handleEdit(scope.$index, scope.row)"-->
-                </el-option>
-              </el-select>
+                <el-form-item label="输出路径映射">
+                  <el-input v-model="form.algorithm_output_reflect" />
+                </el-form-item>
 
-              <!--            <el-select v-model="scope.row.hyper_para_type" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />-->
-            </template>
-          </el-table-column>
+                <el-form-item label="是否支持自定义超参">
+                  <el-switch v-model="form.algorithm_customize_hyper_para" @click="isCustomize" />
+                </el-form-item>
 
-          <el-table-column prop="address" label="超参范围">
-            <template scope="scope">
-              <el-input v-model="scope.row.hyper_para_range" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="address" label="超参默认值">
-            <template scope="scope">
-              <el-input v-model="scope.row.hyper_para_default_value" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="address" label="是否必需">
-            <template scope="scope">
-              <el-switch
-                v-model="scope.row.hyper_para_is_needed"
-                active-text="是"
-                inactive-text="否"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column prop="address" label="是否可调整">
-            <template scope="scope">
-              <el-switch
-                v-model="scope.row.hyper_para_allow_adjust"
-                active-text="是"
-                inactive-text="否"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template scope="scope">
-              <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table><br>
-        <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>取消</el-button>
-      </el-form-item>
-    </div>
-  </el-form>
+                <el-form-item label="超参数列表">
+                  <el-row>
+                    <el-button type="primary" icon="el-icon-edit" circle @click="addHyperPara" />
+                  </el-row>
+                  <el-table :data="hyperParameter" class="tb-edit" style="width: 100%" highlight-current-row @row-click="handleCurrentChange">
+                    <el-table-column label="超参名称" width="180">
+                      <template scope="scope">
+                        <el-input v-model="scope.row.hyper_para_name" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="超参描述" width="180">
+                      <template scope="scope">
+                        <el-input v-model="scope.row.hyper_para_description" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="address" label="超参类型">
+                      <template scope="scope">
+                        <el-select v-model="scope.row.hyper_para_type" placeholder="请选择">
+                          <el-option
+                            v-for="item in dataTypes"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                          >
+                            <!--                @change="handleEdit(scope.$index, scope.row)"-->
+                          </el-option>
+                        </el-select>
+
+                        <!--            <el-select v-model="scope.row.hyper_para_type" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />-->
+                      </template>
+                    </el-table-column>
+
+                    <el-table-column prop="address" label="超参范围">
+                      <template scope="scope">
+                        <el-input v-model="scope.row.hyper_para_range" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="address" label="超参默认值">
+                      <template scope="scope">
+                        <el-input v-model="scope.row.hyper_para_default_value" size="small" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)" />
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="address" label="是否必需">
+                      <template scope="scope">
+                        <el-switch
+                          v-model="scope.row.hyper_para_is_needed"
+                          active-text="是"
+                          inactive-text="否"
+                        />
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="address" label="是否可调整">
+                      <template scope="scope">
+                        <el-switch
+                          v-model="scope.row.hyper_para_allow_adjust"
+                          active-text="是"
+                          inactive-text="否"
+                        />
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="操作">
+                      <template scope="scope">
+                        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                      </template>
+                    </el-table-column>
+                  </el-table><br>
+                  <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
+                  <el-button>取消</el-button>
+                </el-form-item>
+              </div>
+            </el-form>
+          </el-card>
+        </el-col>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script>

@@ -12,17 +12,17 @@
         </el-steps>
       </el-col>
     </el-row>
-    <el-divider></el-divider>
+    <el-divider />
     <el-col :span="24">
       <el-card shadow="hover">
         <el-form ref="form" :model="form" label-width="100px">
           <el-form-item label="训练作业名称">
             <el-col :span="10">
-            <el-input 
-            v-model="form.trainTask.trainTaskName"  
-            placeholder="请输入训练作业名称"
-            style="width: 300px"
-            ></el-input>
+              <el-input
+                v-model="form.trainTask.trainTaskName"
+                placeholder="请输入训练作业名称"
+                style="width: 300px"
+              />
             </el-col>
             <el-col :span="2" :offset="1">版本号</el-col>
             <el-col :span="10">
@@ -31,17 +31,17 @@
                 style="width: 300px"
                 :fetch-suggestions="querySearch"
                 placeholder="请输入版本号"
-              ></el-autocomplete>
+              />
             </el-col>
           </el-form-item>
           <!-- 要改成下拉列表，显示算法列表 -->
           <el-form-item label="算法">
             <el-col :span="10">
-            <el-input v-model="form.trainTaskConf.trainTaskAlgorithmId"  placeholder="请输入算法ID" style="width: 300px"></el-input>
+              <el-input v-model="form.trainTaskConf.trainTaskAlgorithmId" placeholder="请输入算法ID" style="width: 300px" />
             </el-col>
             <el-col :span="2" :offset="1">数据集</el-col>
             <el-col :span="10">
-               <el-input placeholder="算法默认数据集" style="width: 300px"></el-input>
+              <el-input placeholder="算法默认数据集" style="width: 300px" />
             </el-col>
           </el-form-item>
           <el-form-item label="训练作业描述">
@@ -51,43 +51,44 @@
               :rows="3"
               style="width: 720px"
               placeholder="请输入内容"
-              :v-model="form.trainTaskConf.trainTaskDescription">
-            </el-input>
+              :v-model="form.trainTaskConf.trainTaskDescription"
+            />
           </el-form-item>
 
-        <el-form-item label="作业硬件规格"> 
-          <el-col :span="10">
-          <el-select 
-          v-model="form.trainTaskConf.train_task_specification" 
-          style="width: 300px"
-          placeholder="请选择"
-           @focus="getInstanceType">
-            <el-option
-                v-for="instanceType in instanceTypes"
-                :key="instanceType.instanceTypeId"
-                :label="instanceType.instanceTypeDescription"
-                :value="instanceType.instanceTypeId">
-              </el-option>
-          </el-select>
-          </el-col>
-          <el-col :span="2" :offset="1">AI引擎</el-col>
-          <el-col :span="10">
-            <el-cascader
-              v-model="form.trainTaskConf.engineValue"
-              style="width: 300px"
-              placeholder="请选择"
-              :options="engineList"
-              :props="{ expandTrigger: 'hover' }"
-              @focus="getEngines"
-              @change="setEngineId"
-            />
-          </el-col> 
-        </el-form-item>
+          <el-form-item label="作业硬件规格">
+            <el-col :span="10">
+              <el-select
+                v-model="form.trainTaskConf.train_task_specification"
+                style="width: 300px"
+                placeholder="请选择"
+                @focus="getInstanceType"
+              >
+                <el-option
+                  v-for="instanceType in instanceTypes"
+                  :key="instanceType.instanceTypeId"
+                  :label="instanceType.instanceTypeDescription"
+                  :value="instanceType.instanceTypeId"
+                />
+              </el-select>
+            </el-col>
+            <el-col :span="2" :offset="1">AI引擎</el-col>
+            <el-col :span="10">
+              <el-cascader
+                v-model="form.trainTaskConf.engineValue"
+                style="width: 300px"
+                placeholder="请选择"
+                :options="engineList"
+                :props="{ expandTrigger: 'hover' }"
+                @focus="getEngines"
+                @change="setEngineId"
+              />
+            </el-col>
+          </el-form-item>
 
-        <el-form-item>
-        <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>取消</el-button>
-        </el-form-item>
+          <el-form-item>
+            <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
+            <el-button>取消</el-button>
+          </el-form-item>
         </el-form>
       </el-card>
     </el-col>
@@ -107,100 +108,99 @@ export default {
     return {
 
       fullscreenLoading: false,
-      algorithmCustomizeHyperPara: {},//
-      algorithmList: [],//
-      hyperParameter: [],//
+      algorithmCustomizeHyperPara: {}, //
+      algorithmList: [], //
+      hyperParameter: [], //
       instanceType: [],
       engines: [],
       engineList: [],
       engineValue: null,
       form: {
         trainTask: {
-          trainTaskCreateTime: "2020-07-21T02:37:59.733Z",//
+          trainTaskCreateTime: '2020-07-21T02:37:59.733Z', //
           trainTaskId: 0,
-          trainTaskName: "string",
-          trainTaskRunningTime: "string",//
+          trainTaskName: 'string',
+          trainTaskRunningTime: 'string', //
           trainTaskStatus: 0,
-          trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",//
+          trainTaskUpdateTime: '2020-07-21T02:37:59.734Z', //
           trainTaskUserId: 0,
-          trainTaskVersion: "0"
+          trainTaskVersion: '0'
         },
         trainTaskConf: {
-          trainTaskAiEngine: "string",
+          trainTaskAiEngine: 'string',
           trainTaskAlgorithmId: 0,
           trainTaskConfId: 0,
-          trainTaskDatasetId: 0,//
-          trainTaskDescription: "string",
-          trainTaskFinishTime: "2020-07-21T02:37:59.734Z",
+          trainTaskDatasetId: 0, //
+          trainTaskDescription: 'string',
+          trainTaskFinishTime: '2020-07-21T02:37:59.734Z',
           trainTaskId: 0,
-          trainTaskLogOutPath: "string",
-          trainTaskModelOutPath: "string",
-          trainTaskName: "string",
-          trainTaskParams: "string",
-          trainTaskRunningTime: "string",
-          trainTaskSpecification: "string",
-          trainTaskStartTime: "2020-07-21T02:37:59.734Z",
+          trainTaskLogOutPath: 'string',
+          trainTaskModelOutPath: 'string',
+          trainTaskName: 'string',
+          trainTaskParams: 'string',
+          trainTaskRunningTime: 'string',
+          trainTaskSpecification: 'string',
+          trainTaskStartTime: '2020-07-21T02:37:59.734Z',
           trainTaskStatus: 0,
-          trainTaskVersion: "0"
+          trainTaskVersion: '0'
         }
       },
-      //推荐版本号
-      autoVersions:[
-        { "value": "1.0"},
-        { "value": "2.0"},
-        { "value": "3.0"},
-        { "value": "4.0"},
-        ],
-      instanceTypes:[]
+      // 推荐版本号
+      autoVersions: [
+        { 'value': '1.0' },
+        { 'value': '2.0' },
+        { 'value': '3.0' },
+        { 'value': '4.0' }
+      ],
+      instanceTypes: []
 
-    }   
+    }
   },
   methods: {
     // 推荐版本号
     querySearch(queryString, cb) {
-        var autoVersions = this.autoVersions;
-        var results = queryString ? autoVersions.filter(this.createFilter(queryString)) : autoVersions;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
+      var autoVersions = this.autoVersions
+      var results = queryString ? autoVersions.filter(this.createFilter(queryString)) : autoVersions
+      // 调用 callback 返回建议列表的数据
+      cb(results)
     },
-    
+
     createFilter(queryString) {
       return (version) => {
         return (version.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
     },
 
-    //提交表单
+    // 提交表单
     onSubmit() {
-      console.log("trying post form")
-      this.fullscreenLoading=true
+      console.log('trying post form')
+      this.fullscreenLoading = true
       console.log(JSON.stringify(this.form))
-      axios.post('http://47.113.97.26:20003/frontstage/trainTask',JSON.stringify(this.form))
-        .then(response=>{
+      axios.post('http://47.113.97.26:20003/frontstage/trainTask', this.form)
+        .then(response => {
           console.log(response)
-          this.fullscreenLoading=false
-          if(response.data.code=="00000"){
-            alert("训练创建成功")
-          }
-          else{
-            alert("训练创建失败")
+          this.fullscreenLoading = false
+          if (response.data.code == '00000') {
+            alert('训练创建成功')
+          } else {
+            alert('训练创建失败')
           }
         })
     },
 
-    //获取算法列表
-    getAlgotithms(){
+    // 获取算法列表
+    getAlgotithms() {
       console.log('trying get algotithms')
-      axios.get('http://210.42.123.4:10001/algorithms'+'?pagenum=1')
+      axios.get('http://210.42.123.4:10001/algorithms' + '?pagenum=1')
         .then(
-          response=>{
-            this.algorithmList=response.data.extend.pageInfo.algorithms
-            console.log(this.algorithmList) 
+          response => {
+            this.algorithmList = response.data.extend.pageInfo.algorithms
+            console.log(this.algorithmList)
           }
         )
     },
 
-    //获取参数列表
+    // 获取参数列表
     getParams() {
       console.log('trying get params')
       axios.get('http://210.42.123.4:10001/algorithm/' + this.data.form.trainTaskAlgorithmId)
@@ -216,7 +216,7 @@ export default {
         })
     },
 
-    //获取算法引擎
+    // 获取算法引擎
     getEngines() {
       console.log('trying get engines!')
       axios.get('http://210.42.123.4:10001/algorithm/engines')
@@ -295,7 +295,7 @@ export default {
         )
     },
 
-    //设置引擎ID
+    // 设置引擎ID
     setEngineId() {
       if (this.engineValue.length != 3) {
         return
@@ -312,7 +312,7 @@ export default {
       console.log(this.form.algorithm_engine_id)
     },
 
-    //获取配置类型
+    // 获取配置类型
     getInstanceType() {
       console.log('trying get instance type!')
       axios.get('http://210.42.123.4:10001/instanceType')
