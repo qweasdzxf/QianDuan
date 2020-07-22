@@ -167,6 +167,10 @@ export default {
     handleCurrentChange() {
       this.getTrainTasks()
     },
+    searchWithKeyWord() {
+      this.pageNum = 1
+      this.getTrainTasks()
+    },
     getTrainTasks() {
       axios.get(
         'http://localhost:20003/frontstage/trainTasks',
