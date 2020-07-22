@@ -27,7 +27,7 @@
             <el-col :span="2" :offset="1">版本号</el-col>
             <el-col :span="10">
               <el-autocomplete
-                v-model="train_task_version"
+                v-model="form.train_task_version"
                 style="width: 300px"
                 :fetch-suggestions="querySearch"
                 placeholder="请输入版本号"
@@ -73,7 +73,7 @@
           <el-col :span="2" :offset="1">AI引擎</el-col>
           <el-col :span="10">
             <el-cascader
-              v-model="engineValue"
+              v-model="form.engineValue"
               style="width: 300px"
               placeholder="请选择"
               :options="engineList"
@@ -85,7 +85,6 @@
         </el-form-item>
 
         <el-form-item>
-
         <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
         <el-button>取消</el-button>
         </el-form-item>
@@ -117,25 +116,34 @@ export default {
       engineList: [],
       engineValue: null,
       form: {
-        train_task_user_id: '',
-        train_task_name: '',
-        train_task_status: '',
-        train_task_version: '',
-        train_task_create_time: '',
-        train_task_update_time: '',
-        train_task_running_time: '',
-        train_task_algorithm_id: '',
-        train_task_dataset_id: '',
-        train_task_description: '',
-        train_task_start_time: '',
-        train_task_finish_time: '',
-        train_task_params: {
-
+        trainTask: {
+          trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
+          trainTaskId: 0,
+          trainTaskName: "string",
+          trainTaskRunningTime: "string",
+          trainTaskStatus: 0,
+          trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
+          trainTaskUserId: 0,
+          trainTaskVersion: 0
         },
-        train_task_specification: '',
-        train_task_Ai_engine: '',
-        train_task_log_out_path: '',
-        train_task_model_out_path: '',
+        trainTaskConf: {
+          trainTaskAiEngine: "string",
+          trainTaskAlgorithmId: 0,
+          trainTaskConfId: 0,
+          trainTaskDatasetId: 0,
+          trainTaskDescription: "string",
+          trainTaskFinishTime: "2020-07-21T02:37:59.734Z",
+          trainTaskId: 0,
+          trainTaskLogOutPath: "string",
+          trainTaskModelOutPath: "string",
+          trainTaskName: "string",
+          trainTaskParams: "string",
+          trainTaskRunningTime: "string",
+          trainTaskSpecification: "string",
+          trainTaskStartTime: "2020-07-21T02:37:59.734Z",
+          trainTaskStatus: 0,
+          trainTaskVersion: 0
+        }
       },
       //推荐版本号
       autoVersions:[
@@ -153,40 +161,33 @@ export default {
         var results = queryString ? autoVersions.filter(this.createFilter(queryString)) : autoVersions;
         // 调用 callback 返回建议列表的数据
         cb(results);
-      },
-    
+    },
     
     createFilter(queryString) {
       return (version) => {
         return (version.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       }
     },
+
     //提交表单
     onSubmit() {
-      console.log('ready to submit!')
-      this.fullscreenLoading = true
-      var data = new FormData()
-      var files = document.getElementById('filesInput').files
-      for (var i = 0; i < files.length; i++) {
-        data.append('myfile', files[i])
-      }
-      // data.append('myfile', document.getElementById('filesInput').files[0])
-      data.append('data', JSON.stringify(this.form))
-      console.log(files)
-      console.log(JSON.stringify(this.form))
-      axios.post('http://210.42.123.4:10002/backstage/algorithm', data)
-        .then(
-          response => {
-            console.log(response)
-            this.fullscreenLoading = false
-            if (response.data.code == '00000') {
-              alert('训练创建成功！')
-            } else {
-              alert('创建失败，请重试！')
-            }
-            location.reload()
+      console.log("trying post form")
+      this.fullscreenLoading=true
+      var data=new FormData()
+      data.append('data',JSON.stringify(this.form))
+      console.log(data)
+      axios.post('http://210.42.123.4:20003/frontstage/trainTask',JSON.stringify(this.form))
+        .then(response=>{
+          console.log(response)
+          this.fullscreenLoading=false
+          if(response.data.code=="00000"){
+            alert("训练创建成功")
           }
-        )
+          else{
+            alert("训练创建失败")
+          }
+        })
+
     },
     //获取参数列表
     getParams() {
