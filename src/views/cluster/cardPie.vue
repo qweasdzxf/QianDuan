@@ -1,6 +1,5 @@
 <template>
   <div class="page">
-
     <el-card class="box-card card">
       <div slot="header">
         <el-row type="flex">
@@ -15,35 +14,39 @@
         </el-row>
       </div>
 
-      <section class="chart-container">
+      <!-- <section class="chart-container"> -->
+        <div>
         <el-row>
           <el-col :span="6">
-            <div id="chartPie2" style="height:60px;" />
+            <div :id="'pie'+values.index1" style="height:60px;"></div>
           </el-col>
-          <el-col :span="16" offset="2">
+          <el-col :span="14" offset="4">
             <span class="content">
               CPU&nbsp;&#12288;
-              <b class="titleBold">0.5</b> /
-              <b class="title">4</b>
+              <span class="titleBold">{{values.cpuUtil}}</span> /
+              <span class="title">{{values.cpuTotal}}</span>
             </span>
           </el-col>
         </el-row>
-      </section>
-
-      <section class="chart-container">
+        </div>
+      <!-- </section> -->
+      
+      <!-- <section class="chart-container"> -->
+        <div>
         <el-row>
           <el-col :span="6">
-            <div id="chartPie" style="height:60px;" />
+            <div :id="'pie'+values.index2" style="height:60px;"></div>
           </el-col>
-          <el-col :span="16" offset="2">
+          <el-col :span="14" offset="4">
             <span class="content">
               GPU&nbsp;&#12288;
-              <b class="titleBold">0.5</b> /
-              <b class="title">4</b>
+              <b class="titleBold">{{values.gpuUtil}}</b> /
+              <b class="title">{{values.gpuTotal}}</b>
             </span>
           </el-col>
         </el-row>
-      </section>
+        </div>
+      <!-- </section> -->
       <!-- <el-row tyle="margin-top:12px">
         <el-col :span="20" offset="2">
           <span class="content">2020-07-21 17:00</span>
@@ -66,25 +69,39 @@
 <script>
 import echarts from 'echarts'
 export default {
+  props:{
+    values:{
+      type:Object,
+      default(){
+        return{
+          cpuUtil:2,
+          cpuTotal:6,
+          gpuUtil:1,
+          gpuTotal:4,
+          index1:0,
+          index2:0
+        }
+      }
+    }
+
+  }, 
   data() {
     return {
       // 数据
-      data1: []
-    }
-  },
-  mounted: function() {
-    var item = {
-      id: 'chartPie',
-      title: 'pie',
-      value: '20'
-    }
-    this.drawCharts(item)
-    var item2 = {
-      id: 'chartPie2',
-      title: 'pie',
-      value: '25'
-    }
-    this.drawCharts(item2)
+      data1: [],
+      CPUInfo:[
+        {
+          use:1,
+          total:2
+        }
+      ],
+      GPUInfo:[
+        {
+          use:2,
+          total:8
+        }
+      ]
+    };
   },
   methods: {
     drawPieChart(item) {
@@ -139,9 +156,9 @@ export default {
                     position: 'center',
                     show: true,
                     textStyle: {
-                      fontSize: '15',
-                      fontWeight: 'bold',
-                      color: '#389af4'
+                      fontSize: "13",
+                      fontWeight: "bold",
+                      color: "#389af4"
                     }
                   }
                 }
@@ -164,17 +181,33 @@ export default {
       })
     },
     drawCharts(item) {
-      this.drawPieChart(item)
-    }
+      this.drawPieChart(item);
+    },
+
+  },
+  mounted: function() {
+    var item = {
+      id:'pie'+this.values.index1,
+      title: "pie",
+      value: Math.round((this.values.cpuUtil)/(this.values.cpuTotal)*100*10)/10
+    };
+    this.drawCharts(item);
+    var item2 = {
+      id:'pie'+this.values.index2,
+      title: "pie",
+      value:  Math.round((this.values.gpuUtil)/(this.values.gpuTotal)*100*10)/10
+    };
+    this.drawCharts(item2);
   }
 }
 </script>
 
 <style scoped>
 .box-card {
-  margin: 40px;
-  height: 240px;
-  width: 350px;
+  margin-left: 40px;
+  margin-top: 15px;
+  height: 220px;
+  width: 300px;
   /* border-radius: 20px; */
 }
 /* .el-row {

@@ -13,6 +13,13 @@
           </el-col>
         </el-row>
       </div>
+      <!-- <el-row>
+        <el-col :span="20" offset="2">
+          <el-progress type="circle" :percentage="45" class="progress"></el-progress>
+
+        </el-col>
+      </el-row>
+      -->
 
       <el-row>
         <el-col :span="20" offset="2">
@@ -72,5 +79,8 @@ export default {
   /* 侧轴上居中 */
   align-items: center;
 }
+/* .progress{
+  width: 100px;
+} */
 </style>
 
