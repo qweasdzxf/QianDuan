@@ -9,7 +9,7 @@
           <el-col :span="12" offset="2">
             <el-row style="margin-top:12px">
               <el-col :span="24">
-                <span class="content">就绪节点</span>
+                <span class="content">{{values.content}}</span>
               </el-col>
             </el-row>
             <el-row style="margin-top:12px">
@@ -36,7 +36,8 @@ export default {
         return {
           util: 2,
           total:6,
-          index1: 0
+          index1: 0,
+          content:''
         };
       }
     }
@@ -48,7 +49,8 @@ export default {
       CPUInfo: [
         {
           use: 1,
-          total: 2
+          total: 2,
+          content:''
         }
       ]
     };

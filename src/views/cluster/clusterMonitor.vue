@@ -135,6 +135,7 @@
 import echarts from "echarts";
 import cardPie from "@/views/cluster/cardPie";
 import cardPie2 from "@/views/cluster/cardPie2";
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -179,9 +180,9 @@ export default {
         index1: 9,
         index2: 10
       },
-      utilList1: { util: 2, total: 6, index1: 11 },
-      utilList2: { util: 3, total: 6, index1: 12 },
-      utilList3: { util: 4, total: 6, index1: 13 },
+      utilList1: { util: 2, total: 2, index1: 11,content:'就绪节点' },
+      utilList2: { util: 3, total: 6, index1: 12,content:'CPU Core' },
+      utilList3: { util: 4, total: 8, index1: 13,content:'GPU Core'  },
       dialogTableVisible: false
     };
   },
@@ -190,11 +191,31 @@ export default {
     cardPie2
   },
   methods: {
+    //点击卡片后的响应事件
     clickCard() {
       console.log("click");
       this.dialogTableVisible = true;
     },
+    //从后端获取数据
+    getData(){
+      var url='/test';
+       axios
+        .get(url)
+        .then(response => {
+          self.$message({
+            message: '申请已发送',
+            type: 'success'
+          })
+        })
+        .catch(e => self.$message.error(e.response.data))
+    }
     
+  },
+  created(){
+    //轮询请求后端
+    // window.setInterval(() => {
+    //   this.getData();
+    // }, 1000);
   }
 };
 </script>

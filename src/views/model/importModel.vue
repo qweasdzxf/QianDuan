@@ -14,7 +14,6 @@
             <el-input v-model="modelForm.modelName" placeholder="请输入名称" />
           </el-col>
         </el-form-item>
-
         <el-form-item label="类型" prop="type">
           <el-col :span="8">
             <el-select v-model="modelForm.modelTypeId" clearable placeholder="请选择类型">
@@ -25,11 +24,6 @@
                 :value="item.value"
               />
             </el-select>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="标签" prop="tag">
-          <el-col :span="8">
-            <el-input v-model="modelForm.tag" placeholder="请输入标签" />
           </el-col>
         </el-form-item>
         <el-form-item label="描述" prop="description">
@@ -61,6 +55,8 @@
             :before-upload="handleBeforeUpload"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
+             :on-change="addImage"
+             :file-list="imageList"
           >
             <i class="el-icon-plus" />
           </el-upload>
@@ -71,21 +67,21 @@
 
         <el-form-item label="上传模型">
           <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            ref="upload"
+            action="#"
+            :auto-upload="false"
             :on-preview="handlePreview"
             :on-remove="handlePictureRemove"
             :before-remove="beforeRemove"
+            :on-change="addFile"
             multiple
-            :limit="3"
+            :limit="5"
             :on-exceed="handleExceed"
             :file-list="fileList"
           >
             <el-button size="small" type="primary">点击上传</el-button>
-            <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
           </el-upload>
         </el-form-item>
-
         <el-form-item>
           <el-row>
             <el-col :span="12" offset="10">
@@ -120,50 +116,32 @@ export default {
         }
       ],
       imageList: [],
-      fileList: [
-        {
-          name: 'food.jpeg',
-          url:
-            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }
-        // {
-        //   name: "food2.jpeg",
-        //   url:
-        //     "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        // }
-      ],
+      fileList: [],
+      //上传文件测试部分
+      formData:null,
+      //
       modelForm: {
         modelName: '',
         modelTypeId: '',
         modelIsSuccessful: '',
-        modelUrl: '',
-        modelPhotoUrl: '',
-        version: '',
-        tag: '',
-        description: ''
+        description: '',
       },
       dialogImageUrl: '',
       dialogVisible: false,
       labelPosition: 'left',
       disabled: false,
-      limitNum: 1,
+      limitNum: 3,
       rules: {
         modelName: [
           { required: true, message: '请输入名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
-        version: [{ required: true, message: '请选择版本', trigger: 'change' }],
-        resource: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
-        ],
-        desc: [{ required: true, message: '请填写活动形式', trigger: 'blur' }]
+        type: [{ required: true, message: '请选择类型', trigger: 'blur' }],
       }
-
-      //  editForm: {
-      //         pics: [], // 上传的图片临时路径（对象）
-      //       }, previewPath: '', // 预览路径
-      //       previewVisible: false //预览弹框
     }
+  },
+  created() {
+    this.formData = new FormData()
   },
   methods: {
     // 模型
@@ -179,6 +157,16 @@ export default {
     },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    addFile(file, fileList) {
+      this.formData.append('modelFile', file.raw)
+      console.log(file.file)
+      console.log(fileList)
+    },
+    addImage(file, imageList) {
+      this.formData.append('modelImage ', file.raw)
+      console.log(file.file)
+      console.log(imageList)
     },
     // handleSuccess(file){
     //   console.log("success");
@@ -223,15 +211,14 @@ export default {
     uploadFile() {
       this.$refs.upload.submit()
     },
+    //上传文件测试
+  
     // 交互
-
     submitForm(modelForm) {
       var url = '/test'
-      this.modelForm.modelUrl = this.fileList[0].url
+      this.formData.append('data',JSON.stringify(this.modelForm))
       axios
-        .post(url, {
-          modelForm: this.modelForm
-        })
+        .post(url, this.formData)
         .then(response => {
           self.$message({
             message: '申请已发送',

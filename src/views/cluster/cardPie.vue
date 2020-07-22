@@ -89,18 +89,6 @@ export default {
     return {
       // 数据
       data1: [],
-      CPUInfo:[
-        {
-          use:1,
-          total:2
-        }
-      ],
-      GPUInfo:[
-        {
-          use:2,
-          total:8
-        }
-      ]
     };
   },
   methods: {
