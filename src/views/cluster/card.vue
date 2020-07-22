@@ -4,7 +4,7 @@
       <div slot="header">
         <el-row type="flex">
           <el-col :span="4" offset="2">
-            <i class="el-icon-info el-icon"></i>
+            <i class="el-icon-info el-icon" />
           </el-col>
           <el-col :span="12">
             <span class="title">
@@ -13,7 +13,13 @@
           </el-col>
         </el-row>
       </div>
-     
+      <!-- <el-row>
+        <el-col :span="20" offset="2">
+          <el-progress type="circle" :percentage="45" class="progress"></el-progress>
+
+        </el-col>
+      </el-row>
+      -->
 
       <el-row>
         <el-col :span="20" offset="2">
@@ -33,16 +39,16 @@
     </el-card>
   </div>
 </template>
- 
+
 <script>
 export default {
   data() {
     return {
       // 数据
       data1: []
-    };
+    }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -73,6 +79,8 @@ export default {
   /* 侧轴上居中 */
   align-items: center;
 }
+/* .progress{
+  width: 100px;
+} */
 </style>
- 
- 
+
