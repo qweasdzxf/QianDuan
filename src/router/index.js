@@ -208,6 +208,12 @@ export const constantRoutes = [
       path: '/cluster/cardPie',
       component: () => import('@/views/cluster/cardPie'),
       meta: { title: 'cardPie', icon: 'example' }
+    },
+    {
+      name: 'cardPie2',
+      path: '/cluster/cardPie2',
+      component: () => import('@/views/cluster/cardPie2'),
+      meta: { title: 'cardPie2', icon: 'example' }
     }
     // {
     //   name: 'monitor',
