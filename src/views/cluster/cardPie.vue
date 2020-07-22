@@ -132,8 +132,8 @@ export default {
             // center: ["50%", "60%"],
             itemStyle: {
               normal: {
-                color: '#389af4',
-                shadowColor: '#389af4',
+                color: item.color1,
+                shadowColor: item.color1,
                 shadowBlur: 0,
                 label: {
                   show: false
@@ -158,7 +158,7 @@ export default {
                     textStyle: {
                       fontSize: "13",
                       fontWeight: "bold",
-                      color: "#389af4"
+                      color: item.color1
                     }
                   }
                 }
@@ -168,10 +168,10 @@ export default {
                 name: 'invisible',
                 itemStyle: {
                   normal: {
-                    color: '#dfeaff'
+                    color: item.color2
                   },
                   emphasis: {
-                    color: '#dfeaff'
+                    color:item.color2
                   }
                 }
               }
@@ -189,13 +189,17 @@ export default {
     var item = {
       id:'pie'+this.values.index1,
       title: "pie",
-      value: Math.round((this.values.cpuUtil)/(this.values.cpuTotal)*100*10)/10
+      value: Math.round((this.values.cpuUtil)/(this.values.cpuTotal)*100*10)/10,
+      color1:'#389af4',
+      color2:'#dfeaff'
     };
     this.drawCharts(item);
     var item2 = {
       id:'pie'+this.values.index2,
       title: "pie",
-      value:  Math.round((this.values.gpuUtil)/(this.values.gpuTotal)*100*10)/10
+      value:  Math.round((this.values.gpuUtil)/(this.values.gpuTotal)*100*10)/10,
+       color1:'#fd6f97',
+      color2: '#fed4e0'
     };
     this.drawCharts(item2);
   }
@@ -208,7 +212,7 @@ export default {
   margin-top: 15px;
   height: 220px;
   width: 300px;
-  /* border-radius: 20px; */
+  border-radius: 20px;
 }
 /* .el-row {
   margin: 5px;
@@ -236,6 +240,10 @@ export default {
 }
 .titleBold {
   font-size: 30px;
+}
+.el-card:hover{
+  background-color:rgb(254, 240, 240) !important; 
+  border: 1px solid rgb(245, 108, 108)!important
 }
 </style>
 

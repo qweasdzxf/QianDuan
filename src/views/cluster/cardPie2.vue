@@ -67,8 +67,8 @@ export default {
             radius: [30, 35],
             itemStyle: {
               normal: {
-                color: "#389af4",
-                shadowColor: "#389af4",
+                color: item.color1,
+                shadowColor: item.color1,
                 shadowBlur: 0,
                 label: {
                   show: false
@@ -91,9 +91,9 @@ export default {
                     position: "center",
                     show: true,
                     textStyle: {
-                      fontSize: "20",
+                      fontSize: "18",
                       fontWeight: "bold",
-                      color: "#389af4"
+                      color:item.color1
                     }
                   }
                 }
@@ -103,10 +103,10 @@ export default {
                 name: "invisible",
                 itemStyle: {
                   normal: {
-                    color: "#dfeaff"
+                    color:item.color2
                   },
                   emphasis: {
-                    color: "#dfeaff"
+                    color: item.color2
                   }
                 }
               }
@@ -123,7 +123,9 @@ export default {
     var item = {
       id: "pie" + this.values.index1,
       title: "pie",
-      value: Math.round((this.values.util)/(this.values.total)*100*10)/10
+      value: Math.round((this.values.util)/(this.values.total)*100*10)/10,
+      color1: '#a181fc',
+      color2:'#e3d9fe'
     };
     this.drawCharts(item);
   }

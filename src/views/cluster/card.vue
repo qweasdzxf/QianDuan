@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <el-card class="box-card card">
+    <el-card class="box-card card" @click.native="clickCard">
       <div slot="header">
         <el-row type="flex">
           <el-col :span="4" offset="2">
@@ -41,11 +41,20 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       // 数据
       data1: []
+    }
+  },
+  methods:{
+    // mouseOver(){
+    //   console.log("mouseOver")
+    // },
+    clickCard(){
+      console.log("clickCard")
     }
   }
 }
@@ -79,6 +88,14 @@ export default {
   /* 侧轴上居中 */
   align-items: center;
 }
+.el-card:hover{
+  background-color:rgb(254, 240, 240) !important; 
+  border: 1px solid rgb(245, 108, 108)!important
+}
+/* .el-card:in-range{
+  border-color: rgb(245, 108, 108) !important;
+} */
+
 /* .progress{
   width: 100px;
 } */
