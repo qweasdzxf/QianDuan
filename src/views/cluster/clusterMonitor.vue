@@ -22,7 +22,6 @@
       <el-col :span="18" offset="1">
         <el-dialog title="GPU信息" :visible.sync="dialogTableVisible" class="gpuInfoDialog">
           <!-- <el-divider></el-divider> -->
-         
             <div>
             <el-row>
               <el-col :span="10" offset="1">
@@ -30,7 +29,7 @@
               </el-col>
               <el-col :span="10">
                 <span class="infoContent">GPU利用率</span>
-                 <span class="infoContentTitle"> 23% </span>
+                 <span class="infoContentTitle"> {{currentGPU.gpuUtil}}% </span>
                  <span class="infoContent"></span>
               </el-col>
             </el-row >
@@ -54,7 +53,7 @@
               </el-col>
               <el-col :span="10">
                 <span class="infoContent">GPU当前性能</span>
-                 <span class="infoContentTitle"> P8 </span>
+                 <span class="infoContentTitle"> {{currentGPU.gpuPerf}}  </span>
                  <span class="infoContent"></span>
               </el-col>
             </el-row>
@@ -64,7 +63,7 @@
               </el-col>
               <el-col :span="10" >
                 <span class="infoContent">当前风扇转速</span>
-                 <span class="infoContentTitle"> 23% </span>
+                 <span class="infoContentTitle"> {{currentGPU.gpuFan}}% </span>
                  <span class="infoContent"></span>
               </el-col>
             </el-row>
@@ -74,14 +73,11 @@
               </el-col>
               <el-col :span="10">
                <span class="infoContent">当前温度</span>
-                 <span class="infoContentTitle"> 25C </span>
+                 <span class="infoContentTitle"> {{currentGPU.gpuTemp}}C </span>
                  <span class="infoContent"></span>
               </el-col>
             </el-row>
-            
           </div>
-
-          
         </el-dialog>
 
         <el-row>
@@ -90,10 +86,10 @@
           </el-col>
 
           <el-col :span="7">
-            <cardPie :values="list2"></cardPie>
+            <cardPie :values="list2" @click.native="clickCard"></cardPie>
           </el-col>
           <el-col :span="7">
-            <cardPie :values="list3"></cardPie>
+            <cardPie :values="list3" @click.native="clickCard"></cardPie>
           </el-col>
         </el-row>
 
@@ -121,10 +117,10 @@
             <cardPie :values="list4"  @click.native="alert1()" slot="reference"></cardPie>
           </el-popover> -->
           <el-col :span="7">
-            <cardPie :values="list4"></cardPie>
+            <cardPie :values="list4" @click.native="clickCard"></cardPie>
           </el-col>
           <el-col :span="7">
-            <cardPie :values="list5"></cardPie>
+            <cardPie :values="list5" @click.native="clickCard"></cardPie>
           </el-col>
         </el-row>
       </el-col>
@@ -140,6 +136,7 @@ export default {
   data() {
     return {
       chartPie: null,
+      GPUList:[],
       list1: {
         cpuUtil: 2,
         cpuTotal: 4,
@@ -183,7 +180,14 @@ export default {
       utilList1: { util: 2, total: 2, index1: 11,content:'就绪节点' },
       utilList2: { util: 3, total: 6, index1: 12,content:'CPU Core' },
       utilList3: { util: 4, total: 8, index1: 13,content:'GPU Core'  },
-      dialogTableVisible: false
+      dialogTableVisible: false,
+      currentGPU:{
+        gpuUtil:23,
+        memoryUsage:'',
+        gpuPerf:'P8',
+        gpuFan:25,
+        gpuTemp:25
+      },
     };
   },
   components: {
@@ -193,15 +197,34 @@ export default {
   methods: {
     //点击卡片后的响应事件
     clickCard() {
+      //对currentGpu进行处理
+      // 获取当前索引 i
+      // currentGPU=GPUList[i].gpuInfo
       console.log("click");
       this.dialogTableVisible = true;
     },
     //从后端获取数据
-    getData(){
+    getGpuData(){
       var url='/test';
        axios
         .get(url)
         .then(response => {
+          
+
+          self.$message({
+            message: '申请已发送',
+            type: 'success'
+          })
+        })
+        .catch(e => self.$message.error(e.response.data))
+    },
+    getClusterData(){
+       var url='/test';
+       axios
+        .get(url)
+        .then(response => {
+          
+
           self.$message({
             message: '申请已发送',
             type: 'success'
@@ -214,8 +237,13 @@ export default {
   created(){
     //轮询请求后端
     // window.setInterval(() => {
-    //   this.getData();
+    //   this.getGpuData();
     // }, 1000);
+  },
+  mounted(){
+    //获取数据
+    // this.getGpuData()
+    //this.getClusterData()
   }
 };
 </script>
