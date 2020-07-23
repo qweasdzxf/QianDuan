@@ -19,7 +19,7 @@
         </el-row>
       </el-col>
 
-      <el-col :span="18" offset="1">
+      <el-col :span="18">
         <el-dialog title="GPU信息" :visible.sync="dialogTableVisible" class="gpuInfoDialog">
           <!-- <el-divider></el-divider> -->
             <div>
@@ -81,16 +81,20 @@
         </el-dialog>
 
         <el-row>
-          <el-col :span="7">
+          <el-col :span="6">
             <cardPie :values="list1" @click.native="clickCard"></cardPie>
           </el-col>
 
-          <el-col :span="7">
+          <el-col :span="6">
             <cardPie :values="list2" @click.native="clickCard"></cardPie>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="6">
             <cardPie :values="list3" @click.native="clickCard"></cardPie>
           </el-col>
+           <el-col :span="6">
+            <cardPie :values="list4" @click.native="clickCard"></cardPie>
+          </el-col>
+
         </el-row>
 
         <el-row>
@@ -116,12 +120,12 @@
             
             <cardPie :values="list4"  @click.native="alert1()" slot="reference"></cardPie>
           </el-popover> -->
-          <el-col :span="7">
-            <cardPie :values="list4" @click.native="clickCard"></cardPie>
-          </el-col>
-          <el-col :span="7">
+          <el-col :span="6">
             <cardPie :values="list5" @click.native="clickCard"></cardPie>
           </el-col>
+          <!-- <el-col :span="6">
+            <cardPie :values="list6" @click.native="clickCard"></cardPie>
+          </el-col> -->
         </el-row>
       </el-col>
     </el-row>
@@ -179,7 +183,7 @@ export default {
       },
       utilList1: { util: 2, total: 2, index1: 11,content:'就绪节点' },
       utilList2: { util: 3, total: 6, index1: 12,content:'CPU Core' },
-      utilList3: { util: 4, total: 8, index1: 13,content:'GPU Core'  },
+      utilList3: { util: 8, total: 8, index1: 13,content:'GPU Core'  },
       dialogTableVisible: false,
       currentGPU:{
         gpuUtil:23,
