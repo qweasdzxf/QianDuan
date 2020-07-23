@@ -66,7 +66,7 @@ export default {
             name: "访问来源",
             type: "pie",
             clockWise: false,
-            radius: [30, 35],
+            radius: [25, 29],
             itemStyle: {
               normal: {
                 color: item.color1,
@@ -139,7 +139,7 @@ export default {
   margin-left: 40px;
   margin-top: 15px;
   height: 150px;
-  width: 300px;
+  width: 260px;
   /* border-radius: 20px; */
 }
 /* .el-row {

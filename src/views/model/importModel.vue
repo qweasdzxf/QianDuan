@@ -215,7 +215,7 @@ export default {
   
     // 交互
     submitForm(modelForm) {
-      var url = '/test'
+      var url = 'http://210.42.123.4:20001/model'
       this.formData.append('data',JSON.stringify(this.modelForm))
       axios
         .post(url, this.formData)

@@ -17,24 +17,24 @@ export default {
     return {
       timeline: [
         {
-          timestamp: '2019/4/20',
-          title: 'Update Github template',
-          content: 'PanJiaChen committed 2019/4/20 20:46'
+          timestamp: '2020/7/20',
+          title: 'Now...',
+          content: 'front committed 2019/4/20 20:46'
         },
         {
-          timestamp: '2019/4/21',
-          title: 'Update Github template',
-          content: 'PanJiaChen committed 2019/4/21 20:46'
+          timestamp: '2020/7/17',
+          title: 'Run a demo',
+         content: 'RD committed 2020/7/17 20:46'
         },
         {
-          timestamp: '2019/4/22',
-          title: 'Build Template',
-          content: 'PanJiaChen committed 2019/4/22 20:46'
+          timestamp: '2020/7/12',
+         title: 'Create an face recognition trainTask on the server',
+          content: 'RD committed 2020/7/12 20:46'
         },
         {
-          timestamp: '2019/4/23',
-          title: 'Release New Version',
-          content: 'PanJiaChen committed 2019/4/23 20:46'
+          timestamp: '2020/7/10',
+          title: 'Create an mnist trainTask on the server',
+          content: 'RD committed 2020/7/10 20:46'
         }
       ]
     }
