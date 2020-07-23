@@ -10,8 +10,8 @@
                   <el-button type="info" @click="">显示帮助</el-button>
                 </el-col>
                 <el-col :span="5" offset="12">
-                  <el-input v-model=keyWord placeholder="请输入内容">
-                    <el-button slot="append" icon="el-icon-search" type="primary" @click='searchWithKeyWord'/>
+                  <el-input v-model="keyWord" placeholder="请输入内容">
+                    <el-button slot="append" icon="el-icon-search" type="primary" @click="searchWithKeyWord" />
                   </el-input>
                 </el-col>
               </el-row>
@@ -28,7 +28,7 @@
                     <el-table-column prop="trainTaskCreateTime" label="创建时间" />
                     <el-table-column label="操作">
                       <template scope="scope">
-                        <el-button type="text" size="small" @click="showAlgorithmDetail(scope.$index)">
+                        <el-button type="text" size="small" @click="showTrainTaskDetail(scope.$index)">
                           查看
                         </el-button>
                         <el-button type="text" size="small" @click="dialogFormVisible = true">编辑</el-button>
@@ -40,52 +40,37 @@
                       </template>
                     </el-table-column>
                   </el-table>
-                  <el-dialog title="查看算法" :visible.sync="showAlgorithmDialog" center="true">
+                  <el-dialog v-if="renderDialog" title="查看算法" :visible.sync="showTrainTaskDialog" center="true">
                     <el-container>
                       <el-header>
                         <div>
                           <el-row>
-                            <el-col span="8">算法名称：{{  }}</el-col>
-                            <el-col span="16">算法状态：{{  }}</el-col>
+                            <el-col span="8">任务ID：{{ trainTaskDetail.trainTaskId }}</el-col>
+                            <el-col span="16">任务名称：{{ trainTaskDetail.trainTaskName }}</el-col>
                           </el-row><br>
                           <el-row>
-                            <el-col span="8">算法版本：{{  }}</el-col>
-                            <el-col span="16">创建时间：{{  }}</el-col>
+                            <el-col span="8">任务版本号：{{ trainTaskDetail.trainTaskVersion }}</el-col>
+                            <el-col span="16">任务运行时间：{{ trainTaskDetail.trainTaskRunningTime }}</el-col>
                           </el-row><br>
                           <el-row>
-                            <el-col span="8">算法描述：{{  }}</el-col>
+                            <el-col span="8">任务状态：{{ trainTaskDetail.trainTaskStatus }}</el-col>
+                          </el-row><br>
+                          <el-row>
+                            <el-col span="8">创建时间：{{ trainTaskDetail.trainTaskCreateTime }}</el-col>
+                          </el-row><br>
+                          <el-row>
+                            <el-col span="8">更新时间：{{ trainTaskDetail.trainTaskUpdateTime }}</el-col>
                           </el-row><br>
                         </div>
                       </el-header>
                       <el-main>
                         <br>
-                        <el-tabs v-model="activeName" @tab-click="handleClick">
-                          <el-tab-pane label="训练规范" name="train">
-                            <h4>配置信息</h4>
-                            <el-row>
-                              训练框架：{{  }}
-                            </el-row><br>
-                            <el-row>
-                              代码路径：{{  }}
-                            </el-row><br>
-                            <el-row>
-                              启动文件：{{  }}
-                            </el-row>
-                            <h4>推荐规格</h4>
-                            <el-row>
-                              规格类型：{{  }}
-                            </el-row>
-                          </el-tab-pane>
-                          <el-tab-pane label="超参规范" name="hyperParameters">
-                            <h4>超参列表</h4>
-                          </el-tab-pane>
-                        </el-tabs>
                       </el-main>
 
                     </el-container>
                     <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="closeShowAlgorithmDetail">确 定</el-button>
-                  </span>
+                      <el-button type="primary" @click="closeTrianTaskDetail">确 定</el-button>
+                    </span>
                   </el-dialog>
 
                 </template>
@@ -119,30 +104,24 @@ import MdInput from '@/components/MDinput/index'
 import axios from 'axios'
 
 export default {
-  name: 'index',
+  name: 'Index',
   components: { MdInput, Warning, Sticky },
   props: {
     isEdit: Boolean
   },
-  created() {
-    this.getTrainTasks()
-    this.showPage = true
-  },
-  mounted() {
-    this.getTrainTasks()
-    this.showPage = true
-  },
   data() {
     return {
+      renderDialog: false,
       showPage: false,
       dialogFormVisible: false,
-      showAlgorithmDialog: false,
+      showTrainTaskDialog: false,
       activeName: 'train',
       pageNum: null,
       pageSize: 10,
       userId: null,
       keyWord: '',
       pageInfo: null,
+      trainTaskDetail: null,
       dataTypes: [
         {
           value: 0,
@@ -163,6 +142,14 @@ export default {
       ]
     }
   },
+  created() {
+    this.getTrainTasks()
+    this.showPage = true
+  },
+  mounted() {
+    this.getTrainTasks()
+    this.showPage = true
+  },
   methods: {
     handleCurrentChange() {
       this.getTrainTasks()
@@ -173,7 +160,7 @@ export default {
     },
     getTrainTasks() {
       axios.get(
-        'http://localhost:20003/frontstage/trainTasks',
+        'http://localhost:9527/train/frontstage/trainTasks',
         {
           params: {
             pageNum: this.pageNum,
@@ -188,6 +175,21 @@ export default {
             console.log(this.pageInfo)
           }
         )
+    },
+    showTrainTaskDetail(index) {
+      axios.get('http://localhost:9527/train/frontstage/trainTask/' + index.toString())
+        .then(
+          res => {
+            this.trainTaskDetail = res.data.extend.trainTaskAndTrainTaskConfig.trainTask
+            console.log(res.data.extend)
+            console.log(this.trainTaskDetail)
+          }
+        )
+      this.renderDialog = true;
+      this.showTrainTaskDialog = true
+    },
+    closeTrianTaskDetail() {
+      this.showTrainTaskDialog = false
     }
   }
 }

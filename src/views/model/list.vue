@@ -15,9 +15,9 @@
                   <el-header>
                     <el-col span="16" offset="4">
                       <el-steps :active="active" finish-status="success">
-                        <el-step title="步骤 1"></el-step>
-                        <el-step title="步骤 2"></el-step>
-                        <el-step title="步骤 3"></el-step>
+                        <el-step title="步骤 1" />
+                        <el-step title="步骤 2" />
+                        <el-step title="步骤 3" />
                       </el-steps>
                     </el-col>
                   </el-header>
@@ -47,27 +47,27 @@
                                 alt=""
                               >
                               <span class="el-upload-list__item-actions">
-                        <span
-                          class="el-upload-list__item-preview"
-                          @click="handlePictureCardPreview(file)"
-                        >
-                          <i class="el-icon-zoom-in" />
-                        </span>
-                        <span
-                          v-if="!disabled"
-                          class="el-upload-list__item-delete"
-                          @click="handleDownload(file)"
-                        >
-                          <i class="el-icon-download" />
-                        </span>
-                        <span
-                          v-if="!disabled"
-                          class="el-upload-list__item-delete"
-                          @click="handleRemove(file)"
-                        >
-                          <i class="el-icon-delete" />
-                        </span>
-                      </span>
+                                <span
+                                  class="el-upload-list__item-preview"
+                                  @click="handlePictureCardPreview(file)"
+                                >
+                                  <i class="el-icon-zoom-in" />
+                                </span>
+                                <span
+                                  v-if="!disabled"
+                                  class="el-upload-list__item-delete"
+                                  @click="handleDownload(file)"
+                                >
+                                  <i class="el-icon-download" />
+                                </span>
+                                <span
+                                  v-if="!disabled"
+                                  class="el-upload-list__item-delete"
+                                  @click="handleRemove(file)"
+                                >
+                                  <i class="el-icon-delete" />
+                                </span>
+                              </span>
                             </div>
 
                           </el-upload>
@@ -86,7 +86,7 @@
                         <h2>系统预测结果如下：</h2>
                         <el-col span="16" offset="8">
                           <div class="demo-image__lazy">
-                            <el-image v-for="url in imageUrls" :key="url" :src="url" lazy></el-image>
+                            <el-image v-for="url in imageUrls" :key="url" :src="url" lazy />
                           </div>
                         </el-col>
                       </div>
