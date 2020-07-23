@@ -18,7 +18,7 @@
         <div>
         <el-row>
           <el-col :span="6">
-            <div :id="'pie'+values.index1" style="height:36px;"></div>
+            <div :id="'pie'+values.index1" style="height:40px;"></div>
           </el-col>
           <el-col :span="16" offset="1">
             <span class="content">
@@ -35,7 +35,7 @@
         <div>
         <el-row  style="margin-top:12px">
           <el-col :span="6">
-            <div :id="'pie'+values.index2" style="height:36px;"></div>
+            <div :id="'pie'+values.index2" style="height:40px;"></div>
           </el-col>
           <el-col :span="17" offset="1">
             <span class="content">
@@ -87,7 +87,7 @@ export default {
             name: '访问来源',
             type: 'pie',
             clockWise: false,
-            radius: [15, 18],
+            radius: [17, 19],
             // center: ["50%", "60%"],
             itemStyle: {
               normal: {
@@ -139,30 +139,34 @@ export default {
         ]
       })
     },
-    drawCharts(item) {
-      this.drawPieChart(item);
-    },
-
-  },
-  mounted: function() {
-    var item = {
-      id:'pie'+this.values.index1,
+    initChart(values){
+      var item = {
+      id:'pie'+values.index1,
       title: "pie",
       // value: Math.round((this.values.cpuUtil)/(this.values.cpuTotal)*100*10)/10,
-      value:this.values.gpuUtil,
+      value:values.gpuUtil,
       color1:'#389af4',
       color2:'#dfeaff'
     };
-    this.drawCharts(item);
+    this.drawPieChart(item);
     var item2 = {
-      id:'pie'+this.values.index2,
+      id:'pie'+values.index2,
       title: "pie",
       // value:  Math.round((this.values.gpuUtil)/(this.values.gpuTotal)*100*10)/10,
-      value:this.values.memoryUtil,
+      value:values.memoryUtil,
        color1:'#fd6f97',
       color2: '#fed4e0'
     };
-    this.drawCharts(item2);
+    this.drawPieChart(item2);
+    },
+    updateData(newData){
+      this.values=newData;
+      this.initChart(this.values);
+    },
+
+  },
+  mounted(){
+    this.initChart(this.values);
   }
 }
 </script>
@@ -172,7 +176,7 @@ export default {
   margin-left: 40px;
   margin-top: 15px;
   height: 170px;
-  width: 250px;
+  width: 230px;
   border-radius: 20px;
 }
 /* .el-row {

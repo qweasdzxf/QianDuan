@@ -95,35 +95,35 @@
 
         <el-row style="margin-top:30px">
           <el-col :span="6">
-            <cardPie :values="GPUList[0]" @click.native="clickCard(GPUList[0])"></cardPie>
+            <cardPie :values="GPUList[0]" ref="chart0" @click.native="clickCard(GPUList[0])"></cardPie>
           </el-col>
 
           <el-col :span="6">
-             <cardPie :values="GPUList[1]" @click.native="clickCard(GPUList[1])"></cardPie>
+             <cardPie :values="GPUList[1]" ref="chart1" @click.native="clickCard(GPUList[1])"></cardPie>
           </el-col>
           <el-col :span="6">
-             <cardPie :values="GPUList[2]" @click.native="clickCard(GPUList[2])"></cardPie>
+             <cardPie :values="GPUList[2]" ref="chart2" @click.native="clickCard(GPUList[2])"></cardPie>
           </el-col>
           <el-col :span="6">
-            <cardPie :values="GPUList[3]" @click.native="clickCard(GPUList[3])"></cardPie>
+            <cardPie :values="GPUList[3]" ref="chart3" @click.native="clickCard(GPUList[3])"></cardPie>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :span="6">
-             <cardPie :values="GPUList[4]" @click.native="clickCard(GPUList[4])"></cardPie>
+             <cardPie :values="GPUList[4]" ref="chart4" @click.native="clickCard(GPUList[4])"></cardPie>
           </el-col>
           <!-- <el-col :span="6">
             <cardPie :values="list6" @click.native="clickCard"></cardPie>
           </el-col>-->
           <el-col :span="6">
-             <cardPie :values="GPUList[5]" @click.native="clickCard(GPUList[5])"></cardPie>
+             <cardPie :values="GPUList[5]" ref="chart5" @click.native="clickCard(GPUList[5])"></cardPie>
           </el-col>
           <el-col :span="6">
-             <cardPie :values="GPUList[6]" @click.native="clickCard(GPUList[6])"></cardPie>
+             <cardPie :values="GPUList[6]" ref="chart6" @click.native="clickCard(GPUList[6])"></cardPie>
           </el-col>
           <el-col :span="6">
-             <cardPie :values="GPUList[7]" @click.native="clickCard(GPUList[7])"></cardPie>
+             <cardPie :values="GPUList[7]" ref="chart7" @click.native="clickCard(GPUList[7])"></cardPie>
           </el-col>
         </el-row>
       </el-col>
@@ -162,20 +162,20 @@ export default {
           pref: "P2",
           temp: 73.0,
           fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
+          gpuUtil: 35.0,
+          memoryUtil: 0.7291159863471985,
+        }, {
+          pref: "P2",
+          temp: 73.0,
+          fan: 65.0,
+          gpuUtil: 68.0,
+          memoryUtil: 0.5791159863471985,
         }, {
           pref: "P2",
           temp: 73.0,
           fan: 65.0,
           gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
+          memoryUtil: 0.8791159863471985,
         }, {
           pref: "P2",
           temp: 73.0,
@@ -295,11 +295,8 @@ export default {
     },
   },
   created() {
-    //轮询请求后端
-    // window.setInterval(() => {
-    //   this.getGpuData();
-    // }, 1000);
-     for (var i = 0; i < this.GPUList.length; i++) {
+    
+    for (var i = 0; i < this.GPUList.length; i++) {
             this.GPUList[i].index1 = 2 * i + 1;
             this.GPUList[i].index2 = 2 * i + 2;
             // console.log(this.GPUList[i].memoryUtil);
@@ -307,6 +304,19 @@ export default {
             this.GPUList[i].memoryUtil = Math.round(this.GPUList[i].memoryUtil*100*10) / 10;
           }
           console.log(this.GPUList);
+
+    //轮询请求后端
+    // window.setInterval(() => {
+    //   // this.getGpuData();
+    //    for (var i = 0; i < this.GPUList.length; i++) {
+          
+    //         this.GPUList[i].memoryUtil = Math.round((this.GPUList[i].memoryUtil+5)%100*10)/10;
+    //         this.GPUList[i].gpuUtil = (this.GPUList[i].gpuUtil+5)%100;
+    //         var item='chart'+i;
+    //         this.$refs[item].updateData(this.GPUList[i]);
+    //       }
+    // }, 2000);
+     
   },
   mounted() {
     //获取数据
