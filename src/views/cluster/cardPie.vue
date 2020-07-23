@@ -20,11 +20,11 @@
           <el-col :span="6">
             <div :id="'pie'+values.index1" style="height:36px;"></div>
           </el-col>
-          <el-col :span="14" offset="4">
+          <el-col :span="16" offset="1">
             <span class="content">
-              CPU&nbsp;&#12288;
-              <span class="titleBold">{{values.cpuUtil}}</span> /
-              <span class="title">{{values.cpuTotal}}</span>
+              GPU-Util
+              <b class="titleBold"> {{values.gpuUtil}}</b> %
+              <!-- <b class="title">{{values.cpuTotal}}</b> -->
             </span>
           </el-col>
         </el-row>
@@ -37,31 +37,15 @@
           <el-col :span="6">
             <div :id="'pie'+values.index2" style="height:36px;"></div>
           </el-col>
-          <el-col :span="14" offset="4">
+          <el-col :span="17" offset="1">
             <span class="content">
-              GPU&nbsp;&#12288;
-              <b class="titleBold">{{values.gpuUtil}}</b> /
-              <b class="title">{{values.gpuTotal}}</b>
+              Meme-Util
+              <b class="titleBold">{{values.memoryUtil}}</b> %
+              <!-- <b class="title">{{values.gpuTotal}}</b> -->
             </span>
           </el-col>
         </el-row>
         </div>
-      <!-- </section> -->
-      <!-- <el-row tyle="margin-top:12px">
-        <el-col :span="20" offset="2">
-          <span class="content">2020-07-21 17:00</span>
-        </el-col>
-      </el-row>
-
-      <el-row style="margin-top:12px">
-        <el-col :span="12" offset="2">
-          <span class="content">Active</span>
-        </el-col>
-
-        <el-col :span="6" offset="4">
-          <span class="content">一个月</span>
-        </el-col>
-      </el-row>-->
     </el-card>
   </div>
 </template>
@@ -74,10 +58,9 @@ export default {
       type:Object,
       default(){
         return{
-          cpuUtil:2,
-          cpuTotal:6,
-          gpuUtil:1,
-          gpuTotal:4,
+          gpuUtil:2,
+          memoryUtil:1,
+          // gpuTotal:4,
           index1:0,
           index2:0
         }
@@ -96,21 +79,9 @@ export default {
       this.chartPie = echarts.init(document.getElementById(item.id))
       //   var titleLeft="30%"
       //   var titleTop="60%"
-      var pieLeft = '60%'
+      var pieLeft = '50%'
       var pieTop = '50%'
       this.chartPie.setOption({
-        // title: {
-        //   text: item.title,
-        //   left: titleLeft,
-        //   top: titleTop,
-        //   textAlign: "center",
-        //   textStyle: {
-        //     fontWeight: "normal",
-        //     fontSize: "16",
-        //     color: "#389af4",
-        //     textAlign: "center"
-        //   }
-        // },
         series: [
           {
             name: '访问来源',
@@ -177,7 +148,8 @@ export default {
     var item = {
       id:'pie'+this.values.index1,
       title: "pie",
-      value: Math.round((this.values.cpuUtil)/(this.values.cpuTotal)*100*10)/10,
+      // value: Math.round((this.values.cpuUtil)/(this.values.cpuTotal)*100*10)/10,
+      value:this.values.gpuUtil,
       color1:'#389af4',
       color2:'#dfeaff'
     };
@@ -185,7 +157,8 @@ export default {
     var item2 = {
       id:'pie'+this.values.index2,
       title: "pie",
-      value:  Math.round((this.values.gpuUtil)/(this.values.gpuTotal)*100*10)/10,
+      // value:  Math.round((this.values.gpuUtil)/(this.values.gpuTotal)*100*10)/10,
+      value:this.values.memoryUtil,
        color1:'#fd6f97',
       color2: '#fed4e0'
     };
@@ -214,7 +187,7 @@ export default {
 }
 .content {
   color: rgb(152, 154, 158);
-  font-size: 18px;
+  font-size: 14px;
   
 
 }
@@ -229,7 +202,8 @@ export default {
   margin: 5px;
 }
 .titleBold {
-  font-size: 20px;
+  font-size: 22px;
+  color: rgb(44, 62, 80);
 }
 .el-card:hover{
   background-color:rgb(254, 240, 240) !important; 
