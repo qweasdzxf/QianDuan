@@ -9,7 +9,7 @@
           <el-col :span="12" offset="2">
             <el-row style="margin-top:12px">
               <el-col :span="24">
-                <span class="content">就绪节点</span>
+                <span class="content">{{values.content}}</span>
               </el-col>
             </el-row>
             <el-row style="margin-top:12px">
@@ -36,7 +36,8 @@ export default {
         return {
           util: 2,
           total:6,
-          index1: 0
+          index1: 0,
+          content:''
         };
       }
     }
@@ -48,7 +49,8 @@ export default {
       CPUInfo: [
         {
           use: 1,
-          total: 2
+          total: 2,
+          content:''
         }
       ]
     };
@@ -64,11 +66,11 @@ export default {
             name: "访问来源",
             type: "pie",
             clockWise: false,
-            radius: [30, 35],
+            radius: [25, 29],
             itemStyle: {
               normal: {
-                color: "#389af4",
-                shadowColor: "#389af4",
+                color: item.color1,
+                shadowColor: item.color1,
                 shadowBlur: 0,
                 label: {
                   show: false
@@ -91,9 +93,9 @@ export default {
                     position: "center",
                     show: true,
                     textStyle: {
-                      fontSize: "20",
+                      fontSize: "18",
                       fontWeight: "bold",
-                      color: "#389af4"
+                      color:item.color1
                     }
                   }
                 }
@@ -103,10 +105,10 @@ export default {
                 name: "invisible",
                 itemStyle: {
                   normal: {
-                    color: "#dfeaff"
+                    color:item.color2
                   },
                   emphasis: {
-                    color: "#dfeaff"
+                    color: item.color2
                   }
                 }
               }
@@ -123,7 +125,9 @@ export default {
     var item = {
       id: "pie" + this.values.index1,
       title: "pie",
-      value: Math.round((this.values.util)/(this.values.total)*100*10)/10
+      value: Math.round((this.values.util)/(this.values.total)*100*10)/10,
+      color1: '#a181fc',
+      color2:'#e3d9fe'
     };
     this.drawCharts(item);
   }
@@ -135,7 +139,7 @@ export default {
   margin-left: 40px;
   margin-top: 15px;
   height: 150px;
-  width: 300px;
+  width: 260px;
   /* border-radius: 20px; */
 }
 /* .el-row {
