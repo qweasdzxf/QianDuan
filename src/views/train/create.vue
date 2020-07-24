@@ -267,8 +267,17 @@ export default {
       console.log("trying post form")
       this.fullscreenLoading=true
       console.log(this.form)
-      axios.post('train/frontstage/trainTask',this.form)
-        .then(response=>{
+      axios({
+        method: 'post',
+        url: 'train/frontstage/trainTask',
+        xhrFields: { withCredentials: true },
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true,
+        data: this.form
+      }).then(
+        (response) => {
           console.log(response)
           this.fullscreenLoading = false
           if (response.data.code == '00000') {
@@ -276,7 +285,18 @@ export default {
           } else {
             alert('训练创建失败')
           }
-        })
+        }
+      )
+      // axios.post('train/frontstage/trainTask',this.form)
+      //   .then(response=>{
+      //     console.log(response)
+      //     this.fullscreenLoading = false
+      //     if (response.data.code == '00000') {
+      //       alert('训练创建成功')
+      //     } else {
+      //       alert('训练创建失败')
+      //     }
+      //   })
     },
 
     onStartTrain(){
