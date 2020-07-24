@@ -269,12 +269,13 @@ export default {
       //     console.log(response)
       //   }
       // )
-      axios.post('http://localhost:9527/algorithm/frontstage/algorithm', data)
+      axios.post('http://210.42.123.4:9527/algorithm/frontstage/algorithm', data)
         .then(
           response => {
             console.log(response)
             this.fullscreenLoading = false
             if (response.data.code == '00000') {
+              axios.get('http://210.42.123.4:9527/train/frontstage/image/' + response.data.extend.algorithmId.toString())
               alert('算法上传成功！')
             } else {
               alert('上传失败，请重试！')
@@ -282,9 +283,8 @@ export default {
             location.reload()
           }
         )
-      // setTimeout(() => {
-      //   this.fullscreenLoading = false
-      // }, 2000)
+
+
     },
     isCustomize() {
       this.form.algorithm_customize_hyper_para = !this.form.algorithm_customize_hyper_para
