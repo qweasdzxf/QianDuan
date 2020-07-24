@@ -7,7 +7,7 @@
             <el-header>
               <el-row>
                 <el-col :span="6">
-                  <el-button type="info" @click="">显示帮助</el-button>
+                  <el-button type="info">显示帮助</el-button>
                 </el-col>
                 <el-col :span="5" offset="12">
                   <el-input v-model=keyWord placeholder="请输入内容">
