@@ -34,45 +34,17 @@ export default {
   },
   methods: {
     buttonClick() {
-      var url = "http://47.113.97.26:20003/frontstage/trainTask/";
-      axios
-        .post(url, {
-          trainTask: {
-            trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
-            trainTaskId: 0,
-            trainTaskName: "string",
-            trainTaskRunningTime: "test",
-            trainTaskStatus: 0,
-            trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
-            trainTaskUserId: 0,
-            trainTaskVersion: 0
-          },
-          trainTaskConf: {
-            trainTaskAiEngine: "string",
-            trainTaskAlgorithmId: 0,
-            trainTaskConfId: 0,
-            trainTaskDatasetId: 0,
-            trainTaskDescription: "string",
-            trainTaskFinishTime: "2020-07-21T02:37:59.734Z",
-            trainTaskId: 0,
-            trainTaskLogOutPath: "string",
-            trainTaskModelOutPath: "string",
-            trainTaskName: "string",
-            trainTaskParams: "string",
-            trainTaskRunningTime: "string",
-            trainTaskSpecification: "string",
-            trainTaskStartTime: "2020-07-21T02:37:59.734Z",
-            trainTaskStatus: 0,
-            trainTaskVersion: 0
-          }
+      var url = "/apis/train/frontstage/trainTask/1";
+      //  var url = "/apis/train/frontstage/trainTask/workerStatus/1";
+      //  var url='http://210.42.123.4:9527/train/frontstage/trainTask/workerStatus/1';
+       axios
+        .get(url)
+        .then((response) => {
+          //
+          console.log("************************");
+          console.log("++++++++++++++++");
         })
-        .then(response => {
-          self.$message({
-            message: "申请已发送",
-            type: "success"
-          });
-        })
-        .catch(e => self.$message.error(e.response.data));
+        .catch((e) => self.$message.error(e.response.data));
     },
     drawPieChart(item) {
       this.chartPie = echarts.init(document.getElementById(item.id));

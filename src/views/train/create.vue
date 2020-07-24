@@ -286,7 +286,7 @@ export default {
       });
       this.fullscreenLoading=true
       console.log(this.form)
-      axios.post('/train/frontstage/trainTask',this.form)
+      axios.post('http://210.42.123.4:9527/train/frontstage/trainTask',this.form)
         .then(response=>{
           console.log(response)
           this.fullscreenLoading=false
