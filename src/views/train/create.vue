@@ -1,11 +1,11 @@
-
 /* eslint-disable */
 
 <template>
+<!-- 步骤条 -->
   <div class="detail-container1">
     <el-row :gutter="20">
       <el-col :span="12" :offset="2">
-        <el-steps :space="200" :active="1" finish-status="success">
+        <el-steps :space="200" :active="step" finish-status="success">
           <el-step title="训练选型" />
           <el-step title="配置规格" />
           <el-step title="完成" />
@@ -13,9 +13,11 @@
       </el-col>
     </el-row>
     <el-divider></el-divider>
+    <!-- 创建训练表单 -->
     <el-col :span="24">
       <el-card shadow="hover">
         <el-form ref="form" :model="form" label-width="100px">
+          <!-- 训练作业名称输入框、版本号输入框 -->
           <el-form-item label="训练作业名称">
             <el-col :span="10">
             <el-input 
@@ -34,60 +36,135 @@
               ></el-autocomplete>
             </el-col>
           </el-form-item>
-          <!-- 要改成下拉列表，显示算法列表 -->
+          <!-- 算法选择器、数据集选择器 -->
           <el-form-item label="算法">
             <el-col :span="10">
-            <el-input v-model="form.trainTaskConf.trainTaskAlgorithmId"  placeholder="请输入算法ID" style="width: 300px"></el-input>
+                <el-select v-model="form.trainTaskConf.trainTaskAlgorithmId" 
+                  @change="getParams(form.trainTaskConf.trainTaskAlgorithmId)"
+                  placeholder="请选择算法" 
+                  style="width: 300px">
+                  <el-option
+                    v-for="al in algorithmList"
+                    :key="al.algorithmId"
+                    :label="al.algorithmName"
+                    :value="al.algorithmId">
+                  </el-option>
+                </el-select>
             </el-col>
             <el-col :span="2" :offset="1">数据集</el-col>
             <el-col :span="10">
-               <el-input placeholder="算法默认数据集" style="width: 300px"></el-input>
+               <el-select v-model ="datasetId"
+                  placeholder="请选择数据集" 
+                  style="width: 300px">
+                  <el-option
+                    v-for="ds in datasetList"
+                    :key="ds.datasetId"
+                    :label="ds.datasetName"
+                    :value="ds.datasetId">
+                  </el-option>
+                </el-select>
             </el-col>
           </el-form-item>
+          <!-- 硬件规格选择器\AI引擎选择器 -->
+          <el-form-item label="作业硬件规格"> 
+            <el-col :span="10">
+            <el-select 
+            v-model="form.trainTaskConf.train_task_specification" 
+            style="width: 300px"
+            placeholder="请选择"
+            @focus="getInstanceType">
+              <el-option
+                  v-for="instanceType in instanceTypeList"
+                  :key="instanceType.instanceTypeId"
+                  :label="instanceType.instanceTypeDescription"
+                  :value="instanceType.instanceTypeId">
+                </el-option>
+            </el-select>
+            </el-col>
+            <el-col :span="2" :offset="1">AI引擎</el-col>
+            <el-col :span="10"> 
+              <el-cascader
+                v-model="form.trainTaskConf.engineValue"
+                style="width: 300px"
+                placeholder="请选择"
+                :options="engineList"
+                :props="{ expandTrigger: 'hover' }"
+                @focus="getEngines"
+                @change="setEngineId"
+              />
+            </el-col> 
+            <!-- 模型输出路径 -->
+          </el-form-item>
+          <!-- 模型輸出路徑輸入框 -->
+          <el-form-item label="模型输出路径">
+            <el-input 
+            v-model="form.trainTaskConf.trainTaskModelOutPath"
+            placeholder="请输入模型输出的相对路径"
+            style="width: 720px">
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <!-- 超参赋值列表 -->
+            <el-table
+            :data=" hyperParameterList"
+            style="width: 100%">
+              <!-- 第一列参数名称 -->
+              <el-table-column
+                label="参数名称"
+                width="180">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="top">
+                    <p>名称: {{ scope.row.hyperParaName }}</p>
+                    <p>描述: {{ scope.row.hyperParaDescription }}</p>
+                    <div slot="reference" class="name-wrapper">
+                      <el-tag size="medium">{{ scope.row.hyperParaName }}</el-tag>
+                    </div>
+                  </el-popover>
+                </template>
+              </el-table-column>
+              <!-- 第二列 参数类型 -->
+              <el-table-column
+                label="类型"
+                width="180">
+                <template slot-scope="scope">
+                  <span style="margin-left: 10px">{{ scope.row.hyperParaType }}</span>
+                </template>
+              </el-table-column>
+              <!-- 第三列 参数范围 -->
+              <el-table-column
+                label="范围"
+                width="180">
+                <template slot-scope="scope">
+                  <span style="margin-left: 10px">{{ scope.row.hyperParaRange }}</span>
+                </template>
+              </el-table-column>
+              <!-- 第四列 超参赋值 -->
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-input
+                  placeholder="请输入超参"
+                  v-model="scope.row.hyperParaDefaultValue">
+                  </el-input>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-form-item>
+          <!-- 训练作业描述输入框 -->
           <el-form-item label="训练作业描述">
             <el-input
-              v-model="textarea"
               type="textarea"
               :rows="3"
               style="width: 720px"
               placeholder="请输入内容"
-              :v-model="form.trainTaskConf.trainTaskDescription">
-            </el-input>
+              v-model="form.trainTaskConf.trainTaskDescription">
+            </el-input> 
           </el-form-item>
-
-        <el-form-item label="作业硬件规格"> 
-          <el-col :span="10">
-          <el-select 
-          v-model="form.trainTaskConf.train_task_specification" 
-          style="width: 300px"
-          placeholder="请选择"
-           @focus="getInstanceType">
-            <el-option
-                v-for="instanceType in instanceTypes"
-                :key="instanceType.instanceTypeId"
-                :label="instanceType.instanceTypeDescription"
-                :value="instanceType.instanceTypeId">
-              </el-option>
-          </el-select>
-          </el-col>
-          <el-col :span="2" :offset="1">AI引擎</el-col>
-          <el-col :span="10">
-            <el-cascader
-              v-model="form.trainTaskConf.engineValue"
-              style="width: 300px"
-              placeholder="请选择"
-              :options="engineList"
-              :props="{ expandTrigger: 'hover' }"
-              @focus="getEngines"
-              @change="setEngineId"
-            />
-          </el-col> 
-        </el-form-item>
-
-        <el-form-item>
-        <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>取消</el-button>
-        </el-form-item>
+          <!-- 提交表单按钮\取消按钮 -->
+          <el-form-item>
+            <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onSubmit">立即创建</el-button>
+            <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" @click="onStartTrain">立即訓練</el-button>
+            <el-button>取消</el-button>
+          </el-form-item>
         </el-form>
       </el-card>
     </el-col>
@@ -95,7 +172,6 @@
 </template>
 
 <script>
-
 import Sticky from '@/components/Sticky/index'
 import MdInput from '@/components/MDinput/index'
 import axios from 'axios'
@@ -103,47 +179,60 @@ import axios from 'axios'
 export default {
   name: 'Create',
   components: { MdInput, Sticky },
+  mounted(){
+    this.getAlgotithms()
+    this.getEngines()
+    this.getInstanceType()
+  },
   data() {
     return {
-
+      step:1,
       fullscreenLoading: false,
-      algorithmCustomizeHyperPara: {},//
-      algorithmList: [],//
-      hyperParameter: [],//
+      algorithmList: [],
+      datasetId:'',
+      datasetList:[
+        {'datasetId':1,'datasetName':'MINIST 1'},
+        {'datasetId':2,'datasetName':'MINIST 2'},
+        {'datasetId':3,'datasetName':'MINIST 3'},
+      ],
+      hyperParameterList: [],
+      paramsStringList:'',
+      tmpParamValue:'',
       instanceType: [],
       engines: [],
       engineList: [],
-      engineValue: null,
+      engineValue: [],
       form: {
         trainTask: {
-          trainTaskCreateTime: "2020-07-21T02:37:59.733Z",//
+          trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
           trainTaskId: 0,
-          trainTaskName: "string",
-          trainTaskRunningTime: "string",//
+          trainTaskName: "",
+          trainTaskRunningTime: "",
           trainTaskStatus: 0,
-          trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",//
+          trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
           trainTaskUserId: 0,
           trainTaskVersion: "0"
         },
         trainTaskConf: {
-          trainTaskAiEngine: "string",
+          trainTaskAiEngine: "",
           trainTaskAlgorithmId: 0,
           trainTaskConfId: 0,
-          trainTaskDatasetId: 0,//
-          trainTaskDescription: "string",
+          trainTaskDatasetId: 0,
+          trainTaskDescription: "",
           trainTaskFinishTime: "2020-07-21T02:37:59.734Z",
           trainTaskId: 0,
-          trainTaskLogOutPath: "string",
-          trainTaskModelOutPath: "string",
-          trainTaskName: "string",
-          trainTaskParams: "string",
-          trainTaskRunningTime: "string",
-          trainTaskSpecification: "string",
+          trainTaskLogOutPath: "",
+          trainTaskModelOutPath: "",
+          trainTaskName: "",
+          trainTaskParams: "",
+          trainTaskRunningTime: "",
+          trainTaskSpecification: "",
           trainTaskStartTime: "2020-07-21T02:37:59.734Z",
           trainTaskStatus: 0,
           trainTaskVersion: "0"
         }
       },
+
       //推荐版本号
       autoVersions:[
         { "value": "1.0"},
@@ -151,31 +240,34 @@ export default {
         { "value": "3.0"},
         { "value": "4.0"},
         ],
-      instanceTypes:[]
-
+      instanceTypeList:[]
     }   
   },
   methods: {
-    // 推荐版本号
+    // 推荐版本号：正确
     querySearch(queryString, cb) {
-        var autoVersions = this.autoVersions;
+        var autoVersions = this.autoVersions
         var results = queryString ? autoVersions.filter(this.createFilter(queryString)) : autoVersions;
         // 调用 callback 返回建议列表的数据
-        cb(results);
+        cb(results)
     },
-    
+    //：正确
     createFilter(queryString) {
       return (version) => {
         return (version.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
     },
 
-    //提交表单
+    //提交表单：正确
     onSubmit() {
+      this.hyperParameterList.forEach(param => {
+        this.paramsStringList+=("--"+param.hyperParaName+" "+param.hyperParaDefaultValue+" ")
+      })
+      this.form.trainTaskConf.trainTaskVersion=this.form.trainTask.trainTaskVersion
       console.log("trying post form")
       this.fullscreenLoading=true
-      console.log(JSON.stringify(this.form))
-      axios.post('http://47.113.97.26:20003/frontstage/trainTask',JSON.stringify(this.form))
+      console.log(this.form)
+      axios.post('train/frontstage/trainTask',this.form)
         .then(response=>{
           console.log(response)
           this.fullscreenLoading=false
@@ -188,38 +280,76 @@ export default {
         })
     },
 
-    //获取算法列表
+    onStartTrain(){
+      console.log('trying start train')
+      this.hyperParameterList.forEach(param => {
+      this.paramsStringList+=("--"+param.hyperParaName+" "+param.hyperParaDefaultValue+" ")
+      });
+      this.fullscreenLoading=true
+      console.log(this.form)
+      axios.post('/train/frontstage/trainTask',this.form)
+        .then(response=>{
+          console.log(response)
+          this.fullscreenLoading=false
+          if(response.data.code=="00000"){
+            alert("训练创建成功")
+            axios.post('http://210.42.123.4:9527/train/frontstage/trainTask',response.data.extend.trainTaskId)
+            .then(res=>{
+              if(res.data.code=='00000'){
+                this.$router.push('/train/trainboard')
+              }
+            })
+          }
+          else{
+            alert("训练创建失败")
+          }
+        })
+    },
+
+    //获取算法列表:正确
     getAlgotithms(){
       console.log('trying get algotithms')
-      axios.get('http://210.42.123.4:10001/algorithms'+'?pagenum=1')
+      axios.get('/algorithm/backstage/algorithms?pageNum=2&pageSize=6&keyWord')
         .then(
           response=>{
-            this.algorithmList=response.data.extend.pageInfo.algorithms
+            console.log("algotithms")
+            console.log(response)
+            this.algorithmList=response.data.extend.pageInfo.list
             console.log(this.algorithmList) 
           }
         )
     },
 
+    //判斷是否具有超參
+    hasParams(){
+      axios.get('/algorithm/frontstage/algorithm/basic/'+this.form.trainTaskAlgorithmId)
+      .then(response=>{
+
+      })
+    },
     //获取参数列表
-    getParams() {
+    getParams(value) {
+      console.log(value)
       console.log('trying get params')
-      axios.get('http://210.42.123.4:10001/algorithm/' + this.data.form.trainTaskAlgorithmId)
+      axios.get('/algorithm/frontstage/algorithm/hyperPara/' + value)
         .then(
           response => {
-            this.algorithmCustomizeHyperPara = response.data.extend.algorithm.algorithmCustomizeHyperPara
             console.log(response)
-            console.log(this.algorithmCustomizeHyperPara)
+            if(response.data.code=="00000"){
+              this.hyperParameterList = response.data.extend.hyperParameters
+              console.log(this.hyperParameterList)
+            }
           }
         )
         .catch(function(error) {
           console.log(error)
-        })
+        })  
     },
 
-    //获取算法引擎
+    //获取算法引擎:正确
     getEngines() {
       console.log('trying get engines!')
-      axios.get('http://210.42.123.4:10001/algorithm/engines')
+      axios.get('/algorithm/frontstage/engines')
         .then(
           response => {
             console.log(response.data['extend'])
@@ -297,6 +427,7 @@ export default {
 
     //设置引擎ID
     setEngineId() {
+      console.log(this.engineValue)
       if (this.engineValue.length != 3) {
         return
       }
@@ -312,15 +443,15 @@ export default {
       console.log(this.form.algorithm_engine_id)
     },
 
-    //获取配置类型
+    //获取配置类型:正确
     getInstanceType() {
       console.log('trying get instance type!')
-      axios.get('http://210.42.123.4:10001/instanceType')
+      axios.get('/algorithm/frontstage/instanceType')
         .then(
           response => {
             console.log(response)
-            this.instanceType = response.data.extend.instanceType
-            console.log(this.instanceType)
+            this.instanceTypeList = response.data.extend.instanceType
+            console.log(this.instanceTypeList)
           }
         )
     }
