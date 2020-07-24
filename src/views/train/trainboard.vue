@@ -90,10 +90,10 @@ import axios from 'axios'
 export default {
   mounted(){
     this.getRunningTaskList()
-    this.timer = setInterval(this.getNewData, 1000)
+    this.timer = setInterval(this.getData, 1000)
   },
   beforeDestroy() {
-    clearInterval(this.timer);
+    clearInterval(this.timer);  
   },
   // 定时器不断发送请求，如果code='00001'则给train
   data() {
@@ -108,6 +108,8 @@ export default {
       timer: '',
       //测试用
       value:1,
+      //实际测试用、临时训练作业号
+      tmpTrainTaskId:73,
       //当前时间
       time:new Date().getMinutes() +" "+new Date().getSeconds(),
       //训练过程原始数据
@@ -150,44 +152,52 @@ export default {
     }
   },
   methods:{
+    //实际数据测试
     getData() {
-        this.value ++
-        console.log(this.value)
-        axios.get('localhost:8080/process/'+this.trainTaskId)
-        .then(Response=>{
-          if(Response.data.code=="00001"){
-            this.train=Response.data.extend.train
-          }
-          else if(Response.data.code=='00002'){
-            this.test=Response.data.extend.test
-          }
-          this.pushData()
-        })
+      console.log("trying get data from back")
+      this.value ++
+      console.log(this.value)
+      axios.get('/train/frontstage/trainTask/processdata/'+this.tmpTrainTaskId)
+      .then(Response=>{
+        console.log(Response)
+        if(Response.data.code=="00001"){
+          this.train=Response.data.extend.train
+        }
+        else if(Response.data.code=='00002'){
+          this.test=Response.data.extend.test
+        }
+        this.pushData()
+      })
     },
     pushData(){
       this.time=new Date().getMinutes() +" "+new Date().getSeconds()
       var finishPerSec=this.train.batchIndex-this.old_batchIndex
-      if(finishPerSec<0)finishPerSec=0
-      this.old_batchIndex=this.trianLossChartData.train.batchIndex
+      if(finishPerSec<0){
+        finishPerSec=0
+        }
+      this.old_batchIndex=this.train.batchIndex
       this.trianLossChartData.rows.push({'time':this.time,'train_loss':this.train.trainLoss})
       this.finishChartData.rows.push({'time':this.time,'finish_per_sec':finishPerSec})
       this.trainPercentage=this.train.finishRate*10
-      this.testPercentage=this.trian.finishRate*10-this.RandomNumBoth(0,10)
-      this.epochPercentage=this.train.epoch*10
+      this.testPercentage=this.train.finishRate*10-this.RandomNumBoth(0,10)
+      if(this.testPercentage<0){
+        this.testPercentage=0
+      }
+      this.epochPercentage=this.train.epoch/1000
     },
     //测试用
-    getNewData(){
-      this.time=new Date().getMinutes() +" "+new Date().getSeconds()
-      this.train.batchIndex=this.RandomNumBoth(0,60000)
-      var finishPerSec=this.train.batchIndex-this.old_batchIndex
-      if(finishPerSec<0)finishPerSec=0
-      this.old_batchIndex=this.train.batchIndex
-      this.trianLossChartData.rows.push({'time':this.time,'train_loss':this.RandomNumBoth(0,10)})
-      this.finishChartData.rows.push({'time':this.time,'finish_per_sec':this.RandomNumBoth(0,10)})
-      this.trainPercentage=this.RandomNumBoth(0,100)
-      this.testPercentage=this.RandomNumBoth(0,100)
-      this.epochPercentage=this.RandomNumBoth(0,100)
-    },
+    // getNewData(){
+    //   this.time=new Date().getMinutes() +" "+new Date().getSeconds()
+    //   this.train.batchIndex=this.RandomNumBoth(0,60000)
+    //   var finishPerSec=this.train.batchIndex-this.old_batchIndex
+    //   if(finishPerSec<0)finishPerSec=0
+    //   this.old_batchIndex=this.train.batchIndex
+    //   this.trianLossChartData.rows.push({'time':this.time,'train_loss':this.RandomNumBoth(0,10)})
+    //   this.finishChartData.rows.push({'time':this.time,'finish_per_sec':this.RandomNumBoth(0,10)})
+    //   this.trainPercentage=this.RandomNumBoth(0,100)
+    //   this.testPercentage=this.RandomNumBoth(0,100)
+    //   this.epochPercentage=this.RandomNumBoth(0,100)
+    // },
     
     getRunningTaskList() {
       console.log('trying get traintaskList')
