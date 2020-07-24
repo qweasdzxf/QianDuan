@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     buttonClick() {
-      var url = "/apis/train/frontstage/trainTask";
+      var url = "/train/frontstage/trainTask";
       //  var url = "/apis/train/frontstage/trainTask/workerStatus/1";
       //  var url='http://210.42.123.4:9527/train/frontstage/trainTask/workerStatus/1';
       //  axios

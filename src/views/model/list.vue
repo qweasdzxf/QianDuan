@@ -159,7 +159,7 @@ export default {
       // }
       console.log(this.formData.getAll('file'))
       console.log(this.fileList)
-      axios.post('http://localhost:30003/model/demo', this.formData)
+      axios.post('/model/demo', this.formData)
         .then(
           response => {
             console.log(response)

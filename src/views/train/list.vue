@@ -160,7 +160,7 @@ export default {
     },
     getTrainTasks() {
       axios.get(
-        'http://localhost:9527/train/frontstage/trainTasks',
+        '/train/frontstage/trainTasks',
         {
           params: {
             pageNum: this.pageNum,
@@ -177,7 +177,7 @@ export default {
         )
     },
     showTrainTaskDetail(index) {
-      axios.get('http://localhost:9527/train/frontstage/trainTask/' + index.toString())
+      axios.get('/train/frontstage/trainTask/' + index.toString())
         .then(
           res => {
             this.trainTaskDetail = res.data.extend.trainTaskAndTrainTaskConfig.trainTask

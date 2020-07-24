@@ -269,7 +269,7 @@ export default {
       console.log(this.form)
       axios({
         method: 'post',
-        url: 'train/frontstage/trainTask',
+        url: '/train/frontstage/trainTask',
         xhrFields: { withCredentials: true },
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -334,7 +334,7 @@ export default {
     //获取算法列表:正确
     getAlgotithms(){
       console.log('trying get algotithms')
-      axios.get('/apis/algorithm/backstage/algorithms?pageNum=2&pageSize=6&keyWord')
+      axios.get('/algorithm/backstage/algorithms?pageNum=2&pageSize=6&keyWord')
         .then(
           response=>{
             console.log("algotithms")
@@ -347,7 +347,7 @@ export default {
 
     //判斷是否具有超參
     hasParams(){
-      axios.get('/apis/algorithm/frontstage/algorithm/basic/'+this.form.trainTaskAlgorithmId)
+      axios.get('/algorithm/frontstage/algorithm/basic/'+this.form.trainTaskAlgorithmId)
       .then(response=>{
 
       })
@@ -356,7 +356,7 @@ export default {
     getParams(value) {
       console.log(value)
       console.log('trying get params')
-      axios.get('/apis/algorithm/frontstage/algorithm/hyperPara/' + value)
+      axios.get('/algorithm/frontstage/algorithm/hyperPara/' + value)
         .then(
           response => {
             console.log(response)
@@ -374,7 +374,7 @@ export default {
     //获取算法引擎:正确
     getEngines() {
       console.log('trying get engines!')
-      axios.get('/apis/algorithm/frontstage/engines')
+      axios.get('/algorithm/frontstage/engines')
         .then(
           response => {
             console.log(response.data['extend'])
@@ -471,7 +471,7 @@ export default {
     //获取配置类型:正确
     getInstanceType() {
       console.log('trying get instance type!')
-      axios.get('/apis/algorithm/frontstage/instanceType')
+      axios.get('/algorithm/frontstage/instanceType')
         .then(
           response => {
             console.log(response)

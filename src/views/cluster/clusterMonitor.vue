@@ -267,7 +267,7 @@ export default {
     //获取GPU数据
     getGpuData() {
       var url =
-        "/apis/train/frontstage/trainTask/workerStatus/1";
+        "/train/frontstage/trainTask/workerStatus/1";
       axios
         .get(url)
         .then((response) => {

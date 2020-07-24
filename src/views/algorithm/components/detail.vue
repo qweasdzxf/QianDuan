@@ -269,13 +269,13 @@ export default {
       //     console.log(response)
       //   }
       // )
-      axios.post('http://210.42.123.4:9527/algorithm/frontstage/algorithm', data)
+      axios.post('/algorithm/frontstage/algorithm', data)
         .then(
           response => {
             console.log(response)
             this.fullscreenLoading = false
             if (response.data.code == '00000') {
-              axios.get('http://210.42.123.4:9527/train/frontstage/image/' + response.data.extend.algorithmId.toString())
+              axios.get('/train/frontstage/image/' + response.data.extend.algorithmId.toString())
               alert('算法上传成功！')
             } else {
               alert('上传失败，请重试！')
@@ -294,7 +294,7 @@ export default {
     },
     getEngines() {
       console.log('trying get engines!')
-      axios.get('/apis/algorithm/frontstage/engines')
+      axios.get('/algorithm/frontstage/engines')
         .then(
           response => {
             console.log(response.data['extend'])

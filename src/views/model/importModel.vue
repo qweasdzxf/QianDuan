@@ -215,7 +215,7 @@ export default {
 
     // 交互
     submitForm(modelForm) {
-      var url = "http://210.42.123.4:9527/model/frontstage/model";
+      var url = "/model/frontstage/model";
       var form = {};
       form.modelName = this.modelForm.modelName;
       form.modelTypeId = parseInt(this.modelForm.modelTypeId);
