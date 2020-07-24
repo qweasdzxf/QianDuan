@@ -39,9 +39,9 @@
           <!-- 算法选择器、数据集选择器 -->
           <el-form-item label="算法">
             <el-col :span="10">
-                <el-select v-model="form.trainTaskConf.trainTaskAlgorithmId" 
+                <el-select v-model="form.trainTaskConf.trainTaskAlgorithmId"
                   @change="getParams(form.trainTaskConf.trainTaskAlgorithmId)"
-                  placeholder="请选择算法" 
+                  placeholder="请选择算法"
                   style="width: 300px">
                   <el-option
                     v-for="al in algorithmList"
@@ -54,7 +54,7 @@
             <el-col :span="2" :offset="1">数据集</el-col>
             <el-col :span="10">
                <el-select v-model ="datasetId"
-                  placeholder="请选择数据集" 
+                  placeholder="请选择数据集"
                   style="width: 300px">
                   <el-option
                     v-for="ds in datasetList"
@@ -66,10 +66,10 @@
             </el-col>
           </el-form-item>
           <!-- 硬件规格选择器\AI引擎选择器 -->
-          <el-form-item label="作业硬件规格"> 
+          <el-form-item label="作业硬件规格">
             <el-col :span="10">
-            <el-select 
-            v-model="form.trainTaskConf.train_task_specification" 
+            <el-select
+            v-model="form.trainTaskConf.train_task_specification"
             style="width: 300px"
             placeholder="请选择"
             @focus="getInstanceType">
@@ -82,7 +82,7 @@
             </el-select>
             </el-col>
             <el-col :span="2" :offset="1">AI引擎</el-col>
-            <el-col :span="10"> 
+            <el-col :span="10">
               <el-cascader
                 v-model="form.trainTaskConf.engineValue"
                 style="width: 300px"
@@ -92,12 +92,12 @@
                 @focus="getEngines"
                 @change="setEngineId"
               />
-            </el-col> 
+            </el-col>
             <!-- 模型输出路径 -->
           </el-form-item>
           <!-- 模型輸出路徑輸入框 -->
           <el-form-item label="模型输出路径">
-            <el-input 
+            <el-input
             v-model="form.trainTaskConf.trainTaskModelOutPath"
             placeholder="请输入模型输出的相对路径"
             style="width: 720px">
@@ -157,7 +157,7 @@
               style="width: 720px"
               placeholder="请输入内容"
               v-model="form.trainTaskConf.trainTaskDescription">
-            </el-input> 
+            </el-input>
           </el-form-item>
           <!-- 提交表单按钮\取消按钮 -->
           <el-form-item>
@@ -241,7 +241,7 @@ export default {
         { "value": "4.0"},
         ],
       instanceTypeList:[]
-    }   
+    }
   },
   methods: {
     // 推荐版本号：正确
@@ -340,7 +340,7 @@ export default {
             console.log("algotithms")
             console.log(response)
             this.algorithmList=response.data.extend.pageInfo.list
-            console.log(this.algorithmList) 
+            console.log(this.algorithmList)
           }
         )
     },
@@ -368,7 +368,7 @@ export default {
         )
         .catch(function(error) {
           console.log(error)
-        })  
+        })
     },
 
     //获取算法引擎:正确

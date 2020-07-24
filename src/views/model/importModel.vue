@@ -55,13 +55,13 @@
             :before-upload="handleBeforeUpload"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
-             :on-change="addImage"
-             :file-list="imageList"
+            :on-change="addImage"
+            :file-list="imageList"
           >
             <i class="el-icon-plus" />
           </el-upload>
           <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt>
+            <img width="100%" :src="dialogImageUrl" alt />
           </el-dialog>
         </el-form-item>
 
@@ -96,142 +96,151 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   data() {
     return {
-      input: '',
+      input: "",
       options: [
         {
-          value: '1',
-          label: '类型1'
+          value: "1",
+          label: "类型1",
         },
         {
-          value: '2',
-          label: '类型2'
+          value: "2",
+          label: "类型2",
         },
         {
-          value: '3',
-          label: '类型3'
-        }
+          value: "3",
+          label: "类型3",
+        },
       ],
       imageList: [],
       fileList: [],
       //上传文件测试部分
-      formData:null,
+      formData: null,
       //
       modelForm: {
-        modelName: '',
-        modelTypeId: '',
-        modelIsSuccessful: '',
-        description: '',
+        modelName: "",
+        modelTypeId: "",
+        modelIsSuccessful: "",
+        modelDescription: "",
       },
-      dialogImageUrl: '',
+      dialogImageUrl: "",
       dialogVisible: false,
-      labelPosition: 'left',
+      labelPosition: "left",
       disabled: false,
       limitNum: 3,
       rules: {
         modelName: [
-          { required: true, message: '请输入名称', trigger: 'blur' },
+          { required: true, message: "请输入名称", trigger: "blur" },
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
-        type: [{ required: true, message: '请选择类型', trigger: 'blur' }],
-      }
-    }
+        type: [{ required: true, message: "请选择类型", trigger: "blur" }],
+      },
+    };
   },
   created() {
-    this.formData = new FormData()
+    this.formData = new FormData();
   },
   methods: {
     // 模型
     handleRemove(file, fileList) {
       // console.log(this.imageList);
-      console.log('picutre')
-      console.log(file, fileList)
-      console.log(file.url)
+      console.log("picutre");
+      console.log(file, fileList);
+      console.log(file.url);
     },
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
     beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
+      return this.$confirm(`确定移除 ${file.name}？`);
     },
     addFile(file, fileList) {
-      this.formData.append('modelFile', file.raw)
-      console.log(file.file)
-      console.log(fileList)
+      this.formData.append("modelFile", file.raw);
+      console.log(file.file);
+      console.log(fileList);
     },
     addImage(file, imageList) {
-      this.formData.append('modelImage ', file.raw)
-      console.log(file.file)
-      console.log(imageList)
+      this.formData.append("modelImage ", file.raw);
+      console.log(file.file);
+      console.log(imageList);
     },
     // handleSuccess(file){
     //   console.log("success");
     // },
     // 图片
     handleBeforeUpload(file) {
-      console.log('befor upload')
+      console.log("befor upload");
       // this.modelForm.modelPhotoUrl=file.url
       if (
         !(
-          file.type === 'image/png' ||
-          file.type === 'image/gif' ||
-          file.type === 'image/jpg' ||
-          file.type === 'image/jpeg'
+          file.type === "image/png" ||
+          file.type === "image/gif" ||
+          file.type === "image/jpg" ||
+          file.type === "image/jpeg"
         )
       ) {
         this.$notify.warning({
-          title: '警告',
+          title: "警告",
           message:
-            '请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片'
-        })
+            "请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片",
+        });
       }
-      const size = file.size / 1024 / 1024 / 2
+      const size = file.size / 1024 / 1024 / 2;
       if (size > 2) {
         this.$notify.warning({
-          title: '警告',
-          message: '图片大小必须小于2M'
-        })
+          title: "警告",
+          message: "图片大小必须小于2M",
+        });
       }
     },
     // 文件超出个数限制时的钩子
     handleExceed(files, fileList) {},
     // 文件列表移除文件时的钩子
     handlePictureRemove(file, fileList) {
-      console.log(file, fileList)
+      console.log(file, fileList);
     },
     // 点击文件列表中已上传的文件时的钩子
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
     uploadFile() {
-      this.$refs.upload.submit()
+      this.$refs.upload.submit();
     },
     //上传文件测试
-  
+
     // 交互
     submitForm(modelForm) {
-      var url = 'http://210.42.123.4:20001/model'
-      this.formData.append('data',JSON.stringify(this.modelForm))
+      var url = "http://210.42.123.4:9527/model/frontstage/model";
+      var form = {};
+      form.modelName = this.modelForm.modelName;
+      form.modelTypeId = parseInt(this.modelForm.modelTypeId);
+      form.modelIsSuccessful = parseInt(this.modelForm.modelIsSuccessful);
+      form.modelDescription = this.modelForm.description;
+      this.formData.append('data', JSON.stringify(form));
       axios
         .post(url, this.formData)
-        .then(response => {
+        .then((response) => {
           self.$message({
-            message: '申请已发送',
-            type: 'success'
-          })
+            message: "申请已发送",
+            type: "success",
+          });
         })
-        .catch(e => self.$message.error(e.response.data))
+        .catch((e) => self.$message.error(e.response.data));
+
+      this.resetForm(modelForm);
     },
     resetForm(modelForm) {
-      this.$refs[modelForm].resetFields()
-    }
-  }
-}
+      this.$refs[modelForm].resetFields();
+      this.formData=new FormData();
+
+    },
+  },
+};
 </script>
 
 <style scoped>

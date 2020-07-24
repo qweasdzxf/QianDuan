@@ -39,7 +39,7 @@
               </el-col>
               <el-col :span="10">
                 <span class="infoContent">GPU利用率</span>
-                <span class="infoContentTitle"> {{currentGPU.gpuUtil}} %</span>
+                <span class="infoContentTitle">{{currentGPU.gpuUtil}} %</span>
                 <span class="infoContent"></span>
               </el-col>
             </el-row>
@@ -54,9 +54,9 @@
                 <span class="infoContentTitle">/</span>
                 <span class="infoContent">总量</span>
                 <span class="infoContentTitle">10.2</span>
-                <span class="infoContent">GiB</span> -->
-                 <span class="infoContent">显存利用率</span>
-                <span class="infoContentTitle"> {{currentGPU.memoryUtil}} %</span>
+                <span class="infoContent">GiB</span>-->
+                <span class="infoContent">显存利用率</span>
+                <span class="infoContentTitle">{{currentGPU.memoryUtil}} %</span>
                 <span class="infoContent"></span>
               </el-col>
             </el-row>
@@ -66,7 +66,7 @@
               </el-col>
               <el-col :span="10">
                 <span class="infoContent">GPU当前性能</span>
-                <span class="infoContentTitle"> {{currentGPU.pref}} </span>
+                <span class="infoContentTitle">{{currentGPU.pref}}</span>
                 <span class="infoContent"></span>
               </el-col>
             </el-row>
@@ -76,7 +76,7 @@
               </el-col>
               <el-col :span="10">
                 <span class="infoContent">当前风扇转速</span>
-                <span class="infoContentTitle"> {{currentGPU.fan}} %</span>
+                <span class="infoContentTitle">{{currentGPU.fan}} %</span>
                 <span class="infoContent"></span>
               </el-col>
             </el-row>
@@ -86,7 +86,7 @@
               </el-col>
               <el-col :span="10">
                 <span class="infoContent">当前温度</span>
-                <span class="infoContentTitle"> {{currentGPU.temp}} C</span>
+                <span class="infoContentTitle">{{currentGPU.temp}} C</span>
                 <span class="infoContent"></span>
               </el-col>
             </el-row>
@@ -99,10 +99,10 @@
           </el-col>
 
           <el-col :span="6">
-             <cardPie :values="GPUList[1]" ref="chart1" @click.native="clickCard(GPUList[1])"></cardPie>
+            <cardPie :values="GPUList[1]" ref="chart1" @click.native="clickCard(GPUList[1])"></cardPie>
           </el-col>
           <el-col :span="6">
-             <cardPie :values="GPUList[2]" ref="chart2" @click.native="clickCard(GPUList[2])"></cardPie>
+            <cardPie :values="GPUList[2]" ref="chart2" @click.native="clickCard(GPUList[2])"></cardPie>
           </el-col>
           <el-col :span="6">
             <cardPie :values="GPUList[3]" ref="chart3" @click.native="clickCard(GPUList[3])"></cardPie>
@@ -111,19 +111,19 @@
 
         <el-row>
           <el-col :span="6">
-             <cardPie :values="GPUList[4]" ref="chart4" @click.native="clickCard(GPUList[4])"></cardPie>
+            <cardPie :values="GPUList[4]" ref="chart4" @click.native="clickCard(GPUList[4])"></cardPie>
           </el-col>
           <!-- <el-col :span="6">
             <cardPie :values="list6" @click.native="clickCard"></cardPie>
           </el-col>-->
           <el-col :span="6">
-             <cardPie :values="GPUList[5]" ref="chart5" @click.native="clickCard(GPUList[5])"></cardPie>
+            <cardPie :values="GPUList[5]" ref="chart5" @click.native="clickCard(GPUList[5])"></cardPie>
           </el-col>
           <el-col :span="6">
-             <cardPie :values="GPUList[6]" ref="chart6" @click.native="clickCard(GPUList[6])"></cardPie>
+            <cardPie :values="GPUList[6]" ref="chart6" @click.native="clickCard(GPUList[6])"></cardPie>
           </el-col>
           <el-col :span="6">
-             <cardPie :values="GPUList[7]" ref="chart7" @click.native="clickCard(GPUList[7])"></cardPie>
+            <cardPie :values="GPUList[7]" ref="chart7" @click.native="clickCard(GPUList[7])"></cardPie>
           </el-col>
         </el-row>
       </el-col>
@@ -139,57 +139,65 @@ export default {
   data() {
     return {
       chartPie: null,
-      GPUList: [
-        {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 35.0,
-          memoryUtil: 0.7291159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 68.0,
-          memoryUtil: 0.5791159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.8791159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
-        }, {
-          pref: "P2",
-          temp: 73.0,
-          fan: 65.0,
-          gpuUtil: 65.0,
-          memoryUtil: 0.9791159863471985,
-        },
-      ],
+      // GPUList: [
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 65.0,
+      //     memoryUtil: 0.9791159863471985,
+      //   },
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 65.0,
+      //     memoryUtil: 0.9791159863471985,
+      //   },
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 65.0,
+      //     memoryUtil: 0.9791159863471985,
+      //   },
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 35.0,
+      //     memoryUtil: 0.7291159863471985,
+      //   },
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 68.0,
+      //     memoryUtil: 0.5791159863471985,
+      //   },
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 65.0,
+      //     memoryUtil: 0.8791159863471985,
+      //   },
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 65.0,
+      //     memoryUtil: 0.9791159863471985,
+      //   },
+      //   {
+      //     pref: "P2",
+      //     temp: 73.0,
+      //     fan: 65.0,
+      //     gpuUtil: 65.0,
+      //     memoryUtil: 0.9791159863471985,
+      //   },
+      // ],
+      GPUList: [],
       list1: {
         cpuUtil: 2,
         cpuTotal: 4,
@@ -258,25 +266,24 @@ export default {
     },
     //获取GPU数据
     getGpuData() {
-      var url = "/test";
+      var url =
+        "http://210.42.123.4:9527/train/frontstage/trainTask/workerStatus/1";
       axios
         .get(url)
         .then((response) => {
           //
-          this.GPUList = response.data;
+          console.log("************************");
 
-          //处理获取到的GPU数据，加index（画pie用）
-          for (var i = 0; i < this.GPUList.length; i++) {
+          this.GPUList = [];
+          for (var i = 0; i < response.data.extend.GPUS.length; i++) {
+            this.GPUList.push(response.data.extend.GPUS[i]);
             this.GPUList[i].index1 = 2 * i + 1;
             this.GPUList[i].index2 = 2 * i + 2;
-            this.GPUList[i].memoryUtil = Math.round(this.GPUList[i].memoryUtil*1000)/10;
-          }
-          console.log(this.GPUList);
 
-          self.$message({
-            message: "申请已发送",
-            type: "success",
-          });
+            this.GPUList[i].memoryUtil =
+              Math.round(this.GPUList[i].memoryUtil * 1000) / 10;
+          }
+          console.log("++++++++++++++++");
         })
         .catch((e) => self.$message.error(e.response.data));
     },
@@ -295,33 +302,53 @@ export default {
     },
   },
   created() {
-    
-    for (var i = 0; i < this.GPUList.length; i++) {
-            this.GPUList[i].index1 = 2 * i + 1;
-            this.GPUList[i].index2 = 2 * i + 2;
-            // console.log(this.GPUList[i].memoryUtil);
-            // console.log(Math.round(this.GPUList[i].memoryUtil*100*10) / 10)
-            this.GPUList[i].memoryUtil = Math.round(this.GPUList[i].memoryUtil*100*10) / 10;
-          }
-          console.log(this.GPUList);
+    // for (var i = 0; i < this.GPUList.length; i++) {
+    //         this.GPUList[i].index1 = 2 * i + 1;
+    //         this.GPUList[i].index2 = 2 * i + 2;
+    //         // console.log(this.GPUList[i].memoryUtil);
+    //         // console.log(Math.round(this.GPUList[i].memoryUtil*100*10) / 10)
+    //         this.GPUList[i].memoryUtil = Math.round(this.GPUList[i].memoryUtil*100*10) / 10;
+    //       }
+    //       console.log(this.GPUList);
 
     //轮询请求后端
-    // window.setInterval(() => {
-    //   // this.getGpuData();
-    //    for (var i = 0; i < this.GPUList.length; i++) {
-          
-    //         this.GPUList[i].memoryUtil = Math.round((this.GPUList[i].memoryUtil+5)%100*10)/10;
-    //         this.GPUList[i].gpuUtil = (this.GPUList[i].gpuUtil+5)%100;
-    //         var item='chart'+i;
-    //         this.$refs[item].updateData(this.GPUList[i]);
-    //       }
-    // }, 2000);
-     
+    // var j = 0;
+    // // var interval=100;
+    // if(j==0){
+    //     window.setInterval(() => {
+    //   // interval=10000;
+    //   this.getGpuData();
+    //   for (var i = 0; i < this.GPUList.length; i++) {
+    //     var item = "chart" + i;
+    //     this.$refs[item].updateData(this.GPUList[i]);
+    //   }
+    //   j=j+1;
+    // }, 5000);
+
+    // }
+    // else{
+    //     window.setInterval(() => {
+    //   // interval=10000;
+    //   this.getGpuData();
+    //   for (var i = 0; i < this.GPUList.length; i++) {
+    //     var item = "chart" + i;
+    //     this.$refs[item].updateData(this.GPUList[i]);
+    //   }
+    // }, 10000);
+    // }
+   
+  
   },
   mounted() {
     //获取数据
-    // this.getGpuData()
-    //this.getClusterData()
+    this.getGpuData();
+    for (var i = 0; i < this.GPUList.length; i++) {
+      // this.GPUList[i].memoryUtil = Math.round((this.GPUList[i].memoryUtil+5)%100*10)/10;
+      // this.GPUList[i].gpuUtil = (this.GPUList[i].gpuUtil+5)%100;
+      var item = "chart" + i;
+      this.$refs[item].updateData(this.GPUList[i]);
+    }
+    // this.getClusterData()
   },
 };
 </script>
