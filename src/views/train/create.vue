@@ -206,27 +206,27 @@ export default {
         trainTask: {
           trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
           trainTaskId: 0,
-          trainTaskName: "",
-          trainTaskRunningTime: "",
+          trainTaskName: "string",
+          trainTaskRunningTime: "1",
           trainTaskStatus: 0,
           trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
           trainTaskUserId: 0,
           trainTaskVersion: '0'
         },
         trainTaskConf: {
-          trainTaskAiEngine: "",
+          trainTaskAiEngine: "1",
           trainTaskAlgorithmId: 0,
           trainTaskConfId: 0,
           trainTaskDatasetId: 0,
-          trainTaskDescription: "",
+          trainTaskDescription: "1",
           trainTaskFinishTime: "2020-07-21T02:37:59.734Z",
           trainTaskId: 0,
-          trainTaskLogOutPath: "",
-          trainTaskModelOutPath: "",
-          trainTaskName: "",
-          trainTaskParams: "",
-          trainTaskRunningTime: "",
-          trainTaskSpecification: "",
+          trainTaskLogOutPath: "1",
+          trainTaskModelOutPath: "1",
+          trainTaskName: "1",
+          trainTaskParams: "1",
+          trainTaskRunningTime: "1",
+          trainTaskSpecification: "1",
           trainTaskStartTime: "2020-07-21T02:37:59.734Z",
           trainTaskStatus: 0,
           trainTaskVersion: '0'
@@ -267,7 +267,10 @@ export default {
       console.log("trying post form")
       this.fullscreenLoading=true
       console.log(this.form)
-      axios.post('http://localhost:9527/train/frontstage/trainTask', this.form)
+      this.form.trainTask.trainTaskVersion=parseInt(this.form.trainTask.trainTaskVersion);
+      this.form.trainTaskConf.trainTaskVersion=parseInt(this.form.trainTaskConf.trainTaskVersion);
+      this.form.trainTaskConf.trainTaskSpecification=this.form.trainTaskConf.trainTaskSpecification.toString();
+      axios.post('/apis/train/frontstage/trainTask', this.form)
         .then(
           response => {
             console.log(response)
@@ -288,13 +291,13 @@ export default {
       });
       this.fullscreenLoading=true
       console.log(this.form)
-      axios.post('http://210.42.123.4:9527/train/frontstage/trainTask',this.form)
+      axios.post('/apis/train/frontstage/trainTask',this.form)
         .then(response=>{
           console.log(response)
           this.fullscreenLoading=false
           if(response.data.code=="00000"){
             alert("训练创建成功")
-            axios.post('http://210.42.123.4:9527/train/frontstage/trainTask',response.data.extend.trainTaskId)
+            axios.post('/apis/train/frontstage/trainTask',response.data.extend.trainTaskId)
             .then(res=>{
               if(res.data.code=='00000'){
                 this.$router.push('/train/trainboard')
@@ -310,7 +313,7 @@ export default {
     //获取算法列表:正确
     getAlgotithms(){
       console.log('trying get algotithms')
-      axios.get('/algorithm/backstage/algorithms?pageNum=2&pageSize=6&keyWord')
+      axios.get('/apis/algorithm/backstage/algorithms?pageNum=2&pageSize=6&keyWord')
         .then(
           response=>{
             console.log("algotithms")
@@ -323,7 +326,7 @@ export default {
 
     //判斷是否具有超參
     hasParams(){
-      axios.get('/algorithm/frontstage/algorithm/basic/'+this.form.trainTaskAlgorithmId)
+      axios.get('/apis/algorithm/frontstage/algorithm/basic/'+this.form.trainTaskAlgorithmId)
       .then(response=>{
 
       })
@@ -332,7 +335,7 @@ export default {
     getParams(value) {
       console.log(value)
       console.log('trying get params')
-      axios.get('/algorithm/frontstage/algorithm/hyperPara/' + value)
+      axios.get('/apis/algorithm/frontstage/algorithm/hyperPara/' + value)
         .then(
           response => {
             console.log(response)
@@ -350,7 +353,7 @@ export default {
     //获取算法引擎:正确
     getEngines() {
       console.log('trying get engines!')
-      axios.get('/algorithm/frontstage/engines')
+      axios.get('/apis/algorithm/frontstage/engines')
         .then(
           response => {
             console.log(response.data['extend'])
@@ -447,7 +450,7 @@ export default {
     //获取配置类型:正确
     getInstanceType() {
       console.log('trying get instance type!')
-      axios.get('/algorithm/frontstage/instanceType')
+      axios.get('/apis/algorithm/frontstage/instanceType')
         .then(
           response => {
             console.log(response)

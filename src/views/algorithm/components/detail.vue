@@ -294,7 +294,7 @@ export default {
     },
     getEngines() {
       console.log('trying get engines!')
-      axios.get('http://localhost:9527/algorithm/frontstage/engines')
+      axios.get('/apis/algorithm/frontstage/engines')
         .then(
           response => {
             console.log(response.data['extend'])

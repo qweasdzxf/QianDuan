@@ -267,7 +267,7 @@ export default {
     //获取GPU数据
     getGpuData() {
       var url =
-        "http://210.42.123.4:9527/train/frontstage/trainTask/workerStatus/1";
+        "/apis/train/frontstage/trainTask/workerStatus/1";
       axios
         .get(url)
         .then((response) => {
@@ -279,7 +279,6 @@ export default {
             this.GPUList.push(response.data.extend.GPUS[i]);
             this.GPUList[i].index1 = 2 * i + 1;
             this.GPUList[i].index2 = 2 * i + 2;
-
             this.GPUList[i].memoryUtil =
               Math.round(this.GPUList[i].memoryUtil * 1000) / 10;
           }
@@ -312,30 +311,30 @@ export default {
     //       console.log(this.GPUList);
 
     //轮询请求后端
-    // var j = 0;
-    // // var interval=100;
-    // if(j==0){
-    //     window.setInterval(() => {
-    //   // interval=10000;
-    //   this.getGpuData();
-    //   for (var i = 0; i < this.GPUList.length; i++) {
-    //     var item = "chart" + i;
-    //     this.$refs[item].updateData(this.GPUList[i]);
-    //   }
-    //   j=j+1;
-    // }, 5000);
+    var j = 0;
+    // var interval=100;
+    if(j==0){
+        window.setInterval(() => {
+      // interval=10000;
+      this.getGpuData();
+      for (var i = 0; i < this.GPUList.length; i++) {
+        var item = "chart" + i;
+        this.$refs[item].updateData(this.GPUList[i]);
+      }
+      j=j+1;
+    }, 2000);
 
-    // }
-    // else{
-    //     window.setInterval(() => {
-    //   // interval=10000;
-    //   this.getGpuData();
-    //   for (var i = 0; i < this.GPUList.length; i++) {
-    //     var item = "chart" + i;
-    //     this.$refs[item].updateData(this.GPUList[i]);
-    //   }
-    // }, 10000);
-    // }
+    }
+    else{
+        window.setInterval(() => {
+      // interval=10000;
+      this.getGpuData();
+      for (var i = 0; i < this.GPUList.length; i++) {
+        var item = "chart" + i;
+        this.$refs[item].updateData(this.GPUList[i]);
+      }
+    }, 10000);
+    }
    
   
   },

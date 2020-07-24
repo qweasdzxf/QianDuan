@@ -318,7 +318,7 @@ export default {
     getAlgorithmList() {
       console.log('trying get algorithms!')
       axios.get(
-        'http://localhost:9527/algorithm/backstage/algorithms',
+        '/apis/algorithm/backstage/algorithms',
         {
           params: {
             pageNum: this.pageNum,

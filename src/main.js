@@ -24,11 +24,7 @@ import axios from 'axios'
 import VCharts from 'v-charts'
 
 Vue.prototype.$ajax = axios
-<<<<<<< HEAD
 // axios.defaults.baseURL='/api'
-=======
-axios.defaults.baseURL = 'http://210.42.123.4:9527'
->>>>>>> b04fb6c4529a19674ccf7da9ca23e07778ef7ec7
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
