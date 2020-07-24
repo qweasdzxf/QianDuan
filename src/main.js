@@ -24,14 +24,10 @@ import axios from 'axios'
 import VCharts from 'v-charts'
 
 Vue.prototype.$ajax = axios
-<<<<<<< HEAD
-// axios.defaults.baseURL='/api'
-=======
 axios.defaults.baseURL='http://210.42.123.4:9527'
 axios.defaults.withCredentials = true
 //withCredentials: true
 //axios.defaults.headers= {'X-Requested-With': 'XMLHttpRequest'}
->>>>>>> b26a9df5b31ed6a914d72f1e49af2e25b112365d
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
