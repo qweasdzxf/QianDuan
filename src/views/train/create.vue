@@ -267,6 +267,7 @@ export default {
       console.log("trying post form")
       this.fullscreenLoading=true
       console.log(this.form)
+<<<<<<< HEAD
       this.form.trainTask.trainTaskVersion=parseInt(this.form.trainTask.trainTaskVersion);
       this.form.trainTaskConf.trainTaskVersion=parseInt(this.form.trainTaskConf.trainTaskVersion);
       this.form.trainTaskConf.trainTaskSpecification=this.form.trainTaskConf.trainTaskSpecification.toString();
@@ -280,11 +281,42 @@ export default {
             } else {
               alert('训练创建失败')
             }
+=======
+      axios({
+        method: 'post',
+        url: 'train/frontstage/trainTask',
+        xhrFields: { withCredentials: true },
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true,
+        data: this.form
+      }).then(
+        (response) => {
+          console.log(response)
+          this.fullscreenLoading = false
+          if (response.data.code == '00000') {
+            alert('训练创建成功')
+          } else {
+            alert('训练创建失败')
+>>>>>>> b26a9df5b31ed6a914d72f1e49af2e25b112365d
           }
-        )
+        }
+      )
+      // axios.post('train/frontstage/trainTask',this.form)
+      //   .then(response=>{
+      //     console.log(response)
+      //     this.fullscreenLoading = false
+      //     if (response.data.code == '00000') {
+      //       alert('训练创建成功')
+      //     } else {
+      //       alert('训练创建失败')
+      //     }
+      //   })
     },
 
     onStartTrain(){
+<<<<<<< HEAD
       console.log('trying start train')
       this.hyperParameterList.forEach(param => {
       this.paramsStringList+=("--"+param.hyperParaName+" "+param.hyperParaDefaultValue+" ")
@@ -307,6 +339,36 @@ export default {
           else{
             alert("训练创建失败")
           }
+=======
+      //正常逻辑
+      // console.log('trying start train')
+      // this.hyperParameterList.forEach(param => {
+      // this.paramsStringList+=("--"+param.hyperParaName+" "+param.hyperParaDefaultValue+" ")
+      // });
+      // this.fullscreenLoading=true
+      // console.log(this.form)
+      // axios.post('/train/frontstage/trainTask',this.form)
+      //   .then(response=>{
+      //     console.log(response)
+      //     this.fullscreenLoading=false
+      //     if(response.data.code=="00000"){
+      //       alert("训练创建成功")
+      //       axios.post('http://210.42.123.4:9527/train/frontstage/trainTask',response.data.extend.trainTaskId)
+      //       .then(res=>{
+      //         if(res.data.code=='00000'){
+      //           this.$router.push('/train/trainboard')
+      //         }
+      //       })
+        //   }
+        //   else{
+        //     alert("训练创建失败")
+        //   }
+        // })
+        console.log("trying start a task")
+        axios.get('/train/frontstage/trainTask/start/74')
+        .then(Response=>{
+          console.log(Response)
+>>>>>>> b26a9df5b31ed6a914d72f1e49af2e25b112365d
         })
     },
 

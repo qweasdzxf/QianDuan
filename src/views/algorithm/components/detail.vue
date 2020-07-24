@@ -294,7 +294,11 @@ export default {
     },
     getEngines() {
       console.log('trying get engines!')
+<<<<<<< HEAD
       axios.get('/apis/algorithm/frontstage/engines')
+=======
+      axios.get('/algorithm/frontstage/engines')
+>>>>>>> b26a9df5b31ed6a914d72f1e49af2e25b112365d
         .then(
           response => {
             console.log(response.data['extend'])
@@ -371,7 +375,7 @@ export default {
     },
     getInstanceType() {
       console.log('trying get instance type!')
-      axios.get('http://localhost:9527/algorithm/frontstage/instanceType')
+      axios.get('/algorithm/frontstage/instanceType')
         .then(
           response => {
             this.instanceType = response.data.extend.instanceType
@@ -381,7 +385,7 @@ export default {
         )
     },
     getAlgorithmType() {
-      axios.get('http://localhost:10001/algorithm/type')
+      axios.get('/algorithm/frontstage/type')
         .then(
           response => {
             this.algorithmType = response.data.extend.algorithmType
