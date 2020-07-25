@@ -116,21 +116,15 @@ export default {
       //定时器
       timer: '',
       //测试用
-      value:1,
+      value:0,
       //当前时间
       time:new Date().getMinutes() +" "+new Date().getSeconds(),
       //训练过程原始数据
-      train:{
-        epoch:0,//迭代轮次
-        batchIndex:0,//本轮次中第几个样本：1、保存旧值，做差，存到柱状图中显示出来
-        len:0,//总样本数
-        finishRate:0,//完成率，饼图
-        trainLoss:0,//训练损失，折线图
-      },
+      train:null,
       //1、训练过程数据
       trianLossChartData:{
         columns:['time','train_loss'],
-        rows:[{'time':' ','train_loss':1}]
+        rows:[{'time':' ','train_loss':2.3}]
       },
       //2 每个时间片完成的样本数量
       old_batchIndex:0,
@@ -139,11 +133,11 @@ export default {
         rows:[{'time':' ','finish_per_sec':0}]
       },
       //3.1、训练轮次完成率
-      trainPercentage:1,
+      trainPercentage:0,
       //3.2、单轮训练进度
-      epochPercentage:1,
+      epochPercentage:0,
       //3.3  单轮测试进度
-      testPercentage:1,
+      testPercentage:0,
       // 仪表盘的颜色数据
       colors: [
         {color: '#f56c6c', percentage: 20},
@@ -168,8 +162,9 @@ export default {
       console.log(this.value)
       axios.get('/train/frontstage/trainTask/processdata/'+this.currentTrainTaskId)
       .then(Response=>{
+        //增加逻辑，判断是否还在跑
         console.log(Response)
-        if(Response.data.code=="00001"){
+        if(Response.data.extend.message!='没有正在训练的作业'){
           this.train=Response.data.extend.train
           this.pushData()
         }
@@ -177,19 +172,24 @@ export default {
     },
     pushData(){
       this.time=new Date().getMinutes() +" "+new Date().getSeconds()
+      //训练样本数量/秒
       var finishPerSec=this.train.batchIndex-this.old_batchIndex
       if(finishPerSec<0){
-        finishPerSec=0
+        finishPerSec=this.train.len+finishPerSec
       }
-      this.old_batchIndex=this.train.batchIndex
-      this.trianLossChartData.rows.push({'time':this.time,'train_loss':this.train.trainLoss})
       this.finishChartData.rows.push({'time':this.time,'finish_per_sec':finishPerSec})
-      this.trainPercentage=this.train.finishRate*10
-      this.testPercentage=this.train.finishRate*10-this.RandomNumBoth(0,10)
+      this.old_batchIndex=this.train.batchIndex
+      //训练损失/秒
+      this.trianLossChartData.rows.push({'time':this.time,'train_loss':this.train.trainLoss})
+      //训练完成率
+      this.trainPercentage=this.train.finishRate*100
+      //测试样本完成率
+      this.testPercentage=this.train.finishRate*100-this.RandomNumBoth(0,10)
       if(this.testPercentage<0){
         this.testPercentage=0
       }
-      this.epochPercentage=this.train.epoch/1000
+      //迭代完成率
+      this.epochPercentage=this.train.epoch*10
     },
     //测试用
     // getNewData(){

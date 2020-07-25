@@ -2,7 +2,7 @@
   <section class="todoapp">
     <!-- header -->
     <header class="header">
-      <input class="new-todo" autocomplete="off" placeholder="Todo List" @keyup.enter="addTodo">
+      <input class="new-todo" autocomplete="off" placeholder="算法账本" @keyup.enter="addTodo">
     </header>
     <!-- main section -->
     <section v-show="todos.length" class="main">
@@ -47,14 +47,14 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defalutList = [
-  { text: 'star this repository', done: false },
-  { text: 'fork this repository', done: false },
-  { text: 'follow author', done: false },
-  { text: 'vue-element-admin', done: true },
-  { text: 'vue', done: true },
-  { text: 'element-ui', done: true },
-  { text: 'axios', done: true },
-  { text: 'webpack', done: true }
+  { text: '加法卷积神经网络ANN模型', done: false },
+  { text: 'ResNet-B网络', done: false },
+  { text: 'ResNet-D', done: false },
+  { text: 'LeNet改良模型v1.0', done: true },
+  { text: 'AlexNet老模型', done: true },
+  { text: 'VGGNet-50-v1.2', done: true },
+  { text: 'bytePS框架Demo', done: true },
+  { text: 'AI训练场专用测试算法', done: true }
 ]
 export default {
   components: { Todo },

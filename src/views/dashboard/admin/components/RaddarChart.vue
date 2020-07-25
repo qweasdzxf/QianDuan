@@ -68,18 +68,18 @@ export default {
             }
           },
           indicator: [
-            { name: 'Sales', max: 10000 },
-            { name: 'Administration', max: 20000 },
-            { name: 'Information Technology', max: 20000 },
-            { name: 'Customer Support', max: 20000 },
-            { name: 'Development', max: 20000 },
-            { name: 'Marketing', max: 20000 }
+            { name: 'MXNet', max: 10000 },
+            { name: 'Tensorflow', max: 20000 },
+            { name: 'BytePS', max: 20000 },
+            { name: 'Kubernetes', max: 20000 },
+            { name: 'Navidia-docker', max: 20000 },
+            { name: 'Pytorch', max: 20000 }
           ]
         },
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
+          data: ['热门技术', '技术趋势', '用户技术栈']
         },
         series: [{
           type: 'radar',
@@ -96,15 +96,15 @@ export default {
           data: [
             {
               value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated Budget'
+              name: '热门技术'
             },
             {
               value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected Spending'
+              name: '技术趋势'
             },
             {
               value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual Spending'
+              name: '用户技术栈'
             }
           ],
           animationDuration: animationDuration
