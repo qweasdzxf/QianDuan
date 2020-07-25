@@ -104,7 +104,7 @@
             //     console.log(response)
             //   }
             // )
-            axios.post('http://localhost:10002/backstage/algorithm', data)
+            axios.post('/backstage/algorithm', data)
               .then(
                 response => {
                   console.log(response)

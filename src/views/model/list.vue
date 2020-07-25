@@ -2,102 +2,107 @@
   <div>
     <el-container>
       <el-main>
-        <el-col span="22" offset="1">
-
-          <el-card shadow="hover">
-            <el-header><h2>查看已部署模型</h2></el-header>
-          </el-card>
-          <el-card shadow="hover">
+        <el-col :span="18" :offset="3">
+          <el-card shadow="hover" style="height:600px">  
+            <div slot="header" class="clearfix">
+              <el-row>
+              <span><h2>模型发布（{{getModelType()}}）</h2></span>
+               <el-button style=" padding: 3px 0" type="text" @click="handlTurnPage()">切换模型</el-button>
+              </el-row>
+            </div>
             <el-container>
-
               <el-main>
                 <el-container>
+                  <!-- 进度条 -->
                   <el-header>
-                    <el-col span="16" offset="4">
+                    <el-col :span="18" :offset="3">
                       <el-steps :active="active" finish-status="success">
-                        <el-step title="步骤 1" />
-                        <el-step title="步骤 2" />
-                        <el-step title="步骤 3" />
+                        <el-step title="上传图片" />
+                        <el-step title="模型推理" />
+                        <el-step title="查看结果" />
                       </el-steps>
                     </el-col>
                   </el-header>
                   <el-main>
-                    <div v-if="active===1">
-                      <el-row>
-                        <el-col span="4" offset="11">
-                          <span style="align-content: center"> <h2>请选择图片</h2></span>
-                        </el-col>
-                      </el-row>
-                      <el-row>
-                        <el-col span="16" offset="4">
-                          <el-upload
-                            action="#"
-                            list-type="picture-card"
-                            :multiple="true"
-                            :auto-upload="false"
-                            :on-change="addFile"
-                            :file-list="fileList"
-                            @change="shhowFileList"
-                          >
-                            <i slot="default" class="el-icon-plus" />
-                            <div slot="file" slot-scope="{file}">
-                              <img
-                                class="el-upload-list__item-thumbnail"
-                                :src="file.url"
-                                alt=""
-                              >
-                              <span class="el-upload-list__item-actions">
-                                <span
-                                  class="el-upload-list__item-preview"
-                                  @click="handlePictureCardPreview(file)"
+                    <div>
+                      <el-col :span="10"> 
+                        <el-row>
+                          <el-col :span="22" :offset="4">
+                            <span style="align-content: center"> <h2>测试图片</h2></span>
+                          </el-col>
+                        </el-row>
+                        <el-row>
+                          <el-col :span="24" :offset="4">
+                            <el-upload
+                              action="#"
+                              list-type="picture-card"
+                              :multiple="false"
+                              :auto-upload="false"
+                              :on-change="addFile"
+                              :file-list="fileList"
+                              @change="shhowFileList">
+                              <i slot="default" class="el-icon-plus" />
+                              <div slot="file" slot-scope="{file}">
+                                <img
+                                  class="el-upload-list__item-thumbnail"
+                                  :src="file.url"
+                                  alt=""
                                 >
-                                  <i class="el-icon-zoom-in" />
+                                <span class="el-upload-list__item-actions">
+                                  <span
+                                    class="el-upload-list__item-preview"
+                                    @click="handlePictureCardPreview(file)"
+                                  >
+                                    <i class="el-icon-zoom-in" />
+                                  </span>
+                                  <span
+                                    v-if="!disabled"
+                                    class="el-upload-list__item-delete"
+                                    @click="handleDownload(file)"
+                                  >
+                                    <i class="el-icon-download" />
+                                  </span>
+                                  <span
+                                    v-if="!disabled"
+                                    class="el-upload-list__item-delete"
+                                    @click="handleRemove(file)"
+                                  >
+                                    <i class="el-icon-delete" />
+                                  </span>
                                 </span>
-                                <span
-                                  v-if="!disabled"
-                                  class="el-upload-list__item-delete"
-                                  @click="handleDownload(file)"
-                                >
-                                  <i class="el-icon-download" />
-                                </span>
-                                <span
-                                  v-if="!disabled"
-                                  class="el-upload-list__item-delete"
-                                  @click="handleRemove(file)"
-                                >
-                                  <i class="el-icon-delete" />
-                                </span>
-                              </span>
-                            </div>
-
-                          </el-upload>
-                          <el-dialog :visible.sync="dialogVisible">
-                            <img width="100%" :src="dialogImageUrl" alt="">
-                          </el-dialog>
-                        </el-col>
-                        <!--                <el-image :src="url"></el-image><br>-->
-                      </el-row>
-                    </div>
-                    <div v-if="active===2">
-                      系统正在努力预测中，请耐心等待～
-                    </div>
-                    <div v-if="active===3">
-                      <div class="block">
-                        <h2>系统预测结果如下：</h2>
-                        <el-col span="16" offset="8">
-                          <div class="demo-image__lazy">
+                              </div>
+                            </el-upload>
+                            <el-dialog :visible.sync="dialogVisible">
+                              <img width="100%" :src="dialogImageUrl" alt="">
+                            </el-dialog>
+                          </el-col>
+                        </el-row>
+                      </el-col>
+                      <el-col :span='3' :offset="0" style="line-height:250px">
+                        <el-button type="success" 
+                        @click="submitPic" 
+                        round icon="el-icon-search" 
+                        style="vertical-align: middle">模型推理</el-button>
+                      </el-col> 
+                      <el-col :span="7" :offset="3" >
+                        <el-row>
+                            <span style="align-content: center"> <h2>预测结果</h2></span>
+                        </el-row>
+                        <div v-if="isClassify()">
+                          <el-card class="box-card" style="height:150px">
+                              <div style="vertical-align: middle">
+                                {{result}}
+                              </div>
+                          </el-card>
+                        </div>
+                        <div >
+                          <div v-if="!isClassify()" class="demo-image__lazy">
                             <el-image v-for="url in imageUrls" :key="url" :src="url" lazy />
                           </div>
-                        </el-col>
-                      </div>
+                        </div>
+                      </el-col>
                     </div>
                   </el-main>
-                  <el-footer>
-                    <el-col span="2" offset="11">
-                      <el-button v-if="active===1" type="primary" plain @click="submitPic">提交</el-button>
-                      <el-button v-if="checkResult&&active===2" type="primary" plain @click="active++">查看结果</el-button>
-                    </el-col>
-                  </el-footer>
                 </el-container>
               </el-main>
             </el-container>
@@ -124,13 +129,37 @@ export default {
       checkResult: false,
       formData: null,
       fileList: [],
-      imageUrls: []
+      imageUrls: [],
+      model:{
+        modelName: "string",
+        modelTypeId: 1,
+        modelIsSuccessful: 1,
+        modelDescription: "this is description"
+      },
+      result:""
     }
   },
   created() {
     this.formData = new FormData()
   },
   methods: {
+    handlTurnPage(){
+      this.$router.push({path: "/train/trainboard", query: {traintaskId: 74}})
+    },
+    isClassify(){
+      if(this.model.modelTypeId==0){
+        return true
+      }else if(this.model.modelTypeId==1){
+        return false
+      }
+    },
+    getModelType(){
+      if(this.model.modelTypeId==0){
+        return "图像分类任务"
+      }else if(this.model.modelTypeId==1){
+        return "目标检测任务"
+      }
+    },
     shhowFileList() {
       console.log(this.fileList)
     },
@@ -147,32 +176,50 @@ export default {
     },
     addFile(file, fileList) {
       this.formData.append('file', file.raw)
-      console.log(file.file)
-      console.log(fileList)
+      this.fileList=fileList
+      console.log("trying add file,file name is:")
+      console.log(this.fileList[0].name)
     },
     submitPic() {
-      this.active++
-      // var data = new FormData()
-      // data.append('file', this.fileList)
-      // for (var i = 0; i < this.fileList.length; i++) {
-      //   data.append('file', this.fileList[i])
-      // }
-      console.log(this.formData.getAll('file'))
-      console.log(this.fileList)
-      axios.post('http://localhost:30003/model/demo', this.formData)
+      this.active=2
+      console.log(this.fileList[0].name)
+      if(this.isClassify()==true){
+        console.log('is classify')
+        axios.get('/model/classify/'+this.fileList[0].name)
         .then(
           response => {
             console.log(response)
-            this.imageUrls = response.data.extend.urls
-            console.log(this.imageUrls)
+            this.result="类别："+response.data.extend.class
+              +" 置信度："+response.data.extend.confidence
+            console.log(this.result)  
             if (response.data.code == '00000') {
               alert('数据预测成功！')
+               this.active=3
             } else {
               alert('上传失败，请重试！')
             }
             this.checkResult = true
           }
         )
+      }else{
+        console.log('is detection')
+      axios.get('/model/detection'+this.fileList[0].name)
+        .then(
+          response => {
+            console.log(response)
+            this.imageUrls.push(response.data.extend.url)
+            console.log(this.imageUrls)
+            if (response.data.code == '00000') {
+              alert('数据预测成功！')
+               this.active=3
+            } else {
+              alert('上传失败，请重试！')
+            }
+            this.checkResult = true
+          }
+        )
+      }
+
     }
   }
 

@@ -76,7 +76,7 @@
                 <el-button
                   size="mini"
                   type="danger"
-                  @click="handleDelete(scope.$index, scope.row)">取消</el-button>
+                  @click="handleDelete(scope.$index, scope.row)">集群状态</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -146,7 +146,9 @@ export default {
         {color: '#6f7ad3', percentage: 100}
       ],
       //4、运行中的训练作业列表
-      runningTaskTable:[],
+      runningTaskTable:[
+        {'trainTaskId':74,'trainTaskName':'minist_pytorch'}
+      ],
       //5、当前训练作业
       currentTrainTaskId:0,
     }
@@ -174,7 +176,7 @@ export default {
       var finishPerSec=this.train.batchIndex-this.old_batchIndex
       if(finishPerSec<0){
         finishPerSec=0
-        }
+      }
       this.old_batchIndex=this.train.batchIndex
       this.trianLossChartData.rows.push({'time':this.time,'train_loss':this.train.trainLoss})
       this.finishChartData.rows.push({'time':this.time,'finish_per_sec':finishPerSec})

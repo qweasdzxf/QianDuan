@@ -183,6 +183,13 @@ export default {
     this.getAlgotithms()
     this.getEngines()
     this.getInstanceType()
+    this.fromAlgorithm = this.$route.param.algorithm
+    this.form.trainTaskName=this.fromAlgorithm.algorithm_name
+    this.form.trainTask.trainTaskVersion=this.fromAlgorithm.algorithm_version
+    this.form.trainTaskConf.trainTaskVersion=this.fromAlgorithm.algorithm_version
+    this.form.trainTaskConf.trainTaskAlgorithmId//要另外传一下
+    this.trainTaskConf.trainTaskAiEngine=this.fromAlgorithm.algorithm_engine_id
+    this.trainTaskConf.trainTaskDescription=this.fromAlgorithm.algorithm_description
   },
   data() {
     return {
@@ -206,33 +213,33 @@ export default {
         trainTask: {
           trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
           trainTaskId: 0,
-          trainTaskName: "",
-          trainTaskRunningTime: "",
+          trainTaskName: "string",
+          trainTaskRunningTime: "string",
           trainTaskStatus: 0,
           trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
-          trainTaskUserId: 0,
-          trainTaskVersion: '0'
+          trainTaskUserId: 123456,
+          trainTaskVersion: 0
         },
         trainTaskConf: {
-          trainTaskAiEngine: "",
-          trainTaskAlgorithmId: 0,
+          trainTaskAiEngine: "string",
+          trainTaskAlgorithmId: 3,
           trainTaskConfId: 0,
           trainTaskDatasetId: 0,
-          trainTaskDescription: "",
+          trainTaskDescription: "string",
           trainTaskFinishTime: "2020-07-21T02:37:59.734Z",
           trainTaskId: 0,
-          trainTaskLogOutPath: "",
-          trainTaskModelOutPath: "",
-          trainTaskName: "",
-          trainTaskParams: "",
-          trainTaskRunningTime: "",
-          trainTaskSpecification: "",
+          trainTaskLogOutPath: "string",
+          trainTaskModelOutPath: "string",
+          trainTaskName: "string",
+          trainTaskParams: "--epochs 10",
+          trainTaskRunningTime: "string",
+          trainTaskSpecification: "7",
           trainTaskStartTime: "2020-07-21T02:37:59.734Z",
           trainTaskStatus: 0,
-          trainTaskVersion: '0'
+          trainTaskVersion: 0
         }
       },
-
+        
       //推荐版本号
       autoVersions:[
         { "value": "1.0"},
@@ -240,7 +247,42 @@ export default {
         { "value": "3.0"},
         { "value": "4.0"},
         ],
-      instanceTypeList:[]
+      instanceTypeList:[],
+      fromAlgorithm:this.$route.param.algorithm
+      /*
+      fromAlgorithm:{
+        algorithm_name: "example",
+        algorithm_version: "0.1",
+        algorithm_type_id: 0,
+        algorithm_engine_id: 0,
+        algorithm_description: "",
+        algorithm_instance_type_id: 0,
+        algorithm_input_reflect: "",
+        algorithm_output_reflect: "",
+        algorithm_starter_URL: "/example/bootfile",
+        algorithm_customize_hyper_para: false,
+        algorithm_python_version_id: 0,
+        hyperParameters: [
+          {
+            hyper_para_name: "hyper parameters",
+            hyper_para_description: "this is description",
+            hyper_para_type: 0,
+            hyper_para_allow_adjust: true,
+            hyper_para_range: "0-100",
+            hyper_para_default_value: 10,
+            hyper_para_is_needed: false
+          },
+          {
+            hyper_para_name: "hyper parameters",
+            hyper_para_description: "this is description",
+            hyper_para_type: 0,
+            hyper_para_allow_adjust: true,
+            hyper_para_range: "0-100",
+            hyper_para_default_value: 10,
+            hyper_para_is_needed: true
+          }
+        ]
+      }*/
     }
   },
   methods: {
@@ -264,31 +306,20 @@ export default {
         this.paramsStringList+=("--"+param.hyperParaName+" "+param.hyperParaDefaultValue+" ")
       })
       this.form.trainTaskConf.trainTaskVersion=this.form.trainTask.trainTaskVersion
-      console.log("trying post form")
-      this.fullscreenLoading=true
-      console.log(this.form)
-      axios({
-        method: 'post',
-        url: 'train/frontstage/trainTask',
-        xhrFields: { withCredentials: true },
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        withCredentials: true,
-        data: this.form
-      }).then(
-        (response) => {
-          console.log(response)
-          this.fullscreenLoading = false
-          if (response.data.code == '00000') {
-            alert('训练创建成功')
-          } else {
-            alert('训练创建失败')
-          }
-        }
-      )
-      // axios.post('train/frontstage/trainTask',this.form)
-      //   .then(response=>{
+        console.log("trying post form")
+        this.fullscreenLoading=true
+        console.log(this.form)
+      // axios({
+      //   method: 'post',
+      //   url: '/apis/train/frontstage/trainTask',
+      //   // xhrFields: { withCredentials: true },
+      //   // headers: {
+      //   //   'Content-Type': 'multipart/form-data'
+      //   // },
+      //   // withCredentials: true,
+      //   data: this.form
+      // }).then(
+      //   (response) => {
       //     console.log(response)
       //     this.fullscreenLoading = false
       //     if (response.data.code == '00000') {
@@ -296,7 +327,19 @@ export default {
       //     } else {
       //       alert('训练创建失败')
       //     }
-      //   })
+      //   }
+      // )
+      axios.post('/train/frontstage/trainTask/',this.form)
+        .then(response=>{
+          console.log('成功得到创建返回值')
+          console.log(response)
+          this.fullscreenLoading = false
+          if (response.data.code == '00000') {
+            alert('训练创建成功')
+          } else {
+            alert('训练创建失败')
+          }
+        })
     },
 
     onStartTrain(){
@@ -325,9 +368,10 @@ export default {
         //   }
         // })
         console.log("trying start a task")
-        axios.get('/train/frontstage/trainTask/start/74')
+        axios.get('/train/frontstage/trainTask/start/'+72)
         .then(Response=>{
           console.log(Response)
+          this.$router.push({path: "/train/trainboard", query: {traintaskId: 74}})
         })
     },
 
