@@ -24,7 +24,8 @@ import axios from 'axios'
 import VCharts from 'v-charts'
 
 Vue.prototype.$ajax = axios
-axios.defaults.baseURL='http://localhost:9999/'
+// axios.defaults.baseURL='http://localhost:9999/'
+axios.defaults.baseURL='/apis'
 // axios.defaults.withCredentials = true
 //withCredentials: true
 //axios.defaults.headers= {'X-Requested-With': 'XMLHttpRequest'}
