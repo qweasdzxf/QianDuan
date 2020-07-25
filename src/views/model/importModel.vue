@@ -3,7 +3,7 @@
     <el-card class="box-card modelCard">
       <el-form
         ref="modelForm"
-        :label-position="left"
+        :label-position=labelPosition
         :model="modelForm"
         :rules="rules"
         label-width="100px"
@@ -51,7 +51,6 @@
             :limit="limitNum"
             :auto-upload="false"
             :on-exceed="handleExceed"
-            :on-success="handleSuccess"
             :before-upload="handleBeforeUpload"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
@@ -70,7 +69,6 @@
             ref="upload"
             action="#"
             :auto-upload="false"
-            :on-preview="handlePreview"
             :on-remove="handlePictureRemove"
             :before-remove="beforeRemove"
             :on-change="addFile"
@@ -84,7 +82,7 @@
         </el-form-item>
         <el-form-item>
           <el-row>
-            <el-col :span="12" offset="10">
+            <el-col :span="12" :offset="10">
               <el-button type="primary" @click="submitForm('modelForm')">提交</el-button>
               <el-button @click="resetForm('modelForm')">重置</el-button>
             </el-col>
@@ -230,7 +228,7 @@ export default {
             type: "success",
           });
         })
-        .catch((e) => self.$message.error(e.response.data));
+        .catch((e) => console.log(e));
 
       this.resetForm(modelForm);
     },

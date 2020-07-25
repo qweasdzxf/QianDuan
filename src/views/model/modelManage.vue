@@ -9,7 +9,7 @@
                 <el-col :span="6">
                   <el-button type="info">显示帮助</el-button>
                 </el-col>
-                <el-col :span="5" offset="12">
+                <el-col :span="5" :offset="12">
                   <el-input v-model="keyWord" placeholder="请输入内容">
                     <el-button
                       slot="append"
@@ -41,7 +41,6 @@
                         circle
                         @click="downModel"
                         v-loading.fullscreen.lock="fullscreenLoading"
-                        v-loading.fullscreen.v-text="下载中"
                       />
                     </template>
                   </el-table-column>
@@ -53,7 +52,7 @@
                         icon="el-icon-s-promotion"
                         size="mini"
                         circle
-                        @click="releaseModel(scope.$index, algorithms)"
+                        @click="releaseModel(scope.$index)"
                       />
                     </template>
                   </el-table-column>
@@ -138,6 +137,9 @@ export default {
       }, 2000);
 
     },
+    handleSizeChange(){
+
+    },
     getAlgorithmList() {
       console.log("trying get algorithms!");
       axios
@@ -170,10 +172,11 @@ export default {
           console.log(this.pageInfo2);
         });
     },
-    releaseModel(index, model) {
+    releaseModel(index) {
       this.$router.push({
         path: "./list",
-        query: { modelTypeId: XXXXX },
+        query: { modelTypeId: 123 },
+        
       });
     },
     handleCurrentChange() {
