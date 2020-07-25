@@ -45,7 +45,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
+        meta: { title: '个人中心', icon: 'user', noCache: true }
       }
     ]
   },
@@ -90,7 +90,7 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
-        name: 'dashboard',
+        name: '控制面板',
         meta: { title: '总览', icon: 'dashboard', affix: true }
       }
     ]
@@ -113,13 +113,8 @@ export const constantRoutes = [
         path: '/algorithm/create',
         component: () => import('@/views/algorithm/create'),
         meta: { title: '上传算法', icon: 'edit' }
-      },
-      {
-        name: 'algorithmmareket',
-        path: '/algorithm/market',
-        component: () => import('@/views/algorithm/market'),
-        meta: { title: '管理市场订阅', icon: 'shopping' }
       }
+     
 
     ]
   },
@@ -175,22 +170,6 @@ export const constantRoutes = [
     }
     ]
   },
-
-  { path: '/purchase',
-    component: Layout,
-    meta: { title: '订单管理', icon: 'documentation' }
-  },
-
-  {
-    path: '/mainmenu',
-    component: () => import('@/views/mainmenu/main')
-  },
-
-  {
-    path: '/AlgorithmMarket',
-    component: Layout,
-    meta: { title: '算法商城', icon: 'tree' }
-  },
   {
     path: '/cluster',
     name: 'cluster',
@@ -202,12 +181,12 @@ export const constantRoutes = [
       component: () => import('@/views/cluster/clusterMonitor'),
       meta: { title: '集群监控', icon: 'example' }
     },
-    {
-      name: 'test',
-      path: '/cluster/test',
-      component: () => import('@/views/cluster/pie'),
-      meta: { title: 'pie', icon: 'example' }
-    },
+    // {
+    //   name: 'test',
+    //   path: '/cluster/test',
+    //   component: () => import('@/views/cluster/pie'),
+    //   meta: { title: 'pie', icon: 'example' }
+    // },
     // {
     //   name: 'card',
     //   path: '/cluster/card',

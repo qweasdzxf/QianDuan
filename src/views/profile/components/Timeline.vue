@@ -17,23 +17,28 @@ export default {
     return {
       timeline: [
         {
+          timestamp: '2020/7/25',
+          title: '验收...',
+          content: 'front committed 2020/7/25 20:46'
+        },
+        {
           timestamp: '2020/7/20',
-          title: 'Now...',
-          content: 'front committed 2019/4/20 20:46'
+          title: '现在...',
+          content: 'front committed 2020/7/20 20:46'
         },
         {
           timestamp: '2020/7/17',
-          title: 'Run a demo',
+          title: '跑通了一个demo',
          content: 'RD committed 2020/7/17 20:46'
         },
         {
           timestamp: '2020/7/12',
-         title: 'Create an face recognition trainTask on the server',
+         title: '在服务器上创建了一个人脸识别的训练',
           content: 'RD committed 2020/7/12 20:46'
         },
         {
           timestamp: '2020/7/10',
-          title: 'Create an mnist trainTask on the server',
+          title: '在服务器上创建了一个Mnist数据集训练',
           content: 'RD committed 2020/7/10 20:46'
         }
       ]

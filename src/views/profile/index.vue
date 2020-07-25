@@ -13,7 +13,7 @@
               <!-- <el-tab-pane label="Activity" name="activity">
                 <activity />
               </el-tab-pane> -->
-              <el-tab-pane label="Timeline" name="timeline">
+              <el-tab-pane label="时间线" name="timeline">
                 <timeline />
               </el-tab-pane>
               <!-- <el-tab-pane label="Account" name="account">

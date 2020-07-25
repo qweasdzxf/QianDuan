@@ -32,6 +32,19 @@
                   <el-table-column prop="modelType.modelTypeName" label="模型类别" />
                   <el-table-column prop="modelPhotoUrl" label="模型图片URL" />
                   <el-table-column prop="modelUrl" label="模型URL" />
+                  <el-table-column prop label="下载模型" width="100px">
+                    <template scope="scope" fixed="center">
+                      <el-button
+                        type="success"
+                        icon="el-icon-download"
+                        size="mini"
+                        circle
+                        @click="downModel"
+                        v-loading.fullscreen.lock="fullscreenLoading"
+                        v-loading.fullscreen.v-text="下载中"
+                      />
+                    </template>
+                  </el-table-column>
 
                   <el-table-column prop="algorithmDescription" label="启动模型" width="100px">
                     <template scope="scope" fixed="right">
@@ -75,6 +88,7 @@ export default {
       showPage: false,
       dialogFormVisible: false,
       showAlgorithmDialog: false,
+       fullscreenLoading: false,
       activeName: "train",
       pageNum: null,
       pageSize: 9,
@@ -111,6 +125,19 @@ export default {
       this.pageNum = 1;
       this.getModelList();
     },
+    downModel() {
+      this.fullscreenLoading = true;
+      
+      setTimeout(() => {
+
+        this.fullscreenLoading = false;
+         this.$message({
+          message: '下载成功',
+          type: 'success'
+        });
+      }, 2000);
+
+    },
     getAlgorithmList() {
       console.log("trying get algorithms!");
       axios
@@ -146,11 +173,11 @@ export default {
     releaseModel(index, model) {
       this.$router.push({
         path: "./list",
-        query: {modelTypeId: XXXXX}
+        query: { modelTypeId: XXXXX },
       });
     },
     handleCurrentChange() {
-      this.getModelList()
+      this.getModelList();
     },
   },
 };

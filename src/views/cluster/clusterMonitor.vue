@@ -281,6 +281,7 @@ export default {
             this.GPUList[i].index2 = 2 * i + 2;
             this.GPUList[i].memoryUtil =
               Math.round(this.GPUList[i].memoryUtil * 1000) / 10;
+            this.GPUList[i].name='\tGPU'+i;
           }
           //console.log("++++++++++++++++");
         })
