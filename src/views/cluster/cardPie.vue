@@ -58,12 +58,12 @@ export default {
       type:Object,
       default(){
         return{
-          gpuUtil:2,
-          memoryUtil:1,
+          gpuUtil:0,
+          memoryUtil:0,
           // gpuTotal:4,
           index1:0,
-          index2:0,
-          name:''
+          index2:1,
+          name:'GPU'
         }
       }
     }

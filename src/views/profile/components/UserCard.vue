@@ -1,7 +1,7 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <span>关于</span>
     </div>
 
     <div class="user-profile">
@@ -22,7 +22,7 @@
         <div class="user-bio-section-header">
           <i class="el-icon-message"></i>
 
-          <span>Email</span>
+          <span>邮箱</span>
         </div>
         <div class="user-bio-section-body">
           <div class="text-muted">20200726@whu.edu.cn</div>
@@ -32,7 +32,7 @@
         <div class="user-bio-section-header">
           <!-- <svg-icon icon-class="" /> -->
           <i class="el-icon-phone"></i>
-          <span>Telephone</span>
+          <span>联系方式</span>
         </div>
         <div class="user-bio-section-body">
           <div class="text-muted">15623193666</div>
@@ -43,7 +43,7 @@
           <!-- <svg-icon icon-class="education" /> -->
           <i class="el-icon-coin"></i>
 
-          <span>Account</span>
+          <span>帐户余额</span>
         </div>
         <div class="user-bio-section-body">
           <div class="text-muted">0.00</div>

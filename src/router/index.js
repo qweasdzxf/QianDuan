@@ -45,7 +45,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
+        meta: { title: '个人中心', icon: 'user', noCache: true }
       }
     ]
   },
@@ -90,7 +90,7 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
-        name: 'dashboard',
+        name: '控制面板',
         meta: { title: '总览', icon: 'dashboard', affix: true }
       }
     ]
