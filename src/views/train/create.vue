@@ -213,13 +213,13 @@ export default {
       form: {
         trainTask: {
           trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
-          trainTaskId: "",
-          trainTaskName: "",
-          trainTaskRunningTime: "1",
+          trainTaskId: 0,
+          trainTaskName: "BP_10_3_4_MINIST",
+          trainTaskRunningTime: "string",
           trainTaskStatus: 0,
           trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
-          trainTaskUserId: null,
-          trainTaskVersion: '0'
+          trainTaskUserId: 1,
+          trainTaskVersion: "1.0"
         },
         trainTaskConf: {
           trainTaskAiEngine: "string",
@@ -316,20 +316,22 @@ export default {
     },
 
     onStartTrain(){
-        var newTrainTask={
-          'trainTaskId':global.BASE_ID+global.DETA_ID,
-          'trainTaskName':'MINIST_90_1'
-        }
-        console.log(newTrainTask)
         console.log("trying start a task")
-        console.log(global.BASE_ID)
-        axios.get('/train/frontstage/trainTask/start/'+global.BASE_ID+global.DETA_ID)
+        axios.get('/train/frontstage/trainTask/start/'+(global.BASE_ID+global.DETA_ID))
         .then(Response=>{
           console.log(Response)
-          axios.get('/train/frontstage/trainTask/'+global.BASE_ID+global.DETA_ID)
+          console.log('trying get the information of new task')
+          axios.get('/train/frontstage/trainTask/'+(global.BASE_ID+global.DETA_ID))
           .then(res=>{
-            console.log(newTrainTask)
+            console.log(res)
+            var newTrainTask={
+              'trainTaskId':global.BASE_ID + global.DETA_ID,
+              'trainTaskName':res.data.extend.trainTaskAndTrainTaskConfig.trainTask.trainTaskName
+            }
             global.RUNNING_TASK_LIST.push(newTrainTask)
+            console.log(global.RUNNING_TASK_LIST)
+            global.DETA_ID++
+            console.log('new global.DETA:'+global.DETA_ID)
           })
           this.$router.push({path: "/train/trainboard"})
         })

@@ -4,22 +4,22 @@
       <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
     </div>
     <div style="position:relative;">
-      <pan-thumb :image="avatar" class="panThumb" />
-      <mallki class-name="mallki-text" text="vue-element-admin" />
+      <!-- <pan-thumb :image="avatar" class="panThumb" /> -->
+      <mallki class-name="mallki-text" text="#肖战偷搞机器学习#测试" />
       <div style="padding-top:35px;" class="progress-item">
         <span>Vue</span>
         <el-progress :percentage="70" />
       </div>
       <div class="progress-item">
-        <span>JavaScript</span>
+        <span>用户信息完善度</span>
         <el-progress :percentage="18" />
       </div>
       <div class="progress-item">
-        <span>Css</span>
+        <span>账户安全性</span>
         <el-progress :percentage="12" />
       </div>
       <div class="progress-item">
-        <span>ESLint</span>
+        <span>算法安全检测</span>
         <el-progress :percentage="100" status="success" />
       </div>
     </div>

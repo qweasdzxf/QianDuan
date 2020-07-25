@@ -272,7 +272,7 @@ export default {
         .get(url)
         .then((response) => {
           //
-          console.log("************************");
+          //console.log("************************");
 
           this.GPUList = [];
           for (var i = 0; i < response.data.extend.GPUS.length; i++) {
@@ -283,7 +283,7 @@ export default {
               Math.round(this.GPUList[i].memoryUtil * 1000) / 10;
             this.GPUList[i].name='\tGPU'+i;
           }
-          console.log("++++++++++++++++");
+          //console.log("++++++++++++++++");
         })
         .catch((e) => self.$message.error(e.response.data));
     },
