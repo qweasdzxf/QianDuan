@@ -51,7 +51,7 @@
             style="width: 100%">
             <el-table-column
               label="ID"
-              width="180">
+              width="80">
               <template slot-scope="scope">
                 <i class="el-icon-time"></i>
                 <span style="margin-left: 10px">{{ scope.row.trainTaskId }}</span>
@@ -59,7 +59,7 @@
             </el-table-column>
             <el-table-column
               label="作业名称"
-              width="180">
+              width="150">
               <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top">
                   <div slot="reference" class="name-wrapper">
@@ -68,15 +68,23 @@
                 </el-popover>
               </template>
             </el-table-column>
+            <el-table-column
+              label="状态"
+              width="100">
+              <template>
+                <i class="el-icon-time"></i>
+                <span style="margin-left: 10px">运行中</span>
+              </template>
+            </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button
                   size="mini"
-                  @click="handleShow(scope.$index, scope.row)">启动</el-button>
+                  @click="handleShow(scope.$index, scope.row)">查看训练</el-button>
                 <el-button
                   size="mini"
                   type="danger"
-                  @click="handleDelete(scope.$index, scope.row)">取消</el-button>
+                  @click="handleDelete(scope.$index, scope.row)">集群状态</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -87,10 +95,11 @@
 </template>
 <script>
 import axios from 'axios'
+import global from '@/global'
+
 export default {
   mounted(){
     this.getRunningTaskList()
-    this.timer = setInterval(this.getData, 1000)
   },
   beforeDestroy() {
     clearInterval(this.timer);  
@@ -108,8 +117,6 @@ export default {
       timer: '',
       //测试用
       value:1,
-      //实际测试用、临时训练作业号
-      tmpTrainTaskId:73,
       //当前时间
       time:new Date().getMinutes() +" "+new Date().getSeconds(),
       //训练过程原始数据
@@ -146,9 +153,11 @@ export default {
         {color: '#6f7ad3', percentage: 100}
       ],
       //4、运行中的训练作业列表
-      runningTaskTable:[],
+      runningTaskTable:[
+        
+        ],
       //5、当前训练作业
-      currentTrainTaskId:0,
+      currentTrainTaskId:null,
     }
   },
   methods:{
@@ -157,16 +166,13 @@ export default {
       console.log("trying get data from back")
       this.value ++
       console.log(this.value)
-      axios.get('/train/frontstage/trainTask/processdata/'+this.tmpTrainTaskId)
+      axios.get('/train/frontstage/trainTask/processdata/'+this.currentTrainTaskId)
       .then(Response=>{
         console.log(Response)
         if(Response.data.code=="00001"){
           this.train=Response.data.extend.train
+          this.pushData()
         }
-        else if(Response.data.code=='00002'){
-          this.test=Response.data.extend.test
-        }
-        this.pushData()
       })
     },
     pushData(){
@@ -174,7 +180,7 @@ export default {
       var finishPerSec=this.train.batchIndex-this.old_batchIndex
       if(finishPerSec<0){
         finishPerSec=0
-        }
+      }
       this.old_batchIndex=this.train.batchIndex
       this.trianLossChartData.rows.push({'time':this.time,'train_loss':this.train.trainLoss})
       this.finishChartData.rows.push({'time':this.time,'finish_per_sec':finishPerSec})
@@ -201,18 +207,16 @@ export default {
     
     getRunningTaskList() {
       console.log('trying get traintaskList')
-      axios.get('/trainTasks/status/1')
-      .then(
-          Response => {
-            console.log(Response)
-            this.runningTaskTable=Response.data.extend.list
-            console.log(this.runningTaskTable)
-          }
-      )
+      this.runningTaskTable=global.RUNNING_TASK_LIST
+      console.log(this.runningTaskTable)
     },
 
     handleShow(index, row){
-
+      console.log('handleShow')
+      this.currentTrainTaskId=row.trainTaskId
+      console.log('currentTraintaskId:')
+      console.log(this.currentTrainTaskId)
+      this.timer = setInterval(this.getData, 1000)
     },
     RandomNumBoth(Min,Max){
       var Range = Max - Min;

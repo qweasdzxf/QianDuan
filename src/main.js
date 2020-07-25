@@ -23,6 +23,9 @@ import axios from 'axios'
 
 import VCharts from 'v-charts'
 
+import global from './global'//引用文件
+Vue.prototype.$GLOBAL = global//挂载到Vue实例上面
+
 Vue.prototype.$ajax = axios
 // axios.defaults.baseURL='http://localhost:9999/'
 axios.defaults.baseURL='/apis'
