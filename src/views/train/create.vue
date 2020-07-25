@@ -213,15 +213,6 @@ export default {
       form: {
         trainTask: {
           trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
-<<<<<<< HEAD
-          trainTaskId: 0,
-          trainTaskName: "BP_10_3_4_MINIST",
-          trainTaskRunningTime: "string",
-          trainTaskStatus: 0,
-          trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
-          trainTaskUserId: 1,
-          trainTaskVersion: "1.0"
-=======
           trainTaskId: "",
           trainTaskName: "",
           trainTaskRunningTime: "1",
@@ -229,7 +220,6 @@ export default {
           trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
           trainTaskUserId: null,
           trainTaskVersion: '0'
->>>>>>> 1481bbaf70457d7e0892845117b33f816f73cb96
         },
         trainTaskConf: {
           trainTaskAiEngine: "string",

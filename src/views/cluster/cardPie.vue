@@ -6,9 +6,9 @@
           <el-col :span="4" offset="2">
             <i class="el-icon-info el-icon" />
           </el-col>
-          <el-col :span="12" offset="4">
+          <el-col :span="12" offset="6">
             <span class="title">
-              <b>Default</b>
+              <b>{{values.name}}</b>
             </span>
           </el-col>
         </el-row>
@@ -62,7 +62,8 @@ export default {
           memoryUtil:1,
           // gpuTotal:4,
           index1:0,
-          index2:0
+          index2:0,
+          name:''
         }
       }
     }
@@ -189,6 +190,10 @@ export default {
   font-size: 18px;
   /* padding-top: 10px; */
 }
+/* .firstTitle{
+  font-size: 18px;
+ 
+} */
 .content {
   color: rgb(152, 154, 158);
   font-size: 14px;
