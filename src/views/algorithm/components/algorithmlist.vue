@@ -318,7 +318,7 @@ export default {
     getAlgorithmList() {
       console.log('trying get algorithms!')
       axios.get(
-        'http://localhost:9527/algorithm/backstage/algorithms',
+        '/algorithm/backstage/algorithms',
         {
           params: {
             pageNum: this.pageNum,
@@ -344,7 +344,7 @@ export default {
       console.log(index)
       console.log(this.pageInfo.list)
       axios.get(
-        'http://localhost:10003/frontstage/algorithm/' + this.pageInfo.list[index].algorithmId.toString()
+        '/frontstage/algorithm/' + this.pageInfo.list[index].algorithmId.toString()
       ).then(
         res => {
           this.algorithmDetail = res.data.extend.algorithm
@@ -359,7 +359,7 @@ export default {
         }
       )
       axios.get(
-        'http://localhost:10003/frontstage//algorithm/hyperPara/' + this.pageInfo.list[index].algorithmId.toString()
+        '/frontstage//algorithm/hyperPara/' + this.pageInfo.list[index].algorithmId.toString()
       ).then(
         res => {
           this.hyperParameters = res.data.extend.hyperParameters

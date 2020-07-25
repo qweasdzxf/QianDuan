@@ -166,6 +166,12 @@ export const constantRoutes = [
       path: '/model/import',
       component: () => import('@/views/model/importModel'),
       meta: { title: '导入模型', icon: 'edit' }
+    },
+    {
+      name: 'modelManage',
+      path: '/model/manage',
+      component: () => import('@/views/model/modelManage'),
+      meta: { title: '模型管理', icon: 'edit' }
     }
     ]
   },
