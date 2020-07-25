@@ -34,7 +34,7 @@
           <!-- <el-divider></el-divider> -->
           <div>
             <el-row>
-              <el-col :span="10" offset="1">
+              <el-col :span="10" :offset="1">
                 <label class="infoLabel">GPU-Util</label>
               </el-col>
               <el-col :span="10">
@@ -44,7 +44,7 @@
               </el-col>
             </el-row>
             <el-row style="margin-top:12px">
-              <el-col :span="10" offset="1">
+              <el-col :span="10" :offset="1">
                 <label class="infoLabel">Memory-Util</label>
               </el-col>
               <el-col :span="13">
@@ -61,7 +61,7 @@
               </el-col>
             </el-row>
             <el-row style="margin-top:12px">
-              <el-col :span="10" offset="1">
+              <el-col :span="10" :offset="1">
                 <label class="infoLabel">GPU-Perf</label>
               </el-col>
               <el-col :span="10">
@@ -71,7 +71,7 @@
               </el-col>
             </el-row>
             <el-row style="margin-top:12px">
-              <el-col :span="10" offset="1">
+              <el-col :span="10" :offset="1">
                 <label class="infoLabel">GPU-Fan</label>
               </el-col>
               <el-col :span="10">
@@ -81,7 +81,7 @@
               </el-col>
             </el-row>
             <el-row style="margin-top:12px">
-              <el-col :span="10" offset="1">
+              <el-col :span="10" :offset="1">
                 <label class="infoLabel">GPU-Temp</label>
               </el-col>
               <el-col :span="10">

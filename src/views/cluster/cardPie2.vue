@@ -6,7 +6,7 @@
           <el-col :span="8">
             <div :id="'pie'+values.index1" style="height:90px;"></div>
           </el-col>
-          <el-col :span="12" offset="2">
+          <el-col :span="12" :offset="2">
             <el-row style="margin-top:12px">
               <el-col :span="24">
                 <span class="content">{{values.content}}</span>

@@ -3,10 +3,10 @@
     <el-card class="box-card card">
       <div slot="header">
         <el-row type="flex">
-          <el-col :span="4" offset="2">
+          <el-col :span="4" :offset=2>
             <i class="el-icon-info el-icon" />
           </el-col>
-          <el-col :span="12" offset="6">
+          <el-col :span="12" :offset=6>
             <span class="title">
               <b>{{values.name}}</b>
             </span>
@@ -20,7 +20,7 @@
           <el-col :span="6">
             <div :id="'pie'+values.index1" style="height:40px;"></div>
           </el-col>
-          <el-col :span="16" offset="1">
+          <el-col :span="16" :offset=1>
             <span class="content">
               GPU-Util
               <b class="titleBold"> {{values.gpuUtil}}</b> %
@@ -37,7 +37,7 @@
           <el-col :span="6">
             <div :id="'pie'+values.index2" style="height:40px;"></div>
           </el-col>
-          <el-col :span="17" offset="1">
+          <el-col :span="17" :offset=1>
             <span class="content">
               Meme-Util
               <b class="titleBold">{{values.memoryUtil}}</b> %

@@ -3,7 +3,7 @@
     <el-card class="box-card card" @click.native="clickCard">
       <div slot="header">
         <el-row type="flex">
-          <el-col :span="4" offset="2">
+          <el-col :span="4" :offset="2">
             <i class="el-icon-info el-icon" />
           </el-col>
           <el-col :span="12">
@@ -22,17 +22,17 @@
       -->
 
       <el-row>
-        <el-col :span="20" offset="2">
+        <el-col :span="20" :offset="2">
           <span class="content">2020-07-21 17:00</span>
         </el-col>
       </el-row>
 
       <el-row style="margin-top:12px">
-        <el-col :span="12" offset="2">
+        <el-col :span="12" :offset="2">
           <span class="content">Active</span>
         </el-col>
 
-        <el-col :span="6" offset="4">
+        <el-col :span="6" :offset="4">
           <span class="content">一个月</span>
         </el-col>
       </el-row>

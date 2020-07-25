@@ -35,8 +35,8 @@
 
       <el-row><el-row :gutter="20">
         <el-col :span="6" />
-        <el-col :span="6" offset="6"> <img src="@/assets/img/m2.png" class=""></el-col>
-        <el-col :span="6" offset="1"> <img src="@/assets/img/m3.png" class=""></el-col>
+        <el-col :span="6" :offset="6"> <img src="@/assets/img/m2.png" class=""></el-col>
+        <el-col :span="6" :offset="1"> <img src="@/assets/img/m3.png" class=""></el-col>
         <el-col :span="6" />
       </el-row></el-row>
       <br>
