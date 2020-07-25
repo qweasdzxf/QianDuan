@@ -5,7 +5,7 @@
   <div class="detail-container1">
     <el-row :gutter="20">
       <el-col :span="12" :offset="2">
-        <el-steps :space="200" :active="step" finish-status="success">
+        <el-steps :space="200" :active="1" finish-status="success">
           <el-step title="训练选型" />
           <el-step title="配置规格" />
           <el-step title="完成" />
@@ -77,7 +77,7 @@
                   v-for="instanceType in instanceTypeList"
                   :key="instanceType.instanceTypeId"
                   :label="instanceType.instanceTypeDescription"
-                  :value="instanceType.instanceTypeId">
+                  :value="instanceType.instanceTypeId.toString()">
                 </el-option>
             </el-select>
             </el-col>
@@ -175,7 +175,7 @@
 import Sticky from '@/components/Sticky/index'
 import MdInput from '@/components/MDinput/index'
 import axios from 'axios'
-
+import global from '@/global'
 export default {
   name: 'Create',
   components: { MdInput, Sticky },
@@ -183,14 +183,14 @@ export default {
     this.getAlgotithms()
     this.getEngines()
     this.getInstanceType()
-    this.fromAlgorithm = this.$route.param.algorithm
-    this.form.trainTaskName=this.fromAlgorithm.algorithm_name
-    this.form.trainTask.trainTaskVersion=this.fromAlgorithm.algorithm_version
-    this.form.trainTaskConf.trainTaskVersion=this.fromAlgorithm.algorithm_version
-    this.form.trainTaskConf.trainTaskAlgorithmId//要另外传一下
-    this.trainTaskConf.trainTaskAiEngine=this.fromAlgorithm.algorithm_engine_id
-    this.trainTaskConf.trainTaskDescription=this.fromAlgorithm.algorithm_description
-  },
+    // this.fromAlgorithm = this.$route.param.algorithm
+    // this.form.trainTaskName=this.fromAlgorithm.algorithm_name
+    // this.form.trainTask.trainTaskVersion=this.fromAlgorithm.algorithm_version
+    // this.form.trainTaskConf.trainTaskVersion=this.fromAlgorithm.algorithm_version
+    // this.form.trainTaskConf.trainTaskAlgorithmId//要另外传一下
+    // this.trainTaskConf.trainTaskAiEngine=this.fromAlgorithm.algorithm_engine_id
+    // this.trainTaskConf.trainTaskDescription=this.fromAlgorithm.algorithm_description
+  },  
   data() {
     return {
       step:1,
@@ -203,6 +203,7 @@ export default {
         {'datasetId':3,'datasetName':'MINIST 3'},
       ],
       hyperParameterList: [],
+      //global:this.global,
       paramsStringList:'',
       tmpParamValue:'',
       instanceType: [],
@@ -213,30 +214,30 @@ export default {
         trainTask: {
           trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
           trainTaskId: 0,
-          trainTaskName: "string",
+          trainTaskName: "BP_10_3_4_MINIST",
           trainTaskRunningTime: "string",
           trainTaskStatus: 0,
           trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
-          trainTaskUserId: 123456,
-          trainTaskVersion: 0
+          trainTaskUserId: 1,
+          trainTaskVersion: "1.0"
         },
         trainTaskConf: {
           trainTaskAiEngine: "string",
-          trainTaskAlgorithmId: 3,
+          trainTaskAlgorithmId: "0",
           trainTaskConfId: 0,
           trainTaskDatasetId: 0,
-          trainTaskDescription: "string",
+          trainTaskDescription: "三层全连接神经网络_MINIST_V1.0",
           trainTaskFinishTime: "2020-07-21T02:37:59.734Z",
           trainTaskId: 0,
           trainTaskLogOutPath: "string",
-          trainTaskModelOutPath: "string",
-          trainTaskName: "string",
+          trainTaskModelOutPath: "./model/",
+          trainTaskName: "BP_10_3_4_MINIST",
           trainTaskParams: "--epochs 10",
           trainTaskRunningTime: "string",
           trainTaskSpecification: "7",
           trainTaskStartTime: "2020-07-21T02:37:59.734Z",
           trainTaskStatus: 0,
-          trainTaskVersion: 0
+          trainTaskVersion: "1.0"
         }
       },
         
@@ -248,41 +249,6 @@ export default {
         { "value": "4.0"},
         ],
       instanceTypeList:[],
-      fromAlgorithm:this.$route.param.algorithm
-      /*
-      fromAlgorithm:{
-        algorithm_name: "example",
-        algorithm_version: "0.1",
-        algorithm_type_id: 0,
-        algorithm_engine_id: 0,
-        algorithm_description: "",
-        algorithm_instance_type_id: 0,
-        algorithm_input_reflect: "",
-        algorithm_output_reflect: "",
-        algorithm_starter_URL: "/example/bootfile",
-        algorithm_customize_hyper_para: false,
-        algorithm_python_version_id: 0,
-        hyperParameters: [
-          {
-            hyper_para_name: "hyper parameters",
-            hyper_para_description: "this is description",
-            hyper_para_type: 0,
-            hyper_para_allow_adjust: true,
-            hyper_para_range: "0-100",
-            hyper_para_default_value: 10,
-            hyper_para_is_needed: false
-          },
-          {
-            hyper_para_name: "hyper parameters",
-            hyper_para_description: "this is description",
-            hyper_para_type: 0,
-            hyper_para_allow_adjust: true,
-            hyper_para_range: "0-100",
-            hyper_para_default_value: 10,
-            hyper_para_is_needed: true
-          }
-        ]
-      }*/
     }
   },
   methods: {
@@ -343,42 +309,29 @@ export default {
     },
 
     onStartTrain(){
-      //正常逻辑
-      // console.log('trying start train')
-      // this.hyperParameterList.forEach(param => {
-      // this.paramsStringList+=("--"+param.hyperParaName+" "+param.hyperParaDefaultValue+" ")
-      // });
-      // this.fullscreenLoading=true
-      // console.log(this.form)
-      // axios.post('/train/frontstage/trainTask',this.form)
-      //   .then(response=>{
-      //     console.log(response)
-      //     this.fullscreenLoading=false
-      //     if(response.data.code=="00000"){
-      //       alert("训练创建成功")
-      //       axios.post('http://210.42.123.4:9527/train/frontstage/trainTask',response.data.extend.trainTaskId)
-      //       .then(res=>{
-      //         if(res.data.code=='00000'){
-      //           this.$router.push('/train/trainboard')
-      //         }
-      //       })
-        //   }
-        //   else{
-        //     alert("训练创建失败")
-        //   }
-        // })
+        var newTrainTask={
+          'trainTaskId':global.BASE_ID+global.DETA_ID,
+          'trainTaskName':'MINIST_90_1'
+        }
+        console.log(newTrainTask)
         console.log("trying start a task")
-        axios.get('/train/frontstage/trainTask/start/'+72)
+        console.log(global.BASE_ID)
+        axios.get('/train/frontstage/trainTask/start/'+global.BASE_ID+global.DETA_ID)
         .then(Response=>{
           console.log(Response)
-          this.$router.push({path: "/train/trainboard", query: {traintaskId: 74}})
+          axios.get('/train/frontstage/trainTask/'+global.BASE_ID+global.DETA_ID)
+          .then(res=>{
+            console.log(newTrainTask)
+            global.RUNNING_TASK_LIST.push(newTrainTask)
+          })
+          this.$router.push({path: "/train/trainboard"})
         })
     },
 
     //获取算法列表:正确
     getAlgotithms(){
       console.log('trying get algotithms')
-      axios.get('/algorithm/backstage/algorithms?pageNum=2&pageSize=6&keyWord')
+      axios.get('/algorithm/backstage/algorithms')
         .then(
           response=>{
             console.log("algotithms")

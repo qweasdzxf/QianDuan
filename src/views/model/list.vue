@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     handlTurnPage(){
-      this.$router.push({path: "/train/trainboard", query: {traintaskId: 74}})
+      this.$router.push({path: "/model/manage", query: {traintaskId: 74}})
     },
     isClassify(){
       if(this.model.modelTypeId==0){

@@ -146,6 +146,7 @@ export default {
     releaseModel(index, model) {
       this.$router.push({
         path: "./list",
+        query: {modelTypeId: XXXXX}
       });
     },
     handleCurrentChange() {
