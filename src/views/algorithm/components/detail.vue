@@ -23,6 +23,23 @@
           <el-card shadow="hover">
             <el-form ref="form" :model="form">
               <div class="detail-container">
+                <!-- <el-form-item label="上传模型">
+                  <el-upload
+                    ref="upload"
+                    action="#"
+                    :auto-upload="false"
+                    :on-preview="handlePreview"
+                    :on-remove="handlePictureRemove"
+                    :before-remove="beforeRemove"
+                    :on-change="addFile"
+                    multiple
+                    :limit="100"
+                    :on-exceed="handleExceed"
+                    :file-list="fileList"
+                  >
+                    <el-button size="small" type="primary" style="margin-left:30px">点击上传</el-button>
+                  </el-upload>
+                </el-form-item> -->
                 <!-- <warning /> -->
                 <el-row>
                   <el-row :gutter="20">
@@ -53,11 +70,15 @@
                   <el-row>
                     <el-col :span="2">算法名称</el-col>
                     <el-col :span="8">
-                      <el-input v-model="form.algorithm_name" name="name">算法名称</el-input>
+                      <el-input v-model="form.algorithm_name" name="name" placeholder="请输入算法名称">算法名称</el-input>
                     </el-col>
                     <el-col :span="2" :offset="2">版本号</el-col>
                     <el-col :span="8">
-                      <el-input v-model="form.algorithm_version" name="name">版本号</el-input>
+                      <el-input
+                        v-model="form.algorithm_version"
+                        name="name"
+                        placeholder="请输入版本号"
+                      >版本号</el-input>
                     </el-col>
                   </el-row>
                 </el-form-item>
@@ -67,10 +88,13 @@
                     <el-col :span="2">算法描述</el-col>
 
                     <el-col :span="20">
-                      <el-input v-model="form.algorithm_description" type="textarea" />
+                      <el-input
+                        v-model="form.algorithm_description"
+                        placeholder="请输入算法描述"
+                        type="textarea"
+                      />
                     </el-col>
                   </el-row>
-                 
                 </el-form-item>
 
                 <el-form-item>
@@ -79,7 +103,8 @@
                     <el-col :span="8">
                       <el-select
                         v-model="form.algorithm_type_id"
-                        placeholder="请选择"
+                        placeholder="请选择算法类别"
+                        class="selectBox"
                         @focus="getAlgorithmType"
                       >
                         <el-option
@@ -92,61 +117,57 @@
                     </el-col>
                     <el-col :span="2" offset="2">AI引擎</el-col>
                     <el-col :span="8">
-                       <el-cascader
-                      v-model="engineValue"
-                      style="width: 350px"
-                      placeholder="请选择"
-                      :options="engineList"
-                      :props="{ expandTrigger: 'hover' }"
-                      @focus="getEngines"
-                      @change="setEngineId"
-                    />
+                      <el-cascader
+                        v-model="engineValue"
+                        class="selectBox"
+                        style="width: 350px"
+                        placeholder="请选择AI引擎"
+                        :options="engineList"
+                        :props="{ expandTrigger: 'hover' }"
+                        @focus="getEngines"
+                        @change="setEngineId"
+                      />
                     </el-col>
-
                   </el-row>
                 </el-form-item>
-               
+
                 <el-form-item>
-                   <el-row>
+                  <el-row>
                     <el-col :span="2">运行规格</el-col>
                     <el-col :span="8">
                       <el-select
-                    v-model="form.algorithm_instance_type_id"
-                    placeholder="请选择"
-                    @focus="getInstanceType"
-                  >
-                    <el-option
-                      v-for="item in instanceType"
-                      :key="item.instanceTypeId"
-                      :label="item.instanceTypeDescription"
-                      :value="item.instanceTypeId"
-                    />
-                  </el-select>
+                        v-model="form.algorithm_instance_type_id"
+                        placeholder="请选择运行规格"
+                        class="selectBox"
+                        @focus="getInstanceType"
+                      >
+                        <el-option
+                          v-for="item in instanceType"
+                          :key="item.instanceTypeId"
+                          :label="item.instanceTypeDescription"
+                          :value="item.instanceTypeId"
+                        />
+                      </el-select>
                     </el-col>
-                    <el-col :span="4" offset="0">启动文件相对路径</el-col>
+                    <el-col :span="3" offset="1">启动文件相对路径</el-col>
                     <el-col :span="8">
-                     <el-input v-model="form.algorithm_starter_URL" />
+                      <el-input v-model="form.algorithm_starter_URL" placeholder="启动文件相对路径" />
                     </el-col>
-
                   </el-row>
-                  <br />
                 </el-form-item>
-
-              
 
                 <el-form-item>
-                  <el-col :span="3">输入路径映射</el-col>
-                  <el-col :span="7">
-                     <el-input v-model="form.algorithm_input_reflect" />
-                  </el-col>
-                  <el-col :span="3" offset="1">输出路径映射</el-col>
-                  <el-col :span="8">
-                       <el-input v-model="form.algorithm_output_reflect" />
-                  </el-col>
-                
+                  <el-row>
+                    <el-col :span="2">输入路径映射</el-col>
+                    <el-col :span="8">
+                      <el-input v-model="form.algorithm_input_reflect" placeholder="请输入输入路径映射" />
+                    </el-col>
+                    <el-col :span="2" offset="2">输出路径映射</el-col>
+                    <el-col :span="8">
+                      <el-input v-model="form.algorithm_output_reflect" placeholder="请输入输出路径映射" />
+                    </el-col>
+                  </el-row>
                 </el-form-item>
-
-                
 
                 <el-form-item label="是否支持自定义超参">
                   <el-switch v-model="form.algorithm_customize_hyper_para" @click="isCustomize" />
@@ -154,7 +175,7 @@
 
                 <el-form-item label="超参数列表">
                   <el-row>
-                    <el-button type="primary" icon="el-icon-edit" circle @click="addHyperPara" />
+                    <el-button type="primary" icon="el-icon-plus" circle @click="addHyperPara" />
                   </el-row>
                   <el-table
                     :data="hyperParameter"
@@ -191,8 +212,7 @@
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
-                          >
-                          </el-option>
+                          ></el-option>
                         </el-select>
                       </template>
                     </el-table-column>
@@ -249,7 +269,7 @@
                   <el-button
                     v-loading.fullscreen.lock="fullscreenLoading"
                     type="primary"
-                    @click="onSubmit"
+                    @click="formSubmit"
                   >立即创建</el-button>
                   <el-button>取消</el-button>
                 </el-form-item>
@@ -282,6 +302,7 @@ export default {
       algorithmType: [],
       engines: [],
       engineList: [],
+       fileList: [],
       form: {
         algorithm_name: "",
         algorithm_version: "",
@@ -295,6 +316,18 @@ export default {
         algorithm_customize_hyper_para: true,
       },
       hyperParameter: [],
+      createForm: {
+        algorithm_name: "",
+        algorithm_version: "",
+        algorithm_type_id: null,
+        algorithm_engine_id: null,
+        algorithm_description: "",
+        algorithm_instance_type_id: null,
+        algorithm_input_reflect: "",
+        algorithm_output_reflect: "",
+        algorithm_starter_URL: "",
+        algorithm_customize_hyper_para: true,
+      },
       dataTypes: [
         {
           value: 0,
@@ -317,6 +350,11 @@ export default {
   },
   methods: {
     showGuide() {},
+     addFile(file, fileList) {
+      this.formData.append("myfile", file.raw);
+      console.log(file.file);
+      console.log(fileList);
+    },
     onSubmit() {
       console.log("ready to submit!");
       this.fullscreenLoading = true;
@@ -331,20 +369,6 @@ export default {
       console.log(files);
       console.log(JSON.stringify(this.form));
 
-      // axios({
-      //   method: 'post',
-      //   url: 'http://localhost:10002/backstage/algorithm',
-      //   xhrFields: { withCredentials: true },
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   },
-      //   withCredentials: true,
-      //   data: data
-      // }).then(
-      //   (response) => {
-      //     console.log(response)
-      //   }
-      // )
       axios.post("/algorithm/frontstage/algorithm", data).then((response) => {
         console.log(response);
         this.fullscreenLoading = false;
@@ -358,6 +382,14 @@ export default {
           alert("上传失败，请重试！");
         }
         location.reload();
+      });
+    },
+    formSubmit() {
+      this.$router.push({
+        path: "./list",
+        query: {
+          newData: this.form,
+        },
       });
     },
     isCustomize() {
@@ -442,7 +474,7 @@ export default {
       });
     },
     getAlgorithmType() {
-      axios.get("/algorithm/frontstage/type").then((response) => {
+      axios.get("/algorithm/frontstage/algorithmType").then((response) => {
         this.algorithmType = response.data.extend.algorithmType;
         console.log(response);
         console.log(this.algorithmType);
@@ -515,5 +547,8 @@ export default {
   border-color: #78c3f3;
   color: #004974;
   text-decoration: none;
+}
+.selectBox {
+  width: 390px !important;
 }
 </style>

@@ -205,12 +205,12 @@ export default {
       form: {
         trainTask: {
           trainTaskCreateTime: "2020-07-21T02:37:59.733Z",
-          trainTaskId: 0,
-          trainTaskName: "string",
+          trainTaskId: "",
+          trainTaskName: "",
           trainTaskRunningTime: "1",
           trainTaskStatus: 0,
           trainTaskUpdateTime: "2020-07-21T02:37:59.734Z",
-          trainTaskUserId: 0,
+          trainTaskUserId: null,
           trainTaskVersion: '0'
         },
         trainTaskConf: {
@@ -256,6 +256,13 @@ export default {
       return (version) => {
         return (version.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
+    },
+    //获取从我的算法页面传来的数据
+     getParams() {
+      console.log("getparams");
+
+      this.id = self.$route.query.id;
+      console.log("self.id：" + self.id);
     },
 
     //提交表单：正确
