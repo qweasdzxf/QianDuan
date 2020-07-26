@@ -26,7 +26,7 @@
           <el-main>
             <div>
               <el-card shadow="hover">
-                <el-table :data="pageInfo2.list" style="width: 100%">
+                <el-table v-if="pageInfo2!=null" :data="pageInfo2.list" style="width: 100%">
                   <el-table-column prop="modelId" label="模型ID" style="font-size: large" />
                   <el-table-column prop="modelName" label="模型名称" />
                   <el-table-column prop="modelType.modelTypeName" label="模型类别" />
@@ -66,6 +66,7 @@
                 :current-page.sync="pageNum"
                 :page-size="pageSize"
                 layout="prev, pager, next, jumper"
+                v-if="pageInfo2!=null"
                 :total="pageInfo2.total"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"

@@ -4,7 +4,7 @@
     <el-container>
       <el-header>
         <br />
-        <el-col span="22" offset="1">
+        <el-col :span="22" :offset="1">
           <el-card shadow="hover">
             <sticky>
               <el-button @click="showGuide">显示帮助</el-button>
@@ -19,7 +19,7 @@
       </el-header>
       <el-main>
         <br />
-        <el-col span="22" offset="1">
+        <el-col :span="22" :offset="1">
           <el-card shadow="hover">
             <el-form ref="form" :model="form">
               <div class="detail-container">
@@ -115,7 +115,7 @@
                         />
                       </el-select>
                     </el-col>
-                    <el-col :span="2" offset="2">AI引擎</el-col>
+                    <el-col :span="2" :offset="2">AI引擎</el-col>
                     <el-col :span="8">
                       <el-cascader
                         v-model="engineValue"
@@ -149,7 +149,7 @@
                         />
                       </el-select>
                     </el-col>
-                    <el-col :span="3" offset="1">启动文件相对路径</el-col>
+                    <el-col :span="3" :offset="1">启动文件相对路径</el-col>
                     <el-col :span="8">
                       <el-input v-model="form.algorithm_starter_URL" placeholder="启动文件相对路径" />
                     </el-col>
@@ -162,7 +162,7 @@
                     <el-col :span="8">
                       <el-input v-model="form.algorithm_input_reflect" placeholder="请输入输入路径映射" />
                     </el-col>
-                    <el-col :span="2" offset="2">输出路径映射</el-col>
+                    <el-col :span="2" :offset="2">输出路径映射</el-col>
                     <el-col :span="8">
                       <el-input v-model="form.algorithm_output_reflect" placeholder="请输入输出路径映射" />
                     </el-col>
@@ -515,6 +515,9 @@ export default {
         hyper_para_is_needed: false,
       });
     },
+    submitForm(){
+      
+    }
   },
 };
 </script>
