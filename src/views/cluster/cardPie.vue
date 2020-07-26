@@ -4,7 +4,7 @@
       <div slot="header">
         <el-row type="flex">
           <el-col :span="4" :offset=2>
-            <i class="el-icon-info el-icon" />
+            <i class="el-icon-postcard el-icon" />
           </el-col>
           <el-col :span="12" :offset=6>
             <span class="title">
